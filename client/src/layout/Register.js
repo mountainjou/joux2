@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { setAlert } from "../actions/alert";
 import { register } from "../actions/auth";
 import PropTypes from "prop-types";
-// import Alert from "../Alert";
+import Alert from "../Alert";
 
 const Register = () => {
   return <div>회원가입</div>;
