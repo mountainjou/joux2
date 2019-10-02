@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/auth";
@@ -8,11 +8,13 @@ import Alert from "../Alert";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const Login = ({ login, isAuthenticated }) => {
+  // 함수형 컴포넌트에서 상태값 사용하기
   const [values, setValues] = React.useState({
     email: "",
     password: ""
   });
 
+  // 폼에서 입력되는 값을 상태값에 지정
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -27,7 +29,6 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  // Redirect if logged in
   // 로그인이 되어있다면 메인페이지로 리다이렉트
   if (isAuthenticated) {
     return <Redirect to="/" />;
@@ -59,15 +60,22 @@ const Login = ({ login, isAuthenticated }) => {
       <Button type="submit" color="primary">
         Login
       </Button>
+      <br />
+      <br />
+      <Link to="/register" variant="body2">
+        {"Don't have an account? Sign Up"}
+      </Link>
     </Form>
   );
 };
 
+// 속성 체크
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool
 };
 
+// 상태값 변수에 대입
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
