@@ -19,17 +19,18 @@ const Main = () => {
         muted="muted"
         class="mx-auto inline-block"
       ></video>
+      <div>우리팀</div>
       <div>
-        <a href="https://github.com/LikeRaichu">현우</a>
+        <a href="https://github.com/LikeRaichu">잘생긴 현우</a>
       </div>
       <div>
-        <a href="https://github.com/yeeun0855">예은</a>
+        <a href="https://github.com/yeeun0855">아름다운 예은</a>
       </div>
       <div>
-        <a href="https://github.com/ganzik">기홍</a>
+        <a href="https://github.com/ganzik">아저씨 기홍</a>
       </div>
       <div>
-        <a href="https://github.com/rajy5851">지용</a>
+        <a href="https://github.com/rajy5851">할수있다 지용</a>
       </div>
     </div>
   );
