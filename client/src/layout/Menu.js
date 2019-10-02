@@ -9,7 +9,7 @@ const Menu = () => {
   return (
     <Navbar color="light" light expand="md">
       <NavbarBrand href="/">JouJou</NavbarBrand>
-      <Nav className="ml-auto" navbar>
+      <Nav>
         <NavItem>
           <NavLink href="/login/">Login</NavLink>
         </NavItem>
