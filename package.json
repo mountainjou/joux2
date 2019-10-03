@@ -1,7 +1,7 @@
 {
   "name": "joux2",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/mountainjou/joux2.git",
   "author": "joux2",
   "license": "MIT",

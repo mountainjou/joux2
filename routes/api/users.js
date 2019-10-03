@@ -15,18 +15,11 @@ const User = require("../../models/User");
 router.post(
   "/",
   [
-    // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 12자리 이하면 에러 메시지를 발생시킨다.
-    check("name", "Name is required")
-      .not()
-      .isEmpty(),
     check("email", "Please include a valid email").isEmail(),
-    check("call_num", "Please enter your phone number")
-      .not()
-      .isEmpty(),
     check(
       "password",
-      "Please enter a password with 10 or more characters"
-    ).isLength({ min: 10 })
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +27,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, call_num, password, role } = req.body;
+    const { email, password } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -45,46 +38,9 @@ router.post(
           .json({ errors: [{ msg: "User already exists" }] });
       }
 
-      if (password) {
-        let pw = checkPassword(password);
-        console.log(pw);
-        if (!pw) {
-          return res.status(400).json({
-            errors: [
-              {
-                msg:
-                  "비밀번호는 영어, 숫자, 특수문자를 결합하여 10~12자를 써주세요"
-              }
-            ]
-          });
-        }
-      }
-
-      function checkPassword(pw) {
-        const check1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,12}$/.test(pw); //영문,숫자
-        const check2 = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{10,12}$/.test(pw); //영문,특수문자
-        const check3 = /^(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{10,12}$/.test(pw); //특수문자, 숫자
-        if (!(check1 || check2 || check3)) {
-          console.log("사용할 수 없은 조합입니다.");
-          return false;
-        }
-        if (/(\w)\1\1/.test(pw)) {
-          console.log(
-            "같은 문자를 3번 이상 사용하실 수 없습니다.\n패스워드 설정안내를 확인해 주세요."
-          );
-          return false;
-        }
-
-        return true;
-      }
-
       user = new User({
-        name,
         email,
-        call_num,
-        avatar,
-        password,
-        role
+        password
       });
 
       // salt를 생성하여 변수 salt에 담는다.
