@@ -25,7 +25,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Menu />
-        {/* <div style={{ height: "100px" }} /> */}
+        <div style={{ height: "30px" }} />
         <Switch>
           <Route exact path="/" component={Main} />
           <Route component={Routes} />
