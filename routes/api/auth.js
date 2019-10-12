@@ -38,7 +38,7 @@ router.get("/update", auth, async (req, res) => {
 });
 
 // @route    POST api/auth
-// @desc     Authenticate user & get token // 유저 인증 및 토큰 발행
+// @desc     Authenticate user & get token // 유저 인증(로그인) 및 토큰 발행
 // @access   Public
 router.post(
   "/",
