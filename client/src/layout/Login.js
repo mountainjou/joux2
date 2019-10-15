@@ -3,9 +3,9 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/auth";
-import Alert from "../Alert";
+import AlertMsg from "../AlertMsg";
 
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const Login = ({ login, isAuthenticated }) => {
   // 함수형 컴포넌트에서 상태값 사용하기
@@ -35,37 +35,40 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-    // Form 에서 submit 이벤트 발생시 onSubmit 함수 실행
-    <Form onSubmit={e => onSubmit(e)}>
-      <FormGroup>
-        <Label for="email">Email</Label>
-        <Input
-          type="email"
-          name="email"
-          id="email"
-          value={values.email}
-          onChange={handleChange("email")}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="password">Password</Label>
-        <Input
-          type="password"
-          name="password"
-          id="password"
-          value={values.password}
-          onChange={handleChange("password")}
-        />
-      </FormGroup>
-      <Button type="submit" color="primary">
-        Login
-      </Button>
-      <br />
-      <br />
-      <Link to="/register" variant="body2">
-        {"Don't have an account? Sign Up"}
-      </Link>
-    </Form>
+    <Container>
+      {/* Form 에서 submit 이벤트 발생시 onSubmit 함수 실행 */}
+      <Form onSubmit={e => onSubmit(e)}>
+        <FormGroup>
+          <Label for="email">Email</Label>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            value={values.email}
+            onChange={handleChange("email")}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="password">Password</Label>
+          <Input
+            type="password"
+            name="password"
+            id="password"
+            value={values.password}
+            onChange={handleChange("password")}
+          />
+        </FormGroup>
+        <Button type="submit" color="primary">
+          Login
+        </Button>
+        <br />
+        <br />
+        <Link to="/register" variant="body2">
+          {"Don't have an account? Sign Up"}
+        </Link>
+      </Form>
+      <AlertMsg />
+    </Container>
   );
 };
 
