@@ -9,6 +9,7 @@ import Vote from "../layout/Vote";
 
 // import NotFound from "../layout/NotFound";
 import PrivateRoute from "./PrivateRoute";
+import Bulletin from "../layout/Bulletin";
 
 const Routes = () => {
   return (
@@ -19,6 +20,7 @@ const Routes = () => {
 
         {/* <Route exact path="/uploadholders" component={UploadHolders} />
         <Route exact path="/vote" component={Vote} /> */}
+        <PrivateRoute exact path="/Bulletin" component={Bulletin} />
         <PrivateRoute exact path="/uploadholders" component={UploadHolders} />
         <PrivateRoute exact path="/vote" component={Vote} />
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
