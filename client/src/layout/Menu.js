@@ -16,6 +16,9 @@ const Menu = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <NavLink href="/vote/">vote</NavLink>
       </NavItem>
       <NavItem>
+        <NavLink href="/Bulletin/">vote</NavLink>
+      </NavItem>
+      <NavItem>
         <Button color="link" onClick={logout}>
           Logout
         </Button>
