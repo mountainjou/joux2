@@ -36,7 +36,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Container>
-      {/* Form 에서 submit 이벤트 발생시 onSubmit 함수 실행 */}
+      {/* // Form 에서 submit 이벤트 발생시 onSubmit 함수 실행 */}
       <Form onSubmit={e => onSubmit(e)}>
         <FormGroup>
           <Label for="email">Email</Label>

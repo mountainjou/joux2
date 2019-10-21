@@ -15,6 +15,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password2: ""
   });
 
+  // 폼에서 입력되는 값을 상태값에 지정
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -23,13 +24,16 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
+    // 만약 password와 password2가 값이 다르면 setAlert 액션을 실행한다.
     if (password !== password2) {
       setAlert("Password do not match", "negative");
     } else {
+      // password와 password2가 값이 같다면 register 액션을 실행한다.
       register({ email, password });
     }
   };
 
+  // 인증이 되었으면 메인페이지로 리다이렉트
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }

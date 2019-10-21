@@ -2,6 +2,8 @@ import React, { useState, useMemo } from "react";
 import { Button } from "reactstrap";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // dropzone 스타일 설정
 const baseStyle = {
@@ -33,7 +35,7 @@ const rejectStyle = {
 };
 
 // UploadHolders 함수형 컴포넌트 작성
-const UploadHolders = props => {
+const UploadHolders = ({ auth: { user } }) => {
   // 오피스 엑셀 파일 수락을 위한 파일 옵션
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
@@ -46,7 +48,7 @@ const UploadHolders = props => {
     isDragReject
   } = useDropzone({
     accept:
-      "text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
   });
 
   const style = useMemo(
@@ -56,7 +58,7 @@ const UploadHolders = props => {
       ...(isDragAccept ? acceptStyle : {}),
       ...(isDragReject ? rejectStyle : {})
     }),
-    [isDragActive, isDragReject]
+    [isDragActive, isDragReject, isDragAccept]
   );
 
   const acceptedFilesItems = acceptedFiles.map(file => (
@@ -72,11 +74,13 @@ const UploadHolders = props => {
   ));
 
   const uploadList = async () => {
-    console.log(acceptedFiles[0]);
+    // console.log(user);
+    // console.log(acceptedFiles[0]);
     const file = acceptedFiles[0];
     const url = "/api/upload/holderlist";
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("user", JSON.stringify(user));
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     // uploadStockHoldersList();
     const res = await axios.post(url, formData, config);
@@ -106,4 +110,12 @@ const UploadHolders = props => {
   );
 };
 
-export default UploadHolders;
+UploadHolders.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(UploadHolders);

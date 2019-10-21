@@ -64,9 +64,9 @@ export const register = ({ email, password }) => async dispatch => {
   }
 };
 
-// Login User //로그인 실행시 액션
+// Login User 로그인 실행시 액션
 export const login = (email, password) => async dispatch => {
-  // config에 request header 내용을 담는다.
+  //  config에 request header 내용을 담는다.
   const config = {
     headers: {
       "Content-Type": "application/json"
