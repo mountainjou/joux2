@@ -33,10 +33,7 @@ export default (state = initialState, action) => {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
     case GET_USEREMAIL:
-      // 액션실행 후 전달받은 type의 위 케이스로 조건이 들어오면 아래 명령을 실행한다.
-      // 우선 로컬스토리지에 jwt 토큰 값을 저장한다.
       localStorage.setItem("token", payload.token);
-      // state, payload는 기존 값을 그대로 보존하고 isAuthenticated, loading 항목은 아래와 같이 상태 값을 변경한다.
       return {
         ...state,
         ...payload,
