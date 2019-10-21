@@ -11,89 +11,97 @@ const multer = require("multer");
 const multiparty = require("multiparty");
 const xlsx = require("xlsx");
 
+const Holders = require("../../models/Holders");
+
 require("dotenv").config();
 
 // @route    POST api/auth
 // @desc     Authenticate user & get token // 유저 인증 및 토큰 발행
 // @access   Public
 router.post("/holderlist", async (req, res) => {
-  //   console.log(req);
+  let resData;
+  let corporation;
 
-  const resData = {};
-
+  // https://www.npmjs.com/package/multiparty
   const form = new multiparty.Form({
-    autoFiles: true
+    autoFiles: true, // 요청이 들어오면 파일을 자동으로 저장할 것인가
+    uploadDir: "temp/" // 파일이 저장되는 경로(프로젝트 내의 temp 폴더에 저장됩니다.)
+    // maxFilesSize: 1024 * 1024 * 5 // 허용 파일 사이즈 최대치
   });
 
+  // field 항목에 첨부된 내용
+  form.on("field", (name, value) => {
+    corporation = JSON.parse(value);
+  });
+
+  // file 항목에 첨부된 내용
   form.on("file", (name, file) => {
     const workbook = xlsx.readFile(file.path);
     const sheetnames = Object.keys(workbook.Sheets);
-    console.log(sheetnames);
-    console.log(workbook);
+    // console.log(sheetnames);
+    // console.log(workbook.Props);
 
-    let i = sheetnames.length;
+    resData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetnames]);
 
-    while (i--) {
-      const sheetname = sheetnames[i];
-      resData[sheetname] = xlsx.utils.sheet_to_json(workbook.Sheets[sheetname]);
+    for (i = 0; i < resData.length; i++) {
+      let idNum = resData[i].주민번호;
+
+      // salt를 생성하여 변수 salt에 담는다.
+      let salt = bcrypt.genSaltSync(10);
+      // 주민번호와 salt를 이용하여 해쉬화 하고 주민번호에 담는다.
+      let hash = bcrypt.hashSync(idNum, salt);
+      // console.log(hash);
+      resData[i].주민번호 = hash;
     }
+    // console.log(resData);
+
+    // let i = sheetnames.length;
+
+    // while (i--) {
+    //   const sheetname = sheetnames[i];
+    //   resData[sheetname] = xlsx.utils.sheet_to_json(workbook.Sheets[sheetname]);
+    //   console.log(resData.Sheet1[i]);
+    // }
   });
 
+  // close : 폼 데이타 처리가 모두 완료 되었을 때 실행. 데이터를 취합하여 database에 저장하고 결과 값을 json 형식으로 클라이언트에 전달하자.
   form.on("close", () => {
-    res.send(resData);
+    // Holders 스키마에 저장될 값을 새로 만든다.
+    const newHolders = new Holders({
+      corporation: corporation._id,
+      corporateName: corporation.corporation,
+      holders: resData
+    });
+    // console.log(newHolders);
+
+    // STO를 이미 발행한 회사인지 DB에서 확인
+    Holders.findOne({ corporation: corporation._id }, (error, user) => {
+      console.log(user);
+      if (error) return res.status(500).json({ error: error });
+      if (!user) {
+        // database에 기록한다.
+        const holders = newHolders.save();
+
+        // res.json(holders);
+        res.send(holders);
+      } else {
+        // res.status(404).json({error: 'book not found'});
+        res.send("이미 발행된 회사");
+      }
+    });
+  });
+
+  // track progress 폼 데이타를 업로드 하는 중간중간에 현재 진행 상태를 나타내가 위해서 발생되는 이벤트
+  form.on("progress", function(byteRead, byteExpected) {
+    console.log(" Reading total  " + byteRead + "/" + byteExpected);
   });
 
   form.parse(req);
-  //   // check에서 검증했을 때 에러가 발생하면 errors 변수에 담는다. 예를들어 이메일과 패스워드가 형식에 맞게 전달되면 에러는 발생하지 않고, 패스워드가 없이 전달되면 'Password is required'를 errors에 담는다.
-  //   const errors = validationResult(req);
-  //   console.log(errors);
-  //   // Finds the validation errors in this request and wraps them in an object with handy functions
-  //   // 만약 errors변수가 비어있지 않다면, status 400 그리고 에러 메시지를 배열로 담아 클라이언트에게 전달한다
-  //   if (!errors.isEmpty()) {
-  //     return res.status(400).json({ errors: errors.array() });
-  //   }
-
-  //   const { email, password } = req.body;
-
-  //   try {
-  //     // 요청받은 email 값을 데이터베이스에서 검증하여 user값에 넣는다
-  //     let user = await User.findOne({ email });
-
-  //     // 만약 유저가 존재하지 않는다면 status 400 응답과 함께 에러 메시지를 나타낸다.
-  //     if (!user) {
-  //       // res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
-  //       res.status(400).json({ errors: [{ msg: "Invalid Email" }] });
-  //       return;
-  //     }
-  //     // bcrypt의 .compare펑션을 이용하여 전달받은 패스워드와 데이터베이스에 저장된 유저의 패스워드가 일치 하는지 검증하여 isMatch 변수에 담는다.
-  //     const isMatch = await bcrypt.compare(password, user.password);
-
-  //     // 만약 일치하지 않는다면 status 400과 에러메시지를 클라이언트에게 전달한다. 백엔드에서 나타나는 에러메시지를 json형식의 객체로 전달하면서 키값을 msg로 설정하는 것은 클라이언트에서 받아들일 때 리액트에서 메시지를 처리하는 변수를 지정해 주는 것이다. msg는 리덕스 액션 payload 값에 담게 된다.
-  //     if (!isMatch) {
-  //       // res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
-  //       res.status(400).json({ errors: [{ msg: "Invalid Password" }] });
-  //     }
-
-  //     const payload = {
-  //       user: {
-  //         id: user.id
-  //       }
-  //     };
-
-  //     // 유저 아이디값을 payload에 담고 jwt.sign함수를 활용하여 토큰을 생성하고 정상적으로 생성되면 json형식으로 클라이언트에 토큰을 전달한다.
-  //     jwt.sign(
-  //       payload,
-  //       config.get("jwtSecret"),
-  //       { expiresIn: 360000 },
-  //       (err, token) => {
-  //         if (err) throw err;
-  //         res.json({ token });
-  //       }
-  //     );
-  //   } catch (err) {
-  //     console.error(err.message);
-  //     res.status(500).send("Server error");
-  //   }
+  // form.parse(req, (error, fields, files) => {
+  //   console.log(JSON.stringify(fields));
+  //   console.log(files);
+  //   console.error(error);
+  // });
 });
 
 module.exports = router;

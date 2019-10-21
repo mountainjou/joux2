@@ -1,35 +1,42 @@
 import React, { Fragment } from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/auth";
 
 import { Button, Navbar, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
 
-const Menu = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+const Menu = ({ auth: { isAuthenticated, loading }, logout }) => {
+  // 인증된 사용자 접속시 나타나는 메뉴
   const authLinks = (
     <Nav>
       <NavItem>
-        <NavLink href="/uploadholders/">uploadholders</NavLink>
+        <NavLink href="/uploadholders/">명부 업로드</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/vote/">vote</NavLink>
+        <NavLink href="/vote/">투표</NavLink>
       </NavItem>
       <NavItem>
+<<<<<<< Updated upstream
+=======
+        <NavLink href="/Bulletin/">보드</NavLink>
+      </NavItem>
+      <NavItem>
+>>>>>>> Stashed changes
         <Button color="link" onClick={logout}>
-          Logout
+          로그아웃
         </Button>
       </NavItem>
     </Nav>
   );
 
+  // 인증되지 않은 사용자 접속시 나타나는 메뉴
   const guestLinks = (
     <Nav>
       <NavItem>
-        <NavLink href="/login/">Login</NavLink>
+        <NavLink href="/login/">로그인</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/register">Register</NavLink>
+        <NavLink href="/register">회원가입</NavLink>
       </NavItem>
     </Nav>
   );
