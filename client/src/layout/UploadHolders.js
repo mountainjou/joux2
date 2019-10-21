@@ -48,7 +48,7 @@ const UploadHolders = ({ auth: { user } }) => {
     isDragReject
   } = useDropzone({
     accept:
-      "text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      "text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
   });
 
   const style = useMemo(
@@ -67,11 +67,11 @@ const UploadHolders = ({ auth: { user } }) => {
     </li>
   ));
 
-  // const rejectedFilesItems = rejectedFiles.map(file => (
-  //   <li key={file.path}>
-  //     {file.path} - {file.size} bytes
-  //   </li>
-  // ));
+  const rejectedFilesItems = rejectedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
 
   const uploadList = async () => {
     // console.log(user);
