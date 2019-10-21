@@ -28,6 +28,11 @@ const Menu = ({ auth: { isAuthenticated, loading }, logout }) => {
       <NavItem>
 >>>>>>> Stashed changes
 >>>>>>> Kihong
+=======
+        <NavLink href="/Bulletin/">보드</NavLink>
+      </NavItem>
+      <NavItem>
+>>>>>>> Kihong
         <Button color="link" onClick={logout}>
           로그아웃
         </Button>
