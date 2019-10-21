@@ -55,7 +55,7 @@ export const register = ({ email, password }) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "negative")));
     }
 
     dispatch({
@@ -64,23 +64,19 @@ export const register = ({ email, password }) => async dispatch => {
   }
 };
 
-// Login User //로그인 실행시 액션
+// Login User
 export const login = (email, password) => async dispatch => {
-  // config에 request header 내용을 담는다.
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  // request body에 들어갈 내용으로 email과 password를 담는다.
   const body = JSON.stringify({ email, password });
 
   try {
-    // 비동기로 api서버에 post방식으로 값을 전달한다.
     const res = await axios.post("/api/auth", body, config);
 
-    // 성공하면 리듀서에 response data를 전달한다.
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
@@ -91,7 +87,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "negative")));
     }
     dispatch({
       type: LOGIN_FAIL
@@ -115,7 +111,7 @@ export const forgotPassword = ({ email, call_num }) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "negative")));
     }
   }
 };
@@ -141,7 +137,7 @@ export const updatePassword = ({ password, email }) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "negative")));
     }
   }
 };
@@ -165,7 +161,7 @@ export const getResetPasswordToken = token => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach(error => dispatch(setAlert(error.msg, "negative")));
     }
   }
 };
