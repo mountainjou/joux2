@@ -16,12 +16,9 @@ const Menu = ({ auth: { isAuthenticated, loading }, logout }) => {
         <NavLink href="/vote/">투표</NavLink>
       </NavItem>
       <NavItem>
-<<<<<<< Updated upstream
-=======
         <NavLink href="/Bulletin/">보드</NavLink>
       </NavItem>
       <NavItem>
->>>>>>> Stashed changes
         <Button color="link" onClick={logout}>
           로그아웃
         </Button>
