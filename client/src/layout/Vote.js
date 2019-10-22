@@ -14,8 +14,8 @@ const [modal, setModal] = useState(false);
 const toggle = () => setModal(!modal);
 
   return (
-    <Form>
-    <Container>
+    <div className="Form">
+    <div className="Container">
 
     {/* // html
     <div class="wrapper">
@@ -38,7 +38,7 @@ const toggle = () => setModal(!modal);
     <div class="docs-vote">
       <h1>투표기능</h1>
 
-      <Table striped>
+      <table className="table">
       <thead>
         <tr>
           <th>전자투표권자명</th>
@@ -56,10 +56,10 @@ const toggle = () => setModal(!modal);
           <td></td>
         </tr>
       </tbody>
-    </Table>
+    </table>
     <br/>
 
-    <Table striped >
+    <table className="Table">
       <thead>
         <tr>
           <th>의안 번호</th>
@@ -72,108 +72,84 @@ const toggle = () => setModal(!modal);
           <td>1</td>
           <td>사장 교체의 건</td>
           <td>
-          <FormGroup>
-            <Input className="align-middle" type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" className="align-middle" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
         <tr>
           <td scope="row">1 - 2</td>
           <td>대표이사 선임의 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <FormGroup className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-        </FormGroup></td>
+            </div>
+        </div></td>
         </tr>
         <tr>
           <td scope="row">1 - 3</td>
           <td>임원급 직원 승진의 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
         <tr>
           <td scope="row">2</td>
           <td>합작투자 유치에 관한 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
       </tbody>
-    </Table>
+    </div>
 
     <br/>
 
     <div>
-    <Row>
-    <Button onClick={toggle}>초기화{buttonLabel}</Button>
-    <Col xs="10"> </Col>
-    <Modal isOpen={modal} toggle={toggle} className={className}>
-      <ModalHeader toggle={toggle}>초기화</ModalHeader>
-      <ModalBody>
+    <div className="Row">
+    <div className="Button" onClick={toggle}>초기화{buttonLabel}</div>
+    <div className="Col" xs="10"> </div>
+    <div className="Modal" isOpen={modal} toggle={toggle} className={className}>
+      <div className="ModalHeader" toggle={toggle}>초기화</div>
+      <div className="ModalBody">
       투표를 초기화하겠습니까?
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={toggle}>선택</Button>{' '}
-        <Button color="secondary" onClick={toggle}>취소</Button>
-      </ModalFooter>
-    </Modal>
+      </div>
+      <div className="ModalFooter">
+        <div className="Button" color="primary" onClick={toggle}>선택</div>{' '}
+        <div className="Button" color="secondary" onClick={toggle}>취소</div>
+      </div>
+    </div>
 
-    <Button onClick={toggle}>제출{buttonLabel}</Button>
-    <Col xs="4"> </Col>
-    <Modal isOpen={modal} toggle={toggle} className={className}>
-      <ModalHeader toggle={toggle}>제출</ModalHeader>
-      <ModalBody>
+    <div className="Button" onClick={toggle}>제출{buttonLabel}</div>
+    <div className="Col" xs="4"> </div>
+    <div className="Modal" isOpen={modal} toggle={toggle} className={className}>
+      <div className="ModalHeader" toggle={toggle}>제출</div>
+      <div className="ModalBody">
       제출하시겠습니까?
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={toggle}>선택</Button>{' '}
-        <Button color="secondary" onClick={toggle}>취소</Button>
-      </ModalFooter>
-    </Modal>
-    </Row>
+      </div>
+      <div className="ModalFooter">
+        <div className="Button" color="primary" onClick={toggle}>선택</div>{' '}
+        <div className="Button" color="secondary" onClick={toggle}>취소</div>
+      </div>
+    </div>
+    </div>
     </div>
 
-    <Table striped>
-      <thead>
-        <tr>
-          <td></td>
-          <th>전자투표권자명</th>
-          <th>주주 구분</th>
-          <th>지갑 번호</th>
-          <th>보유 주식 수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">-</th>
-          <td>일반 투표권자</td>
-          <td>0x ...</td>
-          <td>524주</td>
-          <td></td>
-        </tr>
-      </tbody>
-    </Table>
-    <br/>
+    
     </div>
-    <br/>
-        <Button>초기화</Button>
-        <Button>제출</Button>
-    </Container>
-    </Form>
+    </div>
   );
 }
 
