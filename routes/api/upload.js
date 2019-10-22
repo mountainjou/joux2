@@ -85,8 +85,11 @@ router.post("/holderlist", async (req, res) => {
         // res.json(holders);
         res.send(holders);
       } else {
-        // res.status(404).json({error: 'book not found'});
-        res.send("이미 발행된 회사");
+        return res.json({
+          msg: "토큰 발행이 완료된 주주명부입니다.",
+          alertType: "danger"
+        });
+        // res.send("이미 발행된 회사");
       }
     });
   });
