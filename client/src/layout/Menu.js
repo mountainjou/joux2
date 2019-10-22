@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/auth";
 
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 import { Button, Navbar, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
 
 const Menu = ({ auth: { isAuthenticated, loading }, logout }) => {
@@ -16,7 +19,10 @@ const Menu = ({ auth: { isAuthenticated, loading }, logout }) => {
         <NavLink href="/vote/">투표</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink href="/Bulletin/">보드</NavLink>
+        <NavLink href="/bulletin/">보드</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/myaccount/">내 정보</NavLink>
       </NavItem>
       <NavItem>
         <Button color="link" onClick={logout}>
