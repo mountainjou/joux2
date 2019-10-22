@@ -59,7 +59,7 @@ const toggle = () => setModal(!modal);
     </Table>
     <br/>
 
-    <Table striped >
+    <Table striped>
       <thead>
         <tr>
           <th>의안 번호</th>
@@ -76,41 +76,41 @@ const toggle = () => setModal(!modal);
             <Input className="align-middle" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
         <tr>
           <td scope="row">1 - 2</td>
           <td>대표이사 선임의 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-        </FormGroup></td>
+            </div>
+        </div></td>
         </tr>
         <tr>
           <td scope="row">1 - 3</td>
           <td>임원급 직원 승진의 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
         <tr>
           <td scope="row">2</td>
           <td>합작투자 유치에 관한 건</td>
           <td>
-          <FormGroup>
-            <Input type="select" name="select" id="exampleSelect">
+          <div className="FormGroup">
+            <div className="Input" type="select" name="select" id="exampleSelect">
               <option>찬성</option>
               <option>반대</option>
-            </Input>
-          </FormGroup></td>
+            </div>
+          </div></td>
         </tr>
       </tbody>
     </Table>
@@ -118,21 +118,21 @@ const toggle = () => setModal(!modal);
     <br/>
 
     <div>
-    <Row>
-    <Button onClick={toggle}>초기화{buttonLabel}</Button>
-    <Col xs="10"> </Col>
-    <Modal isOpen={modal} toggle={toggle} className={className}>
-      <ModalHeader toggle={toggle}>초기화</ModalHeader>
-      <ModalBody>
+    <div className="Row">
+    <div className="Button" onClick={toggle}>초기화{buttonLabel}</div>
+    <div className="Col" xs="10"> </div>
+    <div className="Modal" isOpen={modal} toggle={toggle} className={className}>
+      <div className="ModalHeader" toggle={toggle}>초기화</div>
+      <div className="ModalBody">
       투표를 초기화하겠습니까?
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={toggle}>선택</Button>{' '}
-        <Button color="secondary" onClick={toggle}>취소</Button>
-      </ModalFooter>
-    </Modal>
+      </div>
+      <div className="ModalFooter">
+        <div className="Button" color="primary" onClick={toggle}>선택</div>{' '}
+        <div className="Button" color="secondary" onClick={toggle}>취소</div>
+      </div>
+    </div>
 
-    <Button onClick={toggle}>제출{buttonLabel}</Button>
+    <divButton onClick={toggle}>제출{buttonLabel}</Button>
     <Col xs="4"> </Col>
     <Modal isOpen={modal} toggle={toggle} className={className}>
       <ModalHeader toggle={toggle}>제출</ModalHeader>
