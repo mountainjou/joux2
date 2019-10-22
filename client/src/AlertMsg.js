@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Alert } from "reactstrap";
 
@@ -20,9 +20,9 @@ const AlertMsg = ({ alerts }) =>
 //     </div>
 //   ));
 
-Alert.propTypes = {
-  alerts: PropTypes.array.isRequired
-};
+// Alert.propTypes = {
+//   alerts: PropTypes.array.isRequired
+// };
 
 const mapStateToProps = state => ({
   alerts: state.alert
