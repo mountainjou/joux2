@@ -6,8 +6,6 @@ import { register } from "../actions/auth";
 import PropTypes from "prop-types";
 import AlertMsg from "../AlertMsg";
 
-import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
-
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [values, setValues] = React.useState({
     email: "",
@@ -39,49 +37,52 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <Container>
-      <Form onSubmit={e => onSubmit(e)}>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
+    <div className="container">
+      <form onSubmit={e => onSubmit(e)}>
+        <div className="form-group">
+          <label for="email">Email</label>
+          <input
+            className="form-control"
             type="email"
             name="email"
             id="email"
             value={values.email}
             onChange={handleChange("email")}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input
+        </div>
+        <div className="form-group">
+          <label for="password">Password</label>
+          <input
+            className="form-control"
             type="password"
             name="password"
             id="password"
             value={values.password}
             onChange={handleChange("password")}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="password2">Confirm Password</Label>
-          <Input
+        </div>
+        <div className="form-group">
+          <label for="password2">Confirm Password</label>
+          <input
+            className="form-control"
             type="password"
             name="password2"
             id="password2"
             value={values.password2}
             onChange={handleChange("password2")}
           />
-        </FormGroup>
-        <Button type="submit" color="primary">
+        </div>
+        <button type="submit" className="btn btn-primary">
           Register
-        </Button>
+        </button>
         <br />
         <br />
         <Link to="/login" variant="body2">
           {"Already have an account? Sign In"}
         </Link>
-      </Form>
+      </form>
       <AlertMsg />
-    </Container>
+    </div>
   );
 };
 

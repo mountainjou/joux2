@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from "react";
-import { Button } from "reactstrap";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { connect } from "react-redux";
@@ -117,9 +116,9 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
         <ul>{acceptedFilesItems}</ul>
         {/* <h4>Rejected files</h4>
         <ul>{rejectedFilesItems}</ul> */}
-        <Button color="primary" onClick={uploadList}>
+        <button className="btn btn-primary" onClick={uploadList}>
           업로드
-        </Button>
+        </button>
       </aside>
       <br />
       {/* AlertMsg 컴포넌트 발생 */}
