@@ -8,6 +8,11 @@ const MyAccount = ({ auth: { user } }) => {
       <div>내 정보</div>
       <div>email : {user.email}</div>
       <div>corporation : {user.corporation}</div>
+      <div style={{ textAlign: "center" }}>
+        <button type="button" className="btn btn-primary">
+          눌러줘
+        </button>
+      </div>
     </div>
   );
 };
