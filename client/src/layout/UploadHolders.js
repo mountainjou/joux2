@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { Button } from "reactstrap";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Alert from "../Alert";
+import { setAlert } from "../actions/alert";
 
 // dropzone 스타일 설정
 const baseStyle = {
@@ -35,7 +36,7 @@ const rejectStyle = {
 };
 
 // UploadHolders 함수형 컴포넌트 작성
-const UploadHolders = ({ auth: { user } }) => {
+const UploadHolders = ({ setAlert, auth: { user } }) => {
   // 오피스 엑셀 파일 수락을 위한 파일 옵션
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
@@ -48,7 +49,7 @@ const UploadHolders = ({ auth: { user } }) => {
     isDragReject
   } = useDropzone({
     accept:
-      "text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      "text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
   });
 
   const style = useMemo(
@@ -67,24 +68,37 @@ const UploadHolders = ({ auth: { user } }) => {
     </li>
   ));
 
-  // const rejectedFilesItems = rejectedFiles.map(file => (
-  //   <li key={file.path}>
-  //     {file.path} - {file.size} bytes
-  //   </li>
-  // ));
+  const rejectedFilesItems = rejectedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
 
   const uploadList = async () => {
     // console.log(user);
     // console.log(acceptedFiles[0]);
     const file = acceptedFiles[0];
+    // 만약 파일이 첨부되지 않았다면 setAlert() 액션을 실행한다.
+    if (!file) {
+      return setAlert("파일이 첨부되지 않았습니다", "danger");
+    }
     const url = "/api/upload/holderlist";
     const formData = new FormData();
     formData.append("file", file);
     formData.append("user", JSON.stringify(user));
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     // uploadStockHoldersList();
-    const res = await axios.post(url, formData, config);
-    console.log(res.data);
+    // const res = await axios.post(url, formData, config);
+    axios
+      .post(url, formData, config)
+      .then(res => {
+        // response된 데이터를 setAlert 액션으로 넘겨준다.
+        console.log(res);
+        setAlert(res.data.msg, res.data.alertType);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -93,24 +107,28 @@ const UploadHolders = ({ auth: { user } }) => {
       <div {...getRootProps({ className: "dropzone", style })}>
         <input {...getInputProps()} />
         <p>
-          Drag 'n' drop stockholder's list file here, or click to select file
+          주주 명부 파일을 박스 안으로 끌어서 이동하거나 클릭하여 첨부하세요
         </p>
         {/* <em>(엑셀 파일을 업로드 하세요)</em> */}
       </div>
       <aside>
-        <h4>Accepted file</h4>
+        <h4>첨부된 파일</h4>
         <ul>{acceptedFilesItems}</ul>
         {/* <h4>Rejected files</h4>
         <ul>{rejectedFilesItems}</ul> */}
-        <Button color="primary" onClick={uploadList}>
-          Upload
-        </Button>
+        <button className="btn btn-primary" onClick={uploadList}>
+          업로드
+        </button>
       </aside>
+      <br />
+      {/* AlertMsg 컴포넌트 발생 */}
+      <Alert />
     </section>
   );
 };
 
 UploadHolders.propTypes = {
+  setAlert: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -118,4 +136,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(UploadHolders);
+export default connect(
+  mapStateToProps,
+  { setAlert }
+)(UploadHolders);

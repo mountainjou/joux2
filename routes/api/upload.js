@@ -21,6 +21,7 @@ require("dotenv").config();
 router.post("/holderlist", async (req, res) => {
   let resData;
   let corporation;
+  let totalStocks;
 
   // https://www.npmjs.com/package/multiparty
   const form = new multiparty.Form({
@@ -43,6 +44,10 @@ router.post("/holderlist", async (req, res) => {
 
     resData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetnames]);
 
+    // console.log(sheetData);
+
+    totalStocks = resData.shift().총발행주;
+
     for (i = 0; i < resData.length; i++) {
       let idNum = resData[i].주민번호;
 
@@ -53,7 +58,6 @@ router.post("/holderlist", async (req, res) => {
       // console.log(hash);
       resData[i].주민번호 = hash;
     }
-    // console.log(resData);
 
     // let i = sheetnames.length;
 
@@ -66,27 +70,34 @@ router.post("/holderlist", async (req, res) => {
 
   // close : 폼 데이타 처리가 모두 완료 되었을 때 실행. 데이터를 취합하여 database에 저장하고 결과 값을 json 형식으로 클라이언트에 전달하자.
   form.on("close", () => {
+    console.log(resData);
     // Holders 스키마에 저장될 값을 새로 만든다.
     const newHolders = new Holders({
       corporation: corporation._id,
       corporateName: corporation.corporation,
-      holders: resData
+      holders: resData,
+      totalStocks: totalStocks
     });
     // console.log(newHolders);
 
     // STO를 이미 발행한 회사인지 DB에서 확인
     Holders.findOne({ corporation: corporation._id }, (error, user) => {
-      console.log(user);
+      // console.log(user);
       if (error) return res.status(500).json({ error: error });
       if (!user) {
         // database에 기록한다.
         const holders = newHolders.save();
 
-        // res.json(holders);
-        res.send(holders);
+        return res.json({
+          msg: "토큰이 발행되었습니다.",
+          alertType: "success"
+        });
       } else {
-        // res.status(404).json({error: 'book not found'});
-        res.send("이미 발행된 회사");
+        return res.json({
+          msg: "토큰 발행이 완료된 주주명부입니다.",
+          alertType: "danger"
+        });
+        // res.send("이미 발행된 회사");
       }
     });
   });
