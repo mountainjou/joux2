@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/auth";
-import AlertMsg from "../AlertMsg";
+import Alert from "../Alert";
 
 const Login = ({ login, isAuthenticated }) => {
   // 함수형 컴포넌트에서 상태값 사용하기
@@ -67,7 +67,7 @@ const Login = ({ login, isAuthenticated }) => {
           {"Don't have an account? Sign Up"}
         </Link>
       </form>
-      <AlertMsg />
+      <Alert />
     </div>
   );
 };

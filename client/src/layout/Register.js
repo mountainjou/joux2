@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { setAlert } from "../actions/alert";
 import { register } from "../actions/auth";
 import PropTypes from "prop-types";
-import AlertMsg from "../AlertMsg";
+import Alert from "../Alert";
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [values, setValues] = React.useState({
@@ -81,7 +81,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           {"Already have an account? Sign In"}
         </Link>
       </form>
-      <AlertMsg />
+      <Alert />
     </div>
   );
 };
