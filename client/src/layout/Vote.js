@@ -1,156 +1,113 @@
-import React, { useState } from "react";
-import { Table } from 'reactstrap';
-import { Button, Form, FormGroup, Label, Input, FormText, Modal, ModalHeader, ModalBody, ModalFooter, Container, Row, Col } from "reactstrap";
-import './voteStyle.css';
+import React, { useState, Fragment } from "react";
+import "./voteStyle.css";
 
-const Vote = (props) => {
-  const {
-    buttonLabel,
-    className
-  } = props;
+const Vote = () => {
 
-const [modal, setModal] = useState(false);
-
-const toggle = () => setModal(!modal);
 
   return (
-    <div className="Form">
-    <div className="Container">
+   <Fragment>
+    <div>새로 시작</div>
+  
+    <h1>투표 기능</h1>
 
-    {/* // html
-    <div class="wrapper">
-      <div class="box"> 
-        <div>저는 세로 중앙에 위치할 예정입니다. :D</div>
-      </div>
-    </div>
-
-    // css
-    <div class="box">
-    .wrapper {
-      display:table;
-    }
-    .box {
-      display:table-cell;
-      vertical-align:middle;
-    }
-    </div> */}
-
-    <div class="docs-vote">
-      <h1>투표기능</h1>
-
-      <table className="table">
-      <thead>
+<div className="tables">
+    <table className="table">
         <tr>
-          <th>전자투표권자명</th>
-          <th>주주 구분</th>
-          <th>지갑 번호</th>
-          <th>보유 주식 수</th>
+            <th>전자투표권자명</th>
+            <th>주주 구분</th>
+            <th>지갑 번호</th>
+            <th>보유 주식 수</th>
         </tr>
-      </thead>
-      <tbody>
         <tr>
-          <th scope="row">-</th>
-          <td>일반 투표권자</td>
-          <td>0x ...</td>
-          <td>524주</td>
-          <td></td>
+            <td> - </td>
+            <td>일반 투표권자</td>
+            <td>0x ...</td>
+            <td>524주</td>
         </tr>
-      </tbody>
     </table>
-    <br/>
+</div>
+    <br />
 
-    <table className="Table">
-      <thead>
-        <tr>
-          <th>의안 번호</th>
-          <th>의안 내용</th>
-          <th>의견</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style={{paddingBottom:"0.5em"}}>
-          <td>1</td>
-          <td>사장 교체의 건</td>
-          <td>
-          <div className="FormGroup">
-            <div className="Input" className="align-middle" type="select" name="select" id="exampleSelect">
-              <option>찬성</option>
-              <option>반대</option>
-            </div>
-          </div></td>
-        </tr>
-        <tr>
-          <td scope="row">1 - 2</td>
-          <td>대표이사 선임의 건</td>
-          <td>
-          <FormGroup className="FormGroup">
-            <div className="Input" type="select" name="select" id="exampleSelect">
-              <option>찬성</option>
-              <option>반대</option>
-            </div>
-        </div></td>
-        </tr>
-        <tr>
-          <td scope="row">1 - 3</td>
-          <td>임원급 직원 승진의 건</td>
-          <td>
-          <div className="FormGroup">
-            <div className="Input" type="select" name="select" id="exampleSelect">
-              <option>찬성</option>
-              <option>반대</option>
-            </div>
-          </div></td>
-        </tr>
-        <tr>
-          <td scope="row">2</td>
-          <td>합작투자 유치에 관한 건</td>
-          <td>
-          <div className="FormGroup">
-            <div className="Input" type="select" name="select" id="exampleSelect">
-              <option>찬성</option>
-              <option>반대</option>
-            </div>
-          </div></td>
-        </tr>
-      </tbody>
-    </div>
+    <table className="table">
+      {/* <table style="text-align:center"> */}
+            <tr>
+                <th>의안 번호</th>
+                <th>의안 내용</th>
+                <th>의견</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>사장 교체의 건</td>
+                <td>
+                <div className="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="ture" aria-expanded="false">
+                  찬성
+                  </a>
 
-    <br/>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">찬성</a>
+                    <a class="dropdown-item" href="#">반대</a>
+                  </div>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <td>1 - 2</td>
+                <td>대표이사 선임의 건</td>
+                <td>
+                <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    찬성
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">찬성</a>
+                    <a class="dropdown-item" href="#">반대</a>
+                  </div>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <td>1 - 3</td>
+                <td>임원급 직원 승진의 건</td>
+                <td>
+                <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    찬성
+                  </a>
 
-    <div>
-    <div className="Row">
-    <div className="Button" onClick={toggle}>초기화{buttonLabel}</div>
-    <div className="Col" xs="10"> </div>
-    <div className="Modal" isOpen={modal} toggle={toggle} className={className}>
-      <div className="ModalHeader" toggle={toggle}>초기화</div>
-      <div className="ModalBody">
-      투표를 초기화하겠습니까?
-      </div>
-      <div className="ModalFooter">
-        <div className="Button" color="primary" onClick={toggle}>선택</div>{' '}
-        <div className="Button" color="secondary" onClick={toggle}>취소</div>
-      </div>
-    </div>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">찬성</a>
+                    <a class="dropdown-item" href="#">반대</a>
+                  </div>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>합작투자 유치에 관한 건</td>
+                <td>
+                  <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      찬성
+                    </a>
 
-    <div className="Button" onClick={toggle}>제출{buttonLabel}</div>
-    <div className="Col" xs="4"> </div>
-    <div className="Modal" isOpen={modal} toggle={toggle} className={className}>
-      <div className="ModalHeader" toggle={toggle}>제출</div>
-      <div className="ModalBody">
-      제출하시겠습니까?
-      </div>
-      <div className="ModalFooter">
-        <div className="Button" color="primary" onClick={toggle}>선택</div>{' '}
-        <div className="Button" color="secondary" onClick={toggle}>취소</div>
-      </div>
-    </div>
-    </div>
-    </div>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">찬성</a>
+                      <a class="dropdown-item" href="#">반대</a>
+                    </div>
+                  </div>
+                </td>
+            </tr>
+        </table>
 
-    
-    </div>
-    </div>
-  );
+        <div className="button">
+          <p class="text-right">
+            <button type="button" class="btn btn-primary">초기화</button> &nbsp;
+            &nbsp;
+            <button type="button" class="btn btn-primary">제출</button></p>
+        </div> 
+     </Fragment>
+  )
 }
 
 export default Vote;
