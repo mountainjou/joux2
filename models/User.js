@@ -13,6 +13,13 @@ const UserSchema = new mongoose.Schema({
   corporation: {
     type: String
   },
+  wallet: {
+    type: String
+  },
+  isApprovedCorporation: {
+    type: Boolean,
+    default: false
+  },
   resetPasswordToken: {
     // 패스워드 재설정을 위한 임시토큰
     type: String
