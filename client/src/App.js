@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Menu from "./layout/Menu";
+import Nav from "./layout/Nav";
 import Main from "./layout/Main";
 
 // Routing
@@ -24,7 +24,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Menu />
+        <Nav />
         <div style={{ height: "30px" }} />
         <Switch>
           <Route exact path="/" component={Main} />

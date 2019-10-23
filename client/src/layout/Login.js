@@ -5,8 +5,6 @@ import PropTypes from "prop-types";
 import { login } from "../actions/auth";
 import Alert from "../Alert";
 
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-
 const Login = ({ login, isAuthenticated }) => {
   // 함수형 컴포넌트에서 상태값 사용하기
   const [values, setValues] = React.useState({
@@ -35,37 +33,42 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-    // Form 에서 submit 이벤트 발생시 onSubmit 함수 실행
-    <Form onSubmit={e => onSubmit(e)}>
-      <FormGroup>
-        <Label for="email">Email</Label>
-        <Input
-          type="email"
-          name="email"
-          id="email"
-          value={values.email}
-          onChange={handleChange("email")}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="password">Password</Label>
-        <Input
-          type="password"
-          name="password"
-          id="password"
-          value={values.password}
-          onChange={handleChange("password")}
-        />
-      </FormGroup>
-      <Button type="submit" color="primary">
-        Login
-      </Button>
-      <br />
-      <br />
-      <Link to="/register" variant="body2">
-        {"Don't have an account? Sign Up"}
-      </Link>
-    </Form>
+    <div className="container">
+      {/* // Form 에서 submit 이벤트 발생시 onSubmit 함수 실행 */}
+      <form onSubmit={e => onSubmit(e)}>
+        <div className="form-group">
+          <label for="email">Email</label>
+          <input
+            className="form-control"
+            type="email"
+            name="email"
+            id="email"
+            value={values.email}
+            onChange={handleChange("email")}
+          />
+        </div>
+        <div className="form-group">
+          <label for="password">Password</label>
+          <input
+            className="form-control"
+            type="password"
+            name="password"
+            id="password"
+            value={values.password}
+            onChange={handleChange("password")}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Login
+        </button>
+        <br />
+        <br />
+        <Link to="/register" variant="body2">
+          {"Don't have an account? Sign Up"}
+        </Link>
+      </form>
+      <Alert />
+    </div>
   );
 };
 

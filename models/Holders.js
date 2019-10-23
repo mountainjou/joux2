@@ -15,6 +15,9 @@ const HoldersSchema = new mongoose.Schema({
     type: Array,
     required: true
   },
+  totalStocks: {
+    type: Number
+  },
   date: {
     // 명부 업로드 일시
     type: Date,

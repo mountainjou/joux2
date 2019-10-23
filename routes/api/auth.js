@@ -46,7 +46,7 @@ router.post(
     // username must be an email  // 유저네임이 이메일 형식인지 확인한다
     check("email", "Please include a valid email").isEmail(),
     // password must be at least 6 chars long  // 패스워드가 존재하는지 확인한다
-    check("password", "Password is required").exists()
+    check("password", "Password is required").exists(6)
   ],
   async (req, res) => {
     // check에서 검증했을 때 에러가 발생하면 errors 변수에 담는다. 예를들어 이메일과 패스워드가 형식에 맞게 전달되면 에러는 발생하지 않고, 패스워드가 없이 전달되면 'Password is required'를 errors에 담는다.
