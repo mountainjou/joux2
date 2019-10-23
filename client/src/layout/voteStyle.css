@@ -8,5 +8,4 @@ td {
 
 .table td, tr, th {
     vertical-align: middle !important;
-    /* text-align: center;    */
- }
+}
