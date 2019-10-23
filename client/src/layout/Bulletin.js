@@ -23,6 +23,7 @@ const Bulletin = () => {
           </tr>
         </tbody>
       </table>
+      <a type="button" className="btn btn-primary float-right" href="/writing">공시 작성</a>
     </div>
   );
 };
