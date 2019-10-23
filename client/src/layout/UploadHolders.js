@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import AlertMsg from "../AlertMsg";
+import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
 
 // dropzone 스타일 설정
@@ -122,7 +122,7 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
       </aside>
       <br />
       {/* AlertMsg 컴포넌트 발생 */}
-      <AlertMsg />
+      <Alert />
     </section>
   );
 };

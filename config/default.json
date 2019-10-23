@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://ganzik:a09180918z@cluster0-szqbh.mongodb.net/jujutest?retryWrites=true&w=majority",
+  "mongoURI": "mongodb://localhost:27017/JouJou",
   "jwtSecret": "dlejfldna"
 }
