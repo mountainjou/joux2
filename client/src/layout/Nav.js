@@ -55,8 +55,8 @@ const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <a class="navbar-brand" href="/">
+    <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+      <a className="navbar-brand" href="/">
         JouJou
       </a>
       {!loading && (
