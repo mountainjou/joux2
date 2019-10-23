@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -50,8 +50,15 @@ const MyAccount = ({ auth: { user } }) => {
       <div>내 정보</div>
       <div>이메일 : {user.email}</div>
       <div>
-        {{ corporation } === undefined ? (
-          <div>회사명 : {user.corperation}</div>
+        {user.corporation !== undefined ? (
+          <div>
+            <div>회사명 : {user.corporation}</div>
+            {user.isApprovedCorporation ? (
+              <div>기업인증 : 인증된 기업</div>
+            ) : (
+              <div>기업인증 : 인증받지 않은 기업</div>
+            )}
+          </div>
         ) : (
           <div>
             <button
@@ -64,6 +71,7 @@ const MyAccount = ({ auth: { user } }) => {
           </div>
         )}
       </div>
+
       <div>
         지갑 주소 :
         {user.walletAddress ? (

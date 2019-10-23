@@ -156,7 +156,7 @@ router.put(
   }
 );
 
-router.put(
+router.post(
   "/registercorporation",
   [
     // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
@@ -174,12 +174,12 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { corperation, email, password } = req.body;
-    console.log(corperation, email, password);
+    const { corporation, email, password } = req.body;
+    console.log(corporation, email, password);
+
+    const user = await User.findOne({ email });
 
     try {
-      const user = await User.findOne({ email });
-
       if (!user) {
         return res
           .status(400)
@@ -193,12 +193,10 @@ router.put(
           .status(400)
           .json({ errors: [{ msg: "패스워드가 맞지 않습니다" }] });
       } else {
-        console.log(user);
-        user.unshift({ corperation: corperation });
-        console.log(user);
-        let result = await user.save();
+        user.corporation = corporation;
+        const result = await user.save();
 
-        res.json(result);
+        return res.json(result);
       }
     } catch (err) {
       console.error(err.message);

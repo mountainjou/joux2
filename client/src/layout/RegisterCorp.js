@@ -11,7 +11,7 @@ const RegisterCorp = ({ auth: { user } }) => {
   const [values, setValues] = React.useState({
     email: user.email,
     password: "",
-    corperation: "",
+    corporation: "",
     isApprovedCorp: user.isApprovedCorporation
   });
 
@@ -20,7 +20,7 @@ const RegisterCorp = ({ auth: { user } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { email, password, corperation, isApprovedCorp } = values;
+  const { email, password, corporation, isApprovedCorp } = values;
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -33,12 +33,12 @@ const RegisterCorp = ({ auth: { user } }) => {
     };
 
     const payload = {
-      corperation: corperation,
+      corporation: corporation,
       password: password,
       email: email
     };
 
-    Axios.put("/api/users/registercorporation", payload, config)
+    Axios.post("/api/users/registercorporation", payload, config)
       .then(result => {
         console.log(result);
       })
@@ -63,24 +63,24 @@ const RegisterCorp = ({ auth: { user } }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="corperation">기업명</label>
-          {user.corperation !== undefined ? (
+          <label htmlFor="corporation">기업명</label>
+          {user.corporation !== undefined ? (
             <input
               className="form-control"
               type="text"
-              name="corperation"
-              id="corperation"
-              value={values.corperation}
+              name="corporation"
+              id="corporation"
+              value={values.corporation}
               disabled
             />
           ) : (
             <input
               className="form-control"
               type="text"
-              name="corperation"
-              id="corperation"
-              value={values.corperation}
-              onChange={handleChange("corperation")}
+              name="corporation"
+              id="corporation"
+              value={values.corporation}
+              onChange={handleChange("corporation")}
             />
           )}
         </div>
