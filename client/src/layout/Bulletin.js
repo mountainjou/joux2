@@ -1,11 +1,10 @@
 import React from "react";
-import { Table } from "reactstrap";
 
 const Bulletin = () => {
   return (
     <div>
-      <Table>
-        <thead>
+      <table class="table">
+        <thead class="thead-dark">
             <tr>
                 <th>번호</th>
                 <th>공시대상회사</th>
@@ -23,7 +22,7 @@ const Bulletin = () => {
                 <th>고니</th>
             </tr>
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };
