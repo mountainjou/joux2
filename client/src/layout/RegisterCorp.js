@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+// import { Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
-import { register } from "../actions/auth";
 import Axios from "axios";
 
-const RegisterCorp = ({ auth: { user } }) => {
+const RegisterCorp = ({ setAlert, auth: { user } }) => {
   const [values, setValues] = React.useState({
     email: user.email,
     password: "",
@@ -20,7 +19,7 @@ const RegisterCorp = ({ auth: { user } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { email, password, corporation, isApprovedCorp } = values;
+  const { email, password, corporation } = values;
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -41,6 +40,7 @@ const RegisterCorp = ({ auth: { user } }) => {
     Axios.post("/api/users/registercorporation", payload, config)
       .then(result => {
         console.log(result);
+        setAlert(`기업명 ${result.data}이 등록되었습니다`, "success");
       })
       .catch(err => {
         console.error(err);
@@ -49,7 +49,7 @@ const RegisterCorp = ({ auth: { user } }) => {
 
   return (
     <div className="container">
-      <form onSubmit={e => onSubmit(e)} autoComplete="off">
+      <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
           <label htmlFor="email">이메일</label>
           <input
@@ -64,7 +64,7 @@ const RegisterCorp = ({ auth: { user } }) => {
 
         <div className="form-group">
           <label htmlFor="corporation">기업명</label>
-          {user.corporation !== undefined ? (
+          {user.corporation !== undefined && "" ? (
             <input
               className="form-control"
               type="text"
@@ -79,6 +79,7 @@ const RegisterCorp = ({ auth: { user } }) => {
               type="text"
               name="corporation"
               id="corporation"
+              autoComplete="new-username"
               value={values.corporation}
               onChange={handleChange("corporation")}
             />
@@ -88,9 +89,10 @@ const RegisterCorp = ({ auth: { user } }) => {
           <label htmlFor="password">패스워드</label>
           <input
             className="form-control"
-            type="current-password"
+            type="password"
             name="password"
             id="password"
+            autoComplete="new-password"
             value={values.password}
             onChange={handleChange("password")}
           />
@@ -116,7 +118,8 @@ const RegisterCorp = ({ auth: { user } }) => {
 };
 
 RegisterCorp.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  setAlert: PropTypes.func.isRequired
 };
 
 // 상태값 변수에 대입
@@ -124,4 +127,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(RegisterCorp);
+export default connect(
+  mapStateToProps,
+  { setAlert }
+)(RegisterCorp);

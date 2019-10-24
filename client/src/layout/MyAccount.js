@@ -1,8 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Axios from "axios";
+// import Axios from "axios";
+import Web3 from "web3";
+
+const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+// const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 
 const MyAccount = ({ auth: { user } }) => {
   const [values, setValues] = React.useState({
@@ -10,12 +15,12 @@ const MyAccount = ({ auth: { user } }) => {
     redirectRegisterCorporation: false
   });
 
-  const { corporation, redirectRegisterCorporation } = values;
+  const { redirectRegisterCorporation } = values;
 
-  // 폼에서 입력되는 값을 상태값에 지정
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
+  // // 폼에서 입력되는 값을 상태값에 지정
+  // const handleChange = name => event => {
+  //   setValues({ ...values, [name]: event.target.value });
+  // };
 
   const registerCorporation = () => {
     console.log("기업 회원 등록 페이지 띄우기");
@@ -37,9 +42,19 @@ const MyAccount = ({ auth: { user } }) => {
   //     });
   // };
 
-  const createWallet = () => {
-    console.log("월렛 생성하기. web3 가져오기");
+  const accessWallet = () => {
+    web3.eth.getAccounts((error, accounts) => {
+      if (accounts.length == 0) {
+        // there is no active accounts in MetaMask
+        console.log(error);
+      } else {
+        // It's ok
+        console.log(accounts);
+      }
+    });
   };
+
+  const createWallet = () => {};
 
   if (redirectRegisterCorporation) {
     return <Redirect to="/registercorp" />;
@@ -50,7 +65,7 @@ const MyAccount = ({ auth: { user } }) => {
       <div>내 정보</div>
       <div>이메일 : {user.email}</div>
       <div>
-        {user.corporation !== undefined ? (
+        {user.corporation ? (
           <div>
             <div>회사명 : {user.corporation}</div>
             {user.isApprovedCorporation ? (
@@ -70,6 +85,16 @@ const MyAccount = ({ auth: { user } }) => {
             </button>
           </div>
         )}
+      </div>
+      <div>
+        지갑 연결 :{" "}
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={accessWallet}
+        >
+          연결
+        </button>
       </div>
 
       <div>

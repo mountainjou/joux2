@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { connect } from "react-redux";
@@ -41,7 +41,7 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
     acceptedFiles,
-    rejectedFiles,
+
     getRootProps,
     getInputProps,
     isDragActive,
@@ -63,12 +63,6 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
   );
 
   const acceptedFilesItems = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  const rejectedFilesItems = rejectedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
@@ -103,27 +97,32 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
 
   return (
     // <Form onSubmit={e => onSubmit(e)}>
-    <section className="container">
-      <div {...getRootProps({ className: "dropzone", style })}>
+    <div className="container">
+      <div
+        {...getRootProps({
+          className: "dropzone",
+          style
+        })}
+      >
         <input {...getInputProps()} />
         <p>
           주주 명부 파일을 박스 안으로 끌어서 이동하거나 클릭하여 첨부하세요
         </p>
         {/* <em>(엑셀 파일을 업로드 하세요)</em> */}
       </div>
-      <aside>
+      <div>
         <h4>첨부된 파일</h4>
         <ul>{acceptedFilesItems}</ul>
-        {/* <h4>Rejected files</h4>
+        {/* <h4>거부된 파일</h4>
         <ul>{rejectedFilesItems}</ul> */}
         <button className="btn btn-primary" onClick={uploadList}>
           업로드
         </button>
-      </aside>
+      </div>
       <br />
       {/* AlertMsg 컴포넌트 발생 */}
       <Alert />
-    </section>
+    </div>
   );
 };
 

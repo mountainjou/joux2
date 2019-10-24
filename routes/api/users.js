@@ -195,8 +195,7 @@ router.post(
       } else {
         user.corporation = corporation;
         const result = await user.save();
-
-        return res.json(result);
+        return res.json(result.corporation);
       }
     } catch (err) {
       console.error(err.message);

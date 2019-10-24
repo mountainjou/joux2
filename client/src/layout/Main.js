@@ -13,11 +13,11 @@ const Main = () => {
         width="380"
         height="380"
         src="https://ucarecdn.com/b33f5c86-2d0b-4063-99e1-0acfc6d15a00/ethwhiteoptimized2.mp4"
-        playsinline=""
-        autoplay="autoplay"
+        playsInline=""
+        autoPlay="autoplay"
         loop="loop"
         muted="muted"
-        class="mx-auto inline-block"
+        className="mx-auto inline-block"
       ></video>
       <div>우리팀</div>
       <div>

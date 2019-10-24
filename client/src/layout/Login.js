@@ -37,23 +37,25 @@ const Login = ({ login, isAuthenticated }) => {
       {/* // Form 에서 submit 이벤트 발생시 onSubmit 함수 실행 */}
       <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             className="form-control"
             type="email"
             name="email"
             id="email"
+            autoComplete="username"
             value={values.email}
             onChange={handleChange("email")}
           />
         </div>
         <div className="form-group">
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="form-control"
             type="password"
             name="password"
             id="password"
+            autoComplete="current-password"
             value={values.password}
             onChange={handleChange("password")}
           />
