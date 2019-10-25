@@ -4,57 +4,54 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import Axios from "axios";
 import Web3 from "web3";
+import Axios from "axios";
 
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+// const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-// const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 
 const MyAccount = ({ auth: { user } }) => {
   const [values, setValues] = React.useState({
     corporation: user.corporation,
-    redirectRegisterCorporation: false
+    redirectRegisterCorporation: false,
+    web3Wallet: null
   });
 
-  const { redirectRegisterCorporation } = values;
-
-  // // 폼에서 입력되는 값을 상태값에 지정
-  // const handleChange = name => event => {
-  //   setValues({ ...values, [name]: event.target.value });
-  // };
+  const { redirectRegisterCorporation, web3Wallet } = values;
 
   const registerCorporation = () => {
     console.log("기업 회원 등록 페이지 띄우기");
     setValues({ redirectRegisterCorporation: true });
   };
-  // const registerCorporation = () => {
-  //   const config = {
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   };
 
-  //   Axios.post("/api/users", corporation, config)
-  //     .then(result => {
-  //       console.log(result);
-  //     })
-  //     .catch(err => {
-  //       console.error(err);
-  //     });
-  // };
-
+  // 접속된 지갑 주소 열람
   const accessWallet = () => {
-    web3.eth.getAccounts((error, accounts) => {
-      if (accounts.length == 0) {
-        // there is no active accounts in MetaMask
-        console.log(error);
-      } else {
-        // It's ok
-        console.log(accounts);
-      }
+    web3.eth.getAccounts().then(function(result) {
+      console.log(result);
+      setValues({ web3Wallet: result });
     });
   };
 
-  const createWallet = () => {};
+  // 지갑 연동
+  const saveWallet = async () => {
+    const url = "/api/users/registerwallet";
+    const data = {
+      walletAddress: web3Wallet,
+      email: user.email
+    };
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    await Axios.post(url, data, config)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   if (redirectRegisterCorporation) {
     return <Redirect to="/registercorp" />;
@@ -87,27 +84,32 @@ const MyAccount = ({ auth: { user } }) => {
         )}
       </div>
       <div>
-        지갑 연결 :{" "}
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={accessWallet}
-        >
-          연결
-        </button>
+        현재 접속된 지갑 주소 :
+        {values.web3Wallet ? (
+          <div>{web3Wallet}</div>
+        ) : (
+          <button
+            type="button"
+            onClick={e => {
+              accessWallet(e);
+            }}
+          >
+            web3 지갑 불러오기
+          </button>
+        )}
       </div>
 
       <div>
-        지갑 주소 :
+        등록된 지갑 주소 :
         {user.walletAddress ? (
           user.walletAddress
         ) : (
           <button
             type="button"
             className="btn btn-primary"
-            onClick={createWallet}
+            onClick={saveWallet}
           >
-            지갑 생성
+            현재 접속된 지갑 주소 등록
           </button>
         )}
       </div>

@@ -204,6 +204,44 @@ router.post(
   }
 );
 
+// 유저 지갑 주소 등록
+router.post(
+  "/registerwallet",
+  [
+    // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
+    check("walletAddress", "walletAddress is required").not()
+  ],
+  async (req, res) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { walletAddress, email } = req.body;
+    console.log(walletAddress[0].toString(), email);
+    const wallet = walletAddress[0].toString();
+
+    const user = await User.findOne({ email });
+
+    try {
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+      }
+
+      user.walletAddress = wallet;
+      console.log(user);
+      const result = await user.save();
+      return res.json(result.walletAddress);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
 router.get("/my_page", async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

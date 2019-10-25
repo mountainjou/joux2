@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   corporation: {
     type: String
   },
-  wallet: {
+  walletAddress: {
     type: String
   },
   isApprovedCorporation: {
