@@ -16,6 +16,11 @@ const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
         </a>
       </li>
       <li className="nav-item">
+        <a className="nav-link text-light" href="/publishtoken/">
+          토큰 발행
+        </a>
+      </li>
+      <li className="nav-item">
         <a className="nav-link text-light" href="/vote/">
           투표
         </a>

@@ -31,12 +31,9 @@ const MyAccount = ({ auth: { user } }) => {
     setValues({ redirectRegisterCorporation: true });
   };
 
-  // 접속된 지갑 주소 열람
+  // 지갑 불러오기
   const accessWallet = () => {
-    web3.eth.getAccounts().then(function(result) {
-      console.log(result);
-      setValues({ web3Wallet: result });
-    });
+    console.log("지갑 불러오기");
   };
 
   // 지갑 연동

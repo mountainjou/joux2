@@ -6,6 +6,7 @@ import UploadHolders from "../layout/UploadHolders";
 import Vote from "../layout/Vote";
 import MyAccount from "../layout/MyAccount";
 import RegisterCorp from "../layout/RegisterCorp";
+import PublishToken from "../layout/PublishToken";
 // import ForgotPassword from "../layout/auth/ForgotPassword";
 // import ResetPassword from "../layout/auth/ResetPassword";
 
@@ -27,6 +28,7 @@ const Routes = () => {
         <PrivateRoute exact path="/vote" component={Vote} />
         <PrivateRoute exact path="/myaccount" component={MyAccount} />
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
+        <PrivateRoute exact path="/publishtoken" component={PublishToken} />
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 

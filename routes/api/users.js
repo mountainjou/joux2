@@ -228,6 +228,7 @@ router.post(
     });
 
     if (isMatchWallet) {
+      console.log("이미 등록된 지갑 주소입니다");
       return res.json({ msg: "이미 등록된 지갑 주소입니다" });
     }
 
@@ -243,7 +244,7 @@ router.post(
       user.walletAddress.push(wallet);
       console.log(user);
       const result = await user.save();
-      return res.json(result.walletAddress);
+      return res.status(201).json(result.walletAddress);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");

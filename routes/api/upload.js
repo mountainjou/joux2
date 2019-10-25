@@ -89,12 +89,12 @@ router.post("/holderlist", async (req, res) => {
         const holders = newHolders.save();
 
         return res.json({
-          msg: "토큰이 발행되었습니다.",
+          msg: "주주명부가 등록되었습니다.",
           alertType: "success"
         });
       } else {
         return res.json({
-          msg: "토큰 발행이 완료된 주주명부입니다.",
+          msg: "주주명부가 이미 등록되었습니다.",
           alertType: "danger"
         });
         // res.send("이미 발행된 회사");
