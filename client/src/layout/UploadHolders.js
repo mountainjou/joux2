@@ -41,7 +41,6 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
     acceptedFiles,
-
     getRootProps,
     getInputProps,
     isDragActive,

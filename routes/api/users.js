@@ -212,7 +212,6 @@ router.post(
     check("walletAddress", "walletAddress is required").not()
   ],
   async (req, res) => {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -224,6 +223,16 @@ router.post(
 
     const user = await User.findOne({ email });
 
+    const isMatchWallet = user.walletAddress.find(address => {
+      return address === wallet;
+    });
+
+    if (isMatchWallet) {
+      return res.json({ msg: "이미 등록된 지갑 주소입니다" });
+    }
+
+    console.log(isMatchWallet);
+
     try {
       if (!user) {
         return res
@@ -231,7 +240,7 @@ router.post(
           .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
       }
 
-      user.walletAddress = wallet;
+      user.walletAddress.push(wallet);
       console.log(user);
       const result = await user.save();
       return res.json(result.walletAddress);

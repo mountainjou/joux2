@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   walletAddress: {
-    type: String
+    type: []
   },
   isApprovedCorporation: {
     type: Boolean,

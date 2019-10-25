@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -16,6 +16,13 @@ const MyAccount = ({ auth: { user } }) => {
     redirectRegisterCorporation: false,
     web3Wallet: null
   });
+
+  useEffect(() => {
+    web3.eth.getAccounts().then(function(result) {
+      console.log(result);
+      setValues({ web3Wallet: result });
+    });
+  }, []);
 
   const { redirectRegisterCorporation, web3Wallet } = values;
 
@@ -102,7 +109,18 @@ const MyAccount = ({ auth: { user } }) => {
       <div>
         등록된 지갑 주소 :
         {user.walletAddress ? (
-          user.walletAddress
+          <div>
+            {user.walletAddress.map(address => (
+              <li key={address}>{address}</li>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={saveWallet}
+            >
+              현재 접속된 지갑 주소 추가 등록
+            </button>
+          </div>
         ) : (
           <button
             type="button"
