@@ -51,6 +51,7 @@ app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
 app.use("/api/tags", require("./routes/api/tags"));
 app.use("/api/upload", require("./routes/api/upload"));
+app.use("/api/bulletin", require("./routes/api/bulletin"));
 // app.use("/api/controllers", require("./routes/controllers/media"));
 
 const PORT = process.env.PORT || 5000;

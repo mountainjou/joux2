@@ -17,7 +17,7 @@ const Bulletin = () => {
           <tr>
             <th>1</th>
             <th>주식회사 곽철용</th>
-            <th>올림픽대교 정체와 마포대교는 무너줫냐 이쉐키야?</th>
+            <th><a href="/BulletinWaggu">올림픽대교 정체와 마포대교는 무너줫냐 이쉐키야?</a></th>
             <th>2019-10-15</th>
             <th>고니</th>
           </tr>

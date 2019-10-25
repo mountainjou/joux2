@@ -12,6 +12,8 @@ import Writing from "../layout/Writing";
 // import NotFound from "../layout/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import Bulletin from "../layout/Bulletin";
+import Board from "../layout/Board";
+import BulletinWaggu from "../layout/BulletinWaggu";
 
 const Routes = () => {
   return (
@@ -27,6 +29,8 @@ const Routes = () => {
         <PrivateRoute exact path="/vote" component={Vote} />
         <PrivateRoute exact path="/myaccount" component={MyAccount} />
         <PrivateRoute exact path="/writing" component={Writing} />
+        <PrivateRoute exact path="/Board" component={Board} />
+        <PrivateRoute exact path="/BulletinWaggu" component={BulletinWaggu} />        
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 
