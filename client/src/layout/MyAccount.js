@@ -87,7 +87,7 @@ const MyAccount = ({ auth: { user } }) => {
           </div>
         )}
       </div>
-      <div>
+      {/* <div>
         현재 접속된 지갑 주소 :
         {values.web3Wallet ? (
           <div>{web3Wallet}</div>
@@ -101,7 +101,7 @@ const MyAccount = ({ auth: { user } }) => {
             web3 지갑 불러오기
           </button>
         )}
-      </div>
+      </div> */}
 
       <div>
         등록된 지갑 주소 :

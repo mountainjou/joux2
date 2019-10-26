@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./layout/Nav";
 import Main from "./layout/Main";
+import Web3 from "web3";
 
 // Routing
 import Routes from "./routes/Routes";
@@ -17,6 +18,7 @@ if (localStorage.token) {
 }
 
 const App = () => {
+  // 유저 불러오기 액션 실행
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
