@@ -21,7 +21,9 @@ require("dotenv").config();
 router.get("/", auth, async (req, res) => {
   console.log(req.user.id);
 
-  const holderlist = await Holders.findOne({ corporation: req.user.id });
+  const holderlist = await Holders.findOne({ corporation: req.user.id }).select(
+    "totalStocks"
+  );
 
   console.log(holderlist);
 
