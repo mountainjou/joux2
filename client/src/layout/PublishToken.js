@@ -235,7 +235,7 @@ const PublishToken = ({ auth: { user } }) => {
               className="form-control"
               readOnly
               id="totalStocks"
-              value={totalStocks ? `${totalStocks}주` : "발행되지 않았습니다"}
+              value={totalStocks}
             />
           </div>
         </div>

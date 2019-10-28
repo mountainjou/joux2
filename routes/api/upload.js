@@ -69,6 +69,7 @@ router.post("/holderlist", async (req, res) => {
 
     for (i = 0; i < resData.length; i++) {
       let idNum = resData[i].주민번호;
+      console.log(idNum);
 
       // salt를 생성하여 변수 salt에 담는다.
       let salt = bcrypt.genSaltSync(10);
