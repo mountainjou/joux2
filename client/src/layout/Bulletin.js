@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+// import BulletinWaggu from "./BulletinWaggu";
+import { getGongsi } from "../actions/bulletin";
+import PropTypes from "prop-types";
 
-const Bulletin = () => {
+const Bulletin = ({ getGongsi, bulletin }) => {
+
+const [gongsi, setGongsi] = useState(null)
+
+useEffect(() => {
+  getGongsi()
+  console.log("useEffect 정상작동")
+}, [])
+
+// const gonggong = bulletin.gongsi.array;
+const test = JSON.stringify(bulletin.gongsi);
+
+const gongsiList = bulletin.gongsi.map(list => (<a key={list._id}>{JSON.stringify(list)}</a>))
+const jak = bulletin.gongsi.map(list => (<a key={list._id}>{JSON.stringify(list.uname)}</a>))
+console.log(jak)
+
+console.log(test);
+// const gongsiList = test.map((list) => (<li key={list._id}>{JSON.stringify(list)}</li>));
+
+// {bulletin.gongsi.map(file => {
+//   <li key={file._id}>{file}</li>
+// })}
+
   return (
     <div>
       <table class="table">
@@ -15,11 +42,12 @@ const Bulletin = () => {
         </thead>
         <tbody>
           <tr>
-            <th>1</th>
-            <th>주식회사 곽철용</th>
-            <th><a href="/BulletinWaggu">올림픽대교 정체와 마포대교는 무너줫냐 이쉐키야?</a></th>
-            <th>2019-10-15</th>
-            <th>고니</th>
+          <th>{jak}</th>
+            {/* <th>1</th>
+            <th>{bulletin.uname}</th>
+            <th><a href="/BulletinWaggu">{bulletin.rname}</a></th>
+            <th>{bulletin.date}</th>
+            <th>{bulletin.uname}</th> */}
           </tr>
         </tbody>
       </table>
@@ -28,4 +56,18 @@ const Bulletin = () => {
   );
 };
 
-export default Bulletin;
+Bulletin.propTypes = {
+  bulletin: PropTypes.object.isRequired,
+  getGongsi: PropTypes.func.isRequired
+};
+
+// 상태값 변수에 대입
+const mapStateToProps = state => ({
+  bulletin: state.bulletin
+});
+
+export default connect(
+  mapStateToProps,
+  { getGongsi }
+)(Bulletin);
+

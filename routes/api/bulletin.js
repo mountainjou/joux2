@@ -21,4 +21,17 @@ router.post('/', function (req, res) {
     });
   });
 
+// @route    GET api/posts
+// @desc     Get all post
+// @access   Public
+router.get("/", async (req, res) => {
+  try {
+    const gongsi = await Bulletin.find().sort({ date: -1 });
+    res.json(gongsi);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

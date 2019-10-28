@@ -31,3 +31,11 @@ export const CHECKPASS_FAIL = "CHECKPASS_FAIL";
 export const MODIFY_SUCCESS = "MODIFY_SUCCESS";
 export const MODIFY_FAIL = "MODIFY_FAIL";
 export const GET_USEREMAIL = "GET_USEREMAIL";
+
+// bulletin CRUD
+
+export const ADD_GONGSI = "ADD_GONGSI";
+export const REMOVE_GONGSI = "REMOVE_GONGSI";
+export const UPDATE_GONGSI = "UPDATE_GONGSI";
+export const GET_GONGSI = "GET_GONGSI";
+
