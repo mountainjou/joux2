@@ -2,9 +2,6 @@ pragma solidity ^0.5.0;
 
 import 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol';
 
-// 1. 기업이 토큰을 발행 할 때
-
-
 contract StockToken is ERC20 {
   // The keyword "public" makes variables
   // accessible from other contracts
@@ -13,8 +10,16 @@ contract StockToken is ERC20 {
   string public corporation; // 발행 회사 이름
   string public name; // 토큰 이름
   string public symbol; // 심볼
-  uint public decimals = 18; // 소수점 이하 자리수
+  uint public decimals; // 소수점 이하 자리수
   uint public initialSupply; // 초기 발행
+
+  struct Holders {
+    // string holdersName; // 주주이름
+    string id; // 주민번호 + 알파값으로 해쉬화해서 저장
+    uint stockAmount;  // 주식 보유량
+  }
+
+  mapping(address => Holders) public certHolders; // 인증된 사용자의 주소를 담는다.
 
     // Events allow clients to react to specific
     // contract changes you declare
@@ -30,7 +35,7 @@ contract StockToken is ERC20 {
   // Sends an amount of newly created coins to an address
     // Can only be called by the contract creator
     // 3.생성자 정의 (코인 생성 할 때 발행하는 사람이 모두 갖기)
-    function publishToken(string memory _corporation, string memory _name, string memory _symbol, string memory _decimals, uint _initialSupply) public {
+    function publishToken(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply) public {
         require(msg.sender == corporationAddress);
         require(initialSupply < 1e60);
         corporation = _corporation;
