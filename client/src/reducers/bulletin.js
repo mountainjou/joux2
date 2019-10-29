@@ -3,7 +3,8 @@ import {
     REMOVE_GONGSI,
     UPDATE_GONGSI,
     GET_GONGSI,
-    POST_ERROR
+    POST_ERROR,
+    GET_GONGSI_DETAIL
 } from "../actions/types";
 
 const initialState = {
@@ -38,6 +39,11 @@ export default (state = initialState, action) => {
                 error: payload,
                 loading: false
             };
+        case GET_GONGSI_DETAIL:
+                return {
+                    ...state,
+                    gongsiDetail: payload
+                };
         default:
             return state;
     }

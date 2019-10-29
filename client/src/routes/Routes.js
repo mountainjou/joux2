@@ -30,7 +30,7 @@ const Routes = () => {
         <PrivateRoute exact path="/myaccount" component={MyAccount} />
         <PrivateRoute exact path="/writing" component={Writing} />
         <PrivateRoute exact path="/Board" component={Board} />
-        <PrivateRoute exact path="/BulletinWaggu" component={BulletinWaggu} />        
+        <PrivateRoute exact path="/BulletinWaggu/:id" component={BulletinWaggu} />        
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 

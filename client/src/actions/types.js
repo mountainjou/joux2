@@ -38,4 +38,4 @@ export const ADD_GONGSI = "ADD_GONGSI";
 export const REMOVE_GONGSI = "REMOVE_GONGSI";
 export const UPDATE_GONGSI = "UPDATE_GONGSI";
 export const GET_GONGSI = "GET_GONGSI";
-
+export const GET_GONGSI_DETAIL = "GET_GONGSI_DETAIL";

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import moment from 'moment';
 import { connect } from "react-redux";
-// import BulletinWaggu from "./BulletinWaggu";
+import BulletinWaggu from "./BulletinWaggu";
 import { getGongsi } from "../actions/bulletin";
 import PropTypes from "prop-types";
 
 const Bulletin = ({ getGongsi, bulletin }) => {
 
 const [gongsi, setGongsi] = useState(null)
-
 useEffect(() => {
   getGongsi()
   console.log("useEffect 정상작동")
@@ -17,10 +16,19 @@ useEffect(() => {
 // const gonggong = bulletin.gongsi.array;
 const test = JSON.stringify(bulletin.gongsi);
 
-const gongsiList = bulletin.gongsi.map(list => (<a key={list._id}>{JSON.stringify(list)}</a>))
-const jak = bulletin.gongsi.map(list => (<a key={list._id}>{JSON.stringify(list.uname)}</a>))
-console.log(jak)
+let index = bulletin.gongsi.length;
+const gongsiList = bulletin.gongsi.map (list => (
+  <tr key={list._id}>
+    <td>{index--}</td>
+    <td>{list.uname}</td>
+    <td><a href={'/bulletinWaggu/'+list._id}>{list.rname}</a></td> {/* /bulletinWaggu/{list._id} */}
+    <td>{moment(list.date).format('L')}</td>
+    <td>{list.uname}</td>
+  </tr>
+    )
+  );
 
+// console.log(jak)
 console.log(test);
 // const gongsiList = test.map((list) => (<li key={list._id}>{JSON.stringify(list)}</li>));
 
@@ -41,14 +49,14 @@ console.log(test);
           </tr>
         </thead>
         <tbody>
-          <tr>
-          <th>{jak}</th>
+          {/* <tr> */}
+            {gongsiList}
             {/* <th>1</th>
             <th>{bulletin.uname}</th>
             <th><a href="/BulletinWaggu">{bulletin.rname}</a></th>
             <th>{bulletin.date}</th>
             <th>{bulletin.uname}</th> */}
-          </tr>
+          {/* </tr> */}
         </tbody>
       </table>
       <a type="button" className="btn btn-primary float-right" href="/writing">공시 작성</a>

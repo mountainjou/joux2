@@ -34,4 +34,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const _id = req.params.id;
+  console.log(_id)
+  try {
+  const gongsiDetail = await Bulletin.findById({_id});
+    res.json(gongsiDetail);
+    console.log(gongsiDetail);
+
+    // const gongsi = await Bulletin.find().sort({ date: -1 });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 module.exports = router;
