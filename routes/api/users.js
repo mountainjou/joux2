@@ -7,8 +7,6 @@ const { check, validationResult } = require("express-validator"); // https://exp
 
 const User = require("../../models/User");
 
-// ???????
-
 // @route    POST api/users
 // @desc     Register user // 회원가입
 // @access   Public  // 접근권한 모두 가능
@@ -218,13 +216,12 @@ router.post(
     }
 
     const { walletAddress, email } = req.body;
-    console.log(walletAddress[0].toString(), email);
-    const wallet = walletAddress[0].toString();
+    console.log(walletAddress, email);
 
     const user = await User.findOne({ email });
 
     const isMatchWallet = user.walletAddress.find(address => {
-      return address === wallet;
+      return address === walletAddress;
     });
 
     if (isMatchWallet) {
@@ -241,7 +238,7 @@ router.post(
           .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
       }
 
-      user.walletAddress.push(wallet);
+      user.walletAddress.push(walletAddress);
       console.log(user);
       const result = await user.save();
       return res.status(201).json(result.walletAddress);

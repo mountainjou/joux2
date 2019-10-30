@@ -33,9 +33,10 @@ export const registerCorporation = ({
 };
 
 export const getWeb3Account = account => async dispatch => {
-  const currentAccount = account[0].toString();
-  dispatch({
-    type: GET_WEB3_ACCOUNT_SUCCESS,
-    payload: currentAccount
-  });
+  if (account) {
+    dispatch({
+      type: GET_WEB3_ACCOUNT_SUCCESS,
+      payload: account
+    });
+  }
 };

@@ -20,6 +20,7 @@ const MyAccount = ({ auth: { user, currentAccount } }) => {
 
   // 지갑 연동
   const saveWallet = async () => {
+    console.log(currentAccount);
     const url = "/api/users/registerwallet";
     const data = {
       walletAddress: currentAccount,

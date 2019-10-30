@@ -20,6 +20,8 @@ if (localStorage.token) {
 }
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+// const web3 = new Web3(Web3.givenProvider);
+const account = web3.givenProvider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
 
 const App = () => {
   // 유저 불러오기 액션 실행
@@ -27,8 +29,14 @@ const App = () => {
     store.dispatch(loadUser());
   }, []);
 
-  web3.eth.getAccounts().then(account => {
-    console.log(account);
+  // account 값이 존재하면 리듀서에 담아 전역 관리한다.
+  if (account) {
+    store.dispatch(getWeb3Account(account));
+  }
+
+  // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+  web3.currentProvider.publicConfigStore.on("update", result => {
+    const account = result.selectedAddress;
     store.dispatch(getWeb3Account(account));
   });
 
