@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 import Web3 from "web3";
 import Axios from "axios";
 
-// const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 
 const MyAccount = ({ auth: { user } }) => {
@@ -29,11 +27,6 @@ const MyAccount = ({ auth: { user } }) => {
   const registerCorporation = () => {
     console.log("기업 회원 등록 페이지 띄우기");
     setValues({ redirectRegisterCorporation: true });
-  };
-
-  // 지갑 불러오기
-  const accessWallet = () => {
-    console.log("지갑 불러오기");
   };
 
   // 지갑 연동

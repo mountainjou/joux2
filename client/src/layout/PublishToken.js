@@ -3,16 +3,19 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Web3 from "web3";
 import Axios from "axios";
+import TokenJSON from "../contracts/Token.json";
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+const abi = TokenJSON.abi;
+console.log(abi);
 
 const PublishToken = ({ auth: { user } }) => {
   const [values, setValues] = React.useState({
     corporation: user.corporation,
-    web3Wallet: null,
-    totalStocks: null,
-    tokenName: null,
-    tokenSymbol: null
+    web3Wallet: "",
+    totalStocks: "",
+    tokenName: "",
+    tokenSymbol: ""
   });
 
   // 주주명부에 등록된 총 주식 발행량 가져오기
@@ -32,18 +35,7 @@ const PublishToken = ({ auth: { user } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const {
-    corporation,
-    web3Wallet,
-    totalStocks,
-    tokenName,
-    tokenSymbol
-  } = values;
-
-  // 지갑 불러오기
-  const accessWallet = () => {
-    console.log("지갑 불러오기");
-  };
+  const { web3Wallet, totalStocks } = values;
 
   // 스마트 컨트랙트 기본 정보 입력
   const ca = "0x2F775163C3E3EfA2a4184D23f8197a9882364fb1";

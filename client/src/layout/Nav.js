@@ -48,7 +48,9 @@ const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
         </a>
       </li>
       <li className="nav-item">
-        <a className="nav-link text-light">{web3Wallet}</a>
+        <a className="nav-link text-light" href="/myaccount">
+          {web3Wallet}
+        </a>
       </li>
       <li className="nav-item">
         <button type="button" className="btn btn-dark" onClick={logout}>

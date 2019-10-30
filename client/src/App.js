@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./layout/Nav";
 import Main from "./layout/Main";
-import Web3 from "web3";
 
 // Routing
 import Routes from "./routes/Routes";
