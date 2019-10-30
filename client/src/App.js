@@ -10,17 +10,27 @@ import Routes from "./routes/Routes";
 import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
+import { getWeb3Account } from "./actions/user";
 import setAuthToken from "./utils/setAuthToken";
+
+import Web3 from "web3";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
+
+const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 
 const App = () => {
   // 유저 불러오기 액션 실행
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+
+  web3.eth.getAccounts().then(account => {
+    console.log(account);
+    store.dispatch(getWeb3Account(account));
+  });
 
   return (
     <Provider store={store}>

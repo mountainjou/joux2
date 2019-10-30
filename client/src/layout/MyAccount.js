@@ -1,28 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import Axios from "axios";
-import Web3 from "web3";
 import Axios from "axios";
 
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-
-const MyAccount = ({ auth: { user } }) => {
+const MyAccount = ({ auth: { user, currentAccount } }) => {
   const [values, setValues] = React.useState({
     corporation: user.corporation,
-    redirectRegisterCorporation: false,
-    web3Wallet: null
+    redirectRegisterCorporation: false
   });
 
-  useEffect(() => {
-    web3.eth.getAccounts().then(function(result) {
-      console.log(result);
-      setValues({ web3Wallet: result });
-    });
-  }, []);
-
-  const { redirectRegisterCorporation, web3Wallet } = values;
+  const { redirectRegisterCorporation } = values;
 
   const registerCorporation = () => {
     console.log("기업 회원 등록 페이지 띄우기");
@@ -33,7 +22,7 @@ const MyAccount = ({ auth: { user } }) => {
   const saveWallet = async () => {
     const url = "/api/users/registerwallet";
     const data = {
-      walletAddress: web3Wallet,
+      walletAddress: currentAccount,
       email: user.email
     };
     const config = {

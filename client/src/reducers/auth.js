@@ -7,7 +7,8 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_DELETED,
-  GET_USEREMAIL
+  GET_USEREMAIL,
+  GET_WEB3_ACCOUNT_SUCCESS
 } from "../actions/types";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: {},
-  forgotPassword: false
+  forgotPassword: false,
+  currentAccount: null
 };
 
 export default (state = initialState, action) => {
@@ -29,7 +31,11 @@ export default (state = initialState, action) => {
         loading: false,
         user: payload
       };
-
+    case GET_WEB3_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        currentAccount: payload
+      };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
     case GET_USEREMAIL:

@@ -1,23 +1,16 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/auth";
-import Web3 from "web3";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-
-const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
-  const [web3Wallet, setWeb3wallet] = React.useState(null);
-
-  // 연결된 지갑 불러오기
-  useEffect(() => {
-    web3.eth.getAccounts().then(function(result) {
-      setWeb3wallet(result);
-    });
-  }, []);
+const Nav = ({
+  auth: { isAuthenticated, loading, currentAccount },
+  logout
+}) => {
+  // const [web3Wallet, setWeb3wallet] = React.useState(null);
 
   // 인증된 사용자 접속시 나타나는 메뉴
   const authLinks = (
@@ -49,7 +42,7 @@ const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
       </li>
       <li className="nav-item">
         <a className="nav-link text-light" href="/myaccount">
-          {web3Wallet}
+          {currentAccount}
         </a>
       </li>
       <li className="nav-item">

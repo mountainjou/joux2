@@ -7,7 +7,6 @@ import TokenJSON from "../contracts/Token.json";
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 const abi = TokenJSON.abi;
-console.log(abi);
 
 const PublishToken = ({ auth: { user } }) => {
   const [values, setValues] = React.useState({
@@ -39,140 +38,20 @@ const PublishToken = ({ auth: { user } }) => {
 
   // 스마트 컨트랙트 기본 정보 입력
   const ca = "0x2F775163C3E3EfA2a4184D23f8197a9882364fb1";
-  const option = {
-    from: { web3Wallet },
-    gasPrice: "20000000000"
-  };
-
-  const publishTokenContract = new web3.eth.Contract(
-    [
-      {
-        inputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "constructor"
-      },
-      {
-        anonymous: false,
-        inputs: [
-          {
-            indexed: true,
-            internalType: "address",
-            name: "from",
-            type: "address"
-          },
-          {
-            indexed: true,
-            internalType: "address",
-            name: "to",
-            type: "address"
-          },
-          {
-            indexed: false,
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256"
-          }
-        ],
-        name: "Sent",
-        type: "event"
-      },
-      {
-        constant: true,
-        inputs: [{ internalType: "address", name: "", type: "address" }],
-        name: "balances",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "corporationAddress",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "corporationName",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: false,
-        inputs: [
-          { internalType: "string", name: "_corporationName", type: "string" },
-          { internalType: "string", name: "_tokenName", type: "string" },
-          { internalType: "string", name: "_tokenSymbol", type: "string" },
-          { internalType: "string", name: "_decimals", type: "string" },
-          { internalType: "uint256", name: "_totalSupply", type: "uint256" }
-        ],
-        name: "createToken",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "decimals",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: false,
-        inputs: [
-          { internalType: "address", name: "receiver", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" }
-        ],
-        name: "send",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "tokenName",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "tokenSymbol",
-        outputs: [{ internalType: "string", name: "", type: "string" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "totalSupply",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      }
-    ],
-    ca
-  );
 
   // 스마트 컨트랙트 토큰 발행 실행
-  const publishTokenFromContract = () => {
+  const publishTokenFromContract = async () => {
+    const option = {
+      from: { web3Wallet },
+      gasPrice: "20000000000"
+    };
+    // default gas price in wei, 20 gwei in this case
+    const tokenContract = new web3.eth.Contract(abi, option);
+    console.log(tokenContract);
+
+    const networkId = await web3.eth.net.getId();
+    console.log("abi: ", abi);
+    console.log("networkId: ", networkId);
     console.log("토큰발행");
   };
 
@@ -269,6 +148,13 @@ const PublishToken = ({ auth: { user } }) => {
         </div>
         <button type="submit" className="btn btn-primary">
           발행하기
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={publishTokenFromContract}
+        >
+          테스트 콘솔
         </button>
       </form>
     </div>

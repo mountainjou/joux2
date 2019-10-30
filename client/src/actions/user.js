@@ -1,16 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  GET_USEREMAIL
-} from "./types";
-import setAuthToken from "../utils/setAuthToken";
+import { GET_WEB3_ACCOUNT_SUCCESS } from "./types";
 
 // registerCorporation
 export const registerCorporation = ({
@@ -40,4 +30,12 @@ export const registerCorporation = ({
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
   }
+};
+
+export const getWeb3Account = account => async dispatch => {
+  const currentAccount = account[0].toString();
+  dispatch({
+    type: GET_WEB3_ACCOUNT_SUCCESS,
+    payload: currentAccount
+  });
 };
