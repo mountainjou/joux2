@@ -11,7 +11,7 @@ const [gongsi, setGongsi] = useState(null)
 useEffect(() => {
   getGongsi()
   console.log("useEffect 정상작동")
-}, [])
+}, [getGongsi])
 
 // const gonggong = bulletin.gongsi.array;
 const test = JSON.stringify(bulletin.gongsi);

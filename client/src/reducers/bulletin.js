@@ -8,7 +8,9 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    gongsi: []
+    gongsi: [],
+    loading: true,   
+    gongsiDetail: {} 
 }
 
 export default (state = initialState, action) => {
@@ -42,7 +44,8 @@ export default (state = initialState, action) => {
         case GET_GONGSI_DETAIL:
                 return {
                     ...state,
-                    gongsiDetail: payload
+                    gongsiDetail: payload,
+                    loading: false
                 };
         default:
             return state;
