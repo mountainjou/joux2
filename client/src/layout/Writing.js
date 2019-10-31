@@ -1,8 +1,11 @@
 import React from "react";
 import {Redirect} from "react-router-dom"
 import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Writing = () => {
+
+const Writing = ({auth : {  user, loading }}) => {
 
     var d = new Date();
     var ISOData = d.toISOString();
@@ -10,7 +13,6 @@ const Writing = () => {
 
     const [values, setValues] = React.useState({
         rname: "",
-        uname: "",
         report: "",
         file: "",
         isWritten: false
@@ -18,13 +20,17 @@ const Writing = () => {
 
     // 폼에서 입력되는 값을 상태값에 지정
     const handleChange = name => event => {
+    
         setValues({ ...values, [name]: event.target.value });
     };
+    const { rname, report, file, isWritten } = values;
 
-    const { rname, uname, report, file, isWritten } = values;
+    // console.log(values)
+    // console.log(user.username)
 
     const forTest = async (e) => {
         e.preventDefault();
+        values.uname = user.username
         console.log(values);
         axios.post(
             '/api/bulletin',
@@ -43,7 +49,7 @@ const Writing = () => {
         return <Redirect to="/bulletin" />
     }
 
-    return (
+    return loading === null ? (<div>로딩중</div>): (
 
         <div className="container">
 
@@ -63,7 +69,7 @@ const Writing = () => {
 
                 <div className="form-group">
                     <label htmlFor="uname">등록인</label>
-                    <input type="text" className="form-control" id="uname" placeholder="등록인 입력" name="uname" value={values.uname} onChange={handleChange('uname')} required />
+                    <input type="text" className="form-control" disabled id="uname" name="uname" value={user.username} onChange={handleChange('uname')} required />
                     <div className="valid-feedback"></div>
                     <div className="invalid-feedback">등록인을 입력해 주세요</div><br />
                 </div>
@@ -93,4 +99,14 @@ const Writing = () => {
     );
 };
 
-export default Writing;
+Writing.propTypes = {
+    auth: PropTypes.object.isRequired
+  };
+  
+  // 상태값 변수에 대입
+  const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+
+export default connect(mapStateToProps)(Writing);
