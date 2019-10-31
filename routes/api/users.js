@@ -172,8 +172,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { corporation, email, password } = req.body;
-    console.log(corporation, email, password);
+    const { corporation, corporationId, email, password } = req.body;
+    console.log(corporation, corporationId, email, password);
 
     const user = await User.findOne({ email });
 
@@ -191,9 +191,12 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "패스워드가 맞지 않습니다" }] });
       } else {
-        user.corporation = corporation;
+        user.corporation.name = corporation;
+        user.corporation.id = corporationId;
+        user.corporation.isApproved = false;
+        user.role = "corporation";
         const result = await user.save();
-        return res.json(result.corporation);
+        return res.json(result.corporation.name);
       }
     } catch (err) {
       console.error(err.message);
@@ -207,7 +210,7 @@ router.post(
   "/registerwallet",
   [
     // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
-    check("walletAddress", "walletAddress is required").not()
+    check("whitelistWallet", "web3Account is required").not()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -215,13 +218,13 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { walletAddress, email } = req.body;
-    console.log(walletAddress, email);
+    const { whitelistWallet, email } = req.body;
+    console.log(whitelistWallet, email);
 
     const user = await User.findOne({ email });
 
-    const isMatchWallet = user.walletAddress.find(address => {
-      return address === walletAddress;
+    const isMatchWallet = user.whitelistWallet.find(address => {
+      return address === whitelistWallet;
     });
 
     if (isMatchWallet) {
@@ -238,10 +241,10 @@ router.post(
           .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
       }
 
-      user.walletAddress.push(walletAddress);
+      user.whitelistWallet.push(whitelistWallet);
       console.log(user);
       const result = await user.save();
-      return res.status(201).json(result.walletAddress);
+      return res.status(201).json(result.whitelistWallet);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");

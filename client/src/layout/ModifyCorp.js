@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+// import { Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
@@ -10,8 +11,7 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
   const [values, setValues] = React.useState({
     email: user.email,
     password: "",
-    corporation: "",
-    corporationId: ""
+    corporation: ""
   });
 
   // 폼에서 입력되는 값을 상태값에 지정
@@ -19,7 +19,7 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { email, password, corporation, corporationId } = values;
+  const { email, password, corporation } = values;
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -32,7 +32,6 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
     };
 
     const payload = {
-      corporationId: corporationId,
       corporation: corporation,
       password: password,
       email: email
@@ -67,27 +66,26 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
 
         <div className="form-group">
           <label htmlFor="corporation">기업명</label>
-          <input
-            className="form-control"
-            type="text"
-            name="corporation"
-            id="corporation"
-            autoComplete="new-username"
-            value={values.corporation}
-            onChange={handleChange("corporation")}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="corporationId">법인 등록 번호</label>
-          <input
-            className="form-control"
-            type="text"
-            name="corporationId"
-            id="corporationId"
-            autoComplete="off"
-            value={values.corporationId}
-            onChange={handleChange("corporationId")}
-          />
+          {user.corporation !== undefined && "" ? (
+            <input
+              className="form-control"
+              type="text"
+              name="corporation"
+              id="corporation"
+              value={values.corporation}
+              disabled
+            />
+          ) : (
+            <input
+              className="form-control"
+              type="text"
+              name="corporation"
+              id="corporation"
+              autoComplete="new-username"
+              value={values.corporation}
+              onChange={handleChange("corporation")}
+            />
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="password">패스워드</label>
@@ -99,6 +97,17 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
             autoComplete="new-password"
             value={values.password}
             onChange={handleChange("password")}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="isApproved">기업회원 인증여부</label>
+          <input
+            className="form-control"
+            type="text"
+            name="isApproved"
+            id="isApproved"
+            value={values.isApprovedCorp}
+            disabled
           />
         </div>
         <button type="submit" className="btn btn-primary">

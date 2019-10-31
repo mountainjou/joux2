@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 import Web3 from "web3";
 import Axios from "axios";
 import TokenJSON from "../contracts/Token.json";
+import Spinner from "../components/Spinner";
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 const abi = TokenJSON.abi;
-
-const PublishToken = ({ auth: { user } }) => {
+const byteCode = TokenJSON.bytecode;
+console.log(byteCode);
+const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
   const [values, setValues] = React.useState({
     corporation: user.corporation,
-    web3Wallet: "",
     totalStocks: "",
     tokenName: "",
     tokenSymbol: ""
@@ -34,28 +35,53 @@ const PublishToken = ({ auth: { user } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { web3Wallet, totalStocks } = values;
+  const { totalStocks, tokenName, tokenSymbol } = values;
 
   // 스마트 컨트랙트 기본 정보 입력
   const ca = "0x2F775163C3E3EfA2a4184D23f8197a9882364fb1";
 
   // 스마트 컨트랙트 토큰 발행 실행
   const publishTokenFromContract = async () => {
+    console.log(currentAccount);
     const option = {
-      from: { web3Wallet },
+      from: currentAccount,
       gasPrice: "20000000000"
     };
+    const arg = [user.corporation, tokenName, tokenSymbol, 18, totalStocks];
+
     // default gas price in wei, 20 gwei in this case
     const tokenContract = new web3.eth.Contract(abi, option);
-    console.log(tokenContract);
+    tokenContract.options.data = byteCode;
 
-    const networkId = await web3.eth.net.getId();
+    tokenContract
+      .deploy({ arguments: arg })
+      .send(
+        {
+          from: currentAccount
+        },
+        (err, transactionHash) => {
+          console.log(transactionHash);
+        }
+      )
+      .on("error", err => {})
+      .on("transactionHash", transactionHash => {})
+      .on("receipt", receipt => {
+        console.log(receipt.contractAddress); // contains the new contract address
+      })
+      .on("confirmation", (confirmationNumber, receipt) => {})
+      .then(newContractInstance => {
+        console.log(newContractInstance);
+        console.log(newContractInstance.options.address); // instance with the new contract address
+      });
+
     console.log("abi: ", abi);
-    console.log("networkId: ", networkId);
+
     console.log("토큰발행");
   };
 
-  return (
+  return loading === null ? (
+    <Spinner />
+  ) : (
     <div className="container">
       <div>토큰 발행</div>
       {/* <div>

@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import Axios from "axios";
 import Axios from "axios";
+import Spinner from "../components/Spinner";
 
-const MyAccount = ({ auth: { user, currentAccount } }) => {
+const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
   const [values, setValues] = React.useState({
-    corporation: user.corporation,
     redirectRegisterCorporation: false
   });
+
+  console.log(user);
 
   const { redirectRegisterCorporation } = values;
 
@@ -23,7 +25,7 @@ const MyAccount = ({ auth: { user, currentAccount } }) => {
     console.log(currentAccount);
     const url = "/api/users/registerwallet";
     const data = {
-      walletAddress: currentAccount,
+      whitelistWallet: currentAccount,
       email: user.email
     };
     const config = {
@@ -44,15 +46,18 @@ const MyAccount = ({ auth: { user, currentAccount } }) => {
     return <Redirect to="/registercorp" />;
   }
 
-  return (
+  return loading === null ? (
+    <Spinner />
+  ) : (
     <div className="container">
       <div>내 정보</div>
       <div>이메일 : {user.email}</div>
       <div>
-        {user.corporation ? (
+        {user.role === "corporation" ? (
           <div>
-            <div>회사명 : {user.corporation}</div>
-            {user.isApprovedCorporation ? (
+            <div>회사명 : {user.corporation.name}</div>
+            <div>법인 등록 번호 : {user.corporation.id}</div>
+            {user.corporation.isApproved ? (
               <div>기업인증 : 인증된 기업</div>
             ) : (
               <div>기업인증 : 인증받지 않은 기업</div>
@@ -70,27 +75,11 @@ const MyAccount = ({ auth: { user, currentAccount } }) => {
           </div>
         )}
       </div>
-      {/* <div>
-        현재 접속된 지갑 주소 :
-        {values.web3Wallet ? (
-          <div>{web3Wallet}</div>
-        ) : (
-          <button
-            type="button"
-            onClick={e => {
-              accessWallet(e);
-            }}
-          >
-            web3 지갑 불러오기
-          </button>
-        )}
-      </div> */}
-
       <div>
         등록된 지갑 주소 :
-        {user.walletAddress ? (
+        {user.whitelistWallet ? (
           <div>
-            {user.walletAddress.map(address => (
+            {user.whitelistWallet.map(address => (
               <li key={address}>{address}</li>
             ))}
             <button

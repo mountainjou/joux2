@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
+import Spinner from "../components/Spinner";
 
 // dropzone 스타일 설정
 const baseStyle = {
@@ -36,7 +37,7 @@ const rejectStyle = {
 };
 
 // UploadHolders 함수형 컴포넌트 작성
-const UploadHolders = ({ setAlert, auth: { user } }) => {
+const UploadHolders = ({ setAlert, auth: { user, loading } }) => {
   // 오피스 엑셀 파일 수락을 위한 파일 옵션
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
@@ -94,7 +95,9 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
       });
   };
 
-  return (
+  return loading === null ? (
+    <Spinner />
+  ) : (
     // <Form onSubmit={e => onSubmit(e)}>
     <div className="container">
       <div
