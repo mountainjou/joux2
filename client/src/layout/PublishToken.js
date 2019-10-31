@@ -9,10 +9,9 @@ import Spinner from "../components/Spinner";
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 const abi = TokenJSON.abi;
 const byteCode = TokenJSON.bytecode;
-console.log(byteCode);
+
 const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
   const [values, setValues] = React.useState({
-    corporation: user.corporation,
     totalStocks: "",
     tokenName: "",
     tokenSymbol: ""
@@ -37,9 +36,6 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
 
   const { totalStocks, tokenName, tokenSymbol } = values;
 
-  // 스마트 컨트랙트 기본 정보 입력
-  const ca = "0x2F775163C3E3EfA2a4184D23f8197a9882364fb1";
-
   // 스마트 컨트랙트 토큰 발행 실행
   const publishTokenFromContract = async () => {
     console.log(currentAccount);
@@ -47,7 +43,15 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
       from: currentAccount,
       gasPrice: "20000000000"
     };
-    const arg = [user.corporation, tokenName, tokenSymbol, 18, totalStocks];
+    const arg = [
+      user.corporation.name,
+      tokenName,
+      tokenSymbol,
+      18,
+      totalStocks
+    ];
+
+    console.log(arg);
 
     // default gas price in wei, 20 gwei in this case
     const tokenContract = new web3.eth.Contract(abi, option);
@@ -84,29 +88,11 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
   ) : (
     <div className="container">
       <div>토큰 발행</div>
-      {/* <div>
-        현재 접속된 지갑 주소 :
-        {values.web3Wallet ? (
-          <div>{web3Wallet}</div>
-        ) : (
-          <div>
-            지갑이 연동되지 않음
-            <button
-              type="button"
-              onClick={e => {
-                accessWallet(e);
-              }}
-            >
-              web3 지갑 불러오기
-            </button>
-          </div>
-        )}
-      </div> */}
       <div>
         등록된 지갑 주소 :
-        {user.walletAddress ? (
+        {user.whitelistWallet ? (
           <div>
-            {user.walletAddress.map(address => (
+            {user.whitelistWallet.map(address => (
               <li key={address}>{address}</li>
             ))}
           </div>
@@ -114,14 +100,6 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
           <div>등록된 지갑 없음</div>
         )}
       </div>
-      {/* <div>
-        주주명부에 등록된 총 주식 발행량 :
-        {totalStocks ? (
-          <div>{totalStocks}개</div>
-        ) : (
-          <div>발행되지 않았습니다</div>
-        )}
-      </div> */}
 
       <form onSubmit={e => publishTokenFromContract(e)}>
         <div className="form-group">
@@ -144,7 +122,7 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
               className="form-control"
               id="corporation"
               readOnly
-              value={`${user.corporation}`}
+              value={user.corporation ? user.corporation.name : ""}
             />
           </div>
         </div>
