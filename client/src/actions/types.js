@@ -39,3 +39,11 @@ export const REMOVE_GONGSI = "REMOVE_GONGSI";
 export const UPDATE_GONGSI = "UPDATE_GONGSI";
 export const GET_GONGSI = "GET_GONGSI";
 export const GET_GONGSI_DETAIL = "GET_GONGSI_DETAIL";
+
+// For vote func
+
+export const MAKE_VOTE = 'MAKE_VOTE'
+export const UPDATE_VOTE = 'UPDATE_VOTE'
+export const REMOVE_VOTE = 'REMOVE_VOTE'
+export const GET_VOTE = 'GET_VOTE'
+export const VOTING = 'VOTING'

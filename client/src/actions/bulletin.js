@@ -14,7 +14,7 @@ import {
 export const getGongsi = () => async dispatch => {
     try {
         const res = await axios.get("/api/bulletin");
-console.log("액션 실행 잘 된다")
+        console.log("액션 실행 잘 된다")
         dispatch({
             type: GET_GONGSI,
             payload: res.data
