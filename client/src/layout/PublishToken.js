@@ -3,14 +3,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Web3 from "web3";
 import Axios from "axios";
-import TokenJSON from "../contracts/Token.json";
 import Spinner from "../components/Spinner";
 
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-const abi = TokenJSON.abi;
-const byteCode = TokenJSON.bytecode;
+import { abi, bytecode } from "../contracts/Token.json"; // 컴파일된 Token 컨트랙트에서 abi값과 bytecode값을 가져온다.
 
 const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
+  const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+
   const [values, setValues] = React.useState({
     totalStocks: "",
     tokenName: "",
@@ -43,6 +42,7 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
       from: currentAccount,
       gasPrice: "20000000000"
     };
+
     const arg = [
       user.corporation.name,
       tokenName,
@@ -51,11 +51,11 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
       totalStocks
     ];
 
-    console.log(arg);
+    console.log("클라이언트", arg);
 
     // default gas price in wei, 20 gwei in this case
     const tokenContract = new web3.eth.Contract(abi, option);
-    tokenContract.options.data = byteCode;
+    tokenContract.options.data = bytecode;
 
     tokenContract
       .deploy({ arguments: arg })
@@ -67,6 +67,7 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
           console.log(transactionHash);
         }
       )
+
       .on("error", err => {})
       .on("transactionHash", transactionHash => {})
       .on("receipt", receipt => {
@@ -78,7 +79,7 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
         console.log(newContractInstance.options.address); // instance with the new contract address
       });
 
-    console.log("abi: ", abi);
+    // console.log("abi: ", abi);
 
     console.log("토큰발행");
   };
