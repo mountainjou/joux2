@@ -23,6 +23,7 @@ const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 // const web3 = new Web3(Web3.givenProvider);
 
 let account;
+
 if (!Web3.givenProvider) {
   console.log("없음");
 } else {
