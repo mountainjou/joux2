@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol';
+import './ERC20.sol';
 
 contract Token is ERC20 {
   // The keyword "public" makes variables
@@ -16,7 +16,7 @@ contract Token is ERC20 {
   struct Holder {
     // string holdersName; // 주주이름
     bytes32 id; // 주민번호 해쉬화해서 저장
-    uint stockAmount;  // 주식 보유량
+    uint stockAmount;  // 주식 보유량 
   }
 
   Holder[] public holders; // holders에 Holder를 배열로 기록한다
@@ -52,5 +52,24 @@ contract Token is ERC20 {
   function mint(uint _additionalSupply) public {
     require(minter == msg.sender);
     _mint(minter, _additionalSupply);
+  }
+
+  // 명부에 사용자가 있으면 주식수만큼 수령하기
+  function transferById(bytes32 _holdersId) public returns (bool) {
+    // 반복문을 통해 holders에서 holdersId와 일치하는 holder를 찾고 인증된 사용자로 등록한다.
+    bool isAuth = false;
+    for (uint i = 0; i < holders.length; i++){
+      bytes32 id = holders[i].id;
+      if(id == _holdersId){
+        certHolders[msg.sender] = holders[i];
+        isAuth = true;
+      }
+    }
+
+    // 만약 인증이 되었다면 수령하기 위해 송금절차를 따른다.
+    require(isAuth == true);
+    _transfer(minter, msg.sender, certHolders[msg.sender].stockAmount);
+    return true;
+
   }
 }

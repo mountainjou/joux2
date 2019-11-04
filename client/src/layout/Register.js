@@ -85,7 +85,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             name="username"
             id="username"
             value={values.username}
-            onChange={handleChange("username")} 
+            onChange={handleChange("username")}
           />
         </div>
         {/* <div className="form-group">
@@ -99,6 +99,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={handleChange("idnum")}
           />
         </div> */}
+        <br />
         <button type="submit" className="btn btn-primary">
           Register
         </button>

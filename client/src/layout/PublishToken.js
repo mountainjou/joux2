@@ -14,15 +14,19 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
   const [values, setValues] = React.useState({
     totalStocks: "",
     tokenName: "",
-    tokenSymbol: ""
+    tokenSymbol: "",
+    holders: ""
   });
 
-  // 주주명부에 등록된 총 주식 발행량 가져오기
+  // 주주명부 가져오기
   useEffect(() => {
     Axios.get("/api/upload")
       .then(result => {
         console.log(result);
-        setValues({ totalStocks: result.data });
+        setValues({
+          totalStocks: result.data.totalStocks,
+          holders: result.data.holders
+        });
       })
       .catch(err => {
         console.log(err);
@@ -34,37 +38,38 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { totalStocks, tokenName, tokenSymbol } = values;
+  const { totalStocks, tokenName, tokenSymbol, holders } = values;
 
   // 스마트 컨트랙트 토큰 발행 실행
   const publishTokenFromContract = async () => {
     console.log(currentAccount);
+    let holdersId = [];
+    let holdersAmount = [];
+
+    for (let i = 0; i < holders.length; i++) {
+      holdersId.push(
+        ethers.utils.formatBytes32String(holders[i].주민번호.substring(10, 41))
+      );
+      holdersAmount.push(holders[i].보유주식);
+    }
+
+    console.log(holdersId);
+    console.log(holdersAmount);
+
     const option = {
       from: currentAccount,
       gasPrice: "20000000000"
     };
 
     const arg = [
-      ethers.utils.formatBytes32String("인텔"),
-      ethers.utils.formatBytes32String("인텔"),
-      ethers.utils.formatBytes32String("인텔"),
+      user.corporation.name,
+      tokenName,
+      tokenSymbol,
       18,
       totalStocks,
-      [
-        ethers.utils.formatBytes32String("삼성"),
-        ethers.utils.formatBytes32String("엘지"),
-        ethers.utils.formatBytes32String("현대"),
-        ethers.utils.formatBytes32String("금호")
-      ],
-      [300, 200, 500, 30]
+      holdersId,
+      holdersAmount
     ];
-    // const arg = [
-    //   user.corporation.name,
-    //   tokenName,
-    //   tokenSymbol,
-    //   18,
-    //   totalStocks
-    // ];
 
     console.log("클라이언트", arg);
 
@@ -166,15 +171,13 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
-          발행하기
-        </button>
+        <br />
         <button
           type="button"
           className="btn btn-primary"
           onClick={publishTokenFromContract}
         >
-          테스트 콘솔
+          발행하기
         </button>
       </form>
     </div>

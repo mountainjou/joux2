@@ -233,22 +233,27 @@ router.post(
 
     if (isMatchWallet) {
       console.log("이미 등록된 지갑 주소입니다");
-      return res.json({ msg: "이미 등록된 지갑 주소입니다" });
+      return res.json({
+        msg: "이미 등록된 지갑 주소입니다",
+        alertType: "danger"
+      });
     }
 
     console.log(isMatchWallet);
 
     try {
       if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+        return res.status(400).json({
+          errors: [{ msg: "등록되지 않은 사용자입니다", alertType: "danger" }]
+        });
       }
 
       user.whitelistWallet.push(whitelistWallet);
       console.log(user);
       const result = await user.save();
-      return res.status(201).json(result.whitelistWallet);
+      return res
+        .status(201)
+        .json({ msg: "지갑이 등록되었습니다", alertType: "success" });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");

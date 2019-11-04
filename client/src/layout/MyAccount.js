@@ -2,11 +2,12 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// import Axios from "axios";
 import Axios from "axios";
 import Spinner from "../components/Spinner";
+import Alert from "../Alert";
+import { setAlert } from "../actions/alert";
 
-const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
+const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
   const [values, setValues] = React.useState({
     redirectRegisterCorporation: false
   });
@@ -36,6 +37,7 @@ const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
     await Axios.post(url, data, config)
       .then(result => {
         console.log(result);
+        setAlert(result.data.msg, result.data.alertType);
       })
       .catch(err => {
         console.log(err);
@@ -106,12 +108,15 @@ const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
           눌러줘
         </button>
       </div> */}
+      <br />
+      <Alert />
     </div>
   );
 };
 
 MyAccount.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  setAlert: PropTypes.func.isRequired
 };
 
 // 상태값 변수에 대입
@@ -119,4 +124,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(MyAccount);
+export default connect(
+  mapStateToProps,
+  { setAlert }
+)(MyAccount);

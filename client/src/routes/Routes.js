@@ -18,6 +18,8 @@ import Board from "../layout/Board";
 import BulletinWaggu from "../layout/BulletinWaggu";
 import MakeVote from "../layout/MakeVote";
 
+import ReceiveToken from "../layout/ReceiveToken";
+
 const Routes = () => {
   return (
     <section className="container">
@@ -33,10 +35,15 @@ const Routes = () => {
         <PrivateRoute exact path="/myaccount" component={MyAccount} />
         <PrivateRoute exact path="/writing" component={Writing} />
         <PrivateRoute exact path="/Board" component={Board} />
-        <PrivateRoute exact path="/BulletinWaggu/:id" component={BulletinWaggu} />
-        <PrivateRoute exact path="/MakeVote" component={MakeVote} />        
+        <PrivateRoute
+          exact
+          path="/BulletinWaggu/:id"
+          component={BulletinWaggu}
+        />
+        <PrivateRoute exact path="/MakeVote" component={MakeVote} />
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
         <PrivateRoute exact path="/publishtoken" component={PublishToken} />
+        <PrivateRoute exact path="/receivetoken" component={ReceiveToken} />
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 

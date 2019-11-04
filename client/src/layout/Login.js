@@ -60,6 +60,7 @@ const Login = ({ login, isAuthenticated }) => {
             onChange={handleChange("password")}
           />
         </div>
+        <br />
         <button type="submit" className="btn btn-primary">
           Login
         </button>

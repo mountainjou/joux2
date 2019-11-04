@@ -110,7 +110,7 @@ const UploadHolders = ({ setAlert, auth: { user, loading } }) => {
         <p>
           주주 명부 파일을 박스 안으로 끌어서 이동하거나 클릭하여 첨부하세요
         </p>
-        {/* <em>(엑셀 파일을 업로드 하세요)</em> */}
+        <em>(엑셀 파일을 업로드 하세요)</em>
       </div>
       <div>
         <h4>첨부된 파일</h4>

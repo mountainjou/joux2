@@ -21,14 +21,12 @@ require("dotenv").config();
 router.get("/", auth, async (req, res) => {
   console.log(req.user.id);
 
-  const holderlist = await Holders.findOne({ corporation: req.user.id }).select(
-    "totalStocks"
-  );
+  const holderlist = await Holders.findOne({ corporation: req.user.id });
 
   console.log(holderlist);
 
   if (holderlist) {
-    res.json(holderlist.totalStocks);
+    res.json(holderlist);
   } else {
     res.json("명부를 등록하지 않았습니다");
   }
@@ -52,7 +50,7 @@ router.post("/holderlist", async (req, res) => {
   // field 항목에 첨부된 내용
   form.on("field", (name, value) => {
     corporation = JSON.parse(value);
-    console.log(corporation)
+    console.log(corporation);
   });
 
   // file 항목에 첨부된 내용
