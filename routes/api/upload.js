@@ -52,6 +52,7 @@ router.post("/holderlist", async (req, res) => {
   // field 항목에 첨부된 내용
   form.on("field", (name, value) => {
     corporation = JSON.parse(value);
+    console.log(corporation)
   });
 
   // file 항목에 첨부된 내용
@@ -94,7 +95,7 @@ router.post("/holderlist", async (req, res) => {
     // Holders 스키마에 저장될 값을 새로 만든다.
     const newHolders = new Holders({
       corporation: corporation._id,
-      corporateName: corporation.corporation,
+      corporateName: corporation.corporation.name,
       holders: resData,
       totalStocks: totalStocks
     });

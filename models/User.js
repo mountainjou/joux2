@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     name: {
       type: String
     },
-    id: {
+    corpId: {
       type: String
     },
     isApproved: {
