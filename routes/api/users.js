@@ -18,6 +18,7 @@ router.post(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 })
+    // ,check("username", "안된다 이놈아").isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -25,7 +26,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -38,7 +39,8 @@ router.post(
 
       user = new User({
         email,
-        password
+        password,
+        username
       });
 
       // salt를 생성하여 변수 salt에 담는다.
@@ -86,6 +88,7 @@ router.put(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 })
+    // ,check("username", "안된다 이놈아").isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -93,9 +96,9 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, username } = req.body;
     console.log("왜?");
-    console.log(name, email, password);
+    console.log(name, email, password, username);
     try {
       let user = await User.findOne({ email });
 
@@ -115,7 +118,8 @@ router.put(
         name,
         email,
         avatar,
-        password
+        password,
+        username
       });
 
       // salt를 생성하여 변수 salt에 담는다.
@@ -127,7 +131,7 @@ router.put(
       // Update
       const result = await User.updateOne(
         { email: email },
-        { $set: { name: name, password: password2 } }
+        { $set: { name: name, password: password2, username } }
       );
       console.log(result);
       // 토큰에 저장할 user.id값을 payload 변수에 담는다.

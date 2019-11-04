@@ -10,7 +10,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    password2: ""
+    password2: "",
+    username: ""
+    // idnum: ""
   });
 
   // 폼에서 입력되는 값을 상태값에 지정
@@ -18,7 +20,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { email, password, password2 } = values;
+  const { email, password, password2, username } = values;
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       setAlert("Password do not match", "negative");
     } else {
       // password와 password2가 값이 같다면 register 액션을 실행한다.
-      register({ email, password });
+      register({ email, password, username });
     }
   };
 
@@ -75,6 +77,28 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={handleChange("password2")}
           />
         </div>
+        <div className="form-group">
+          <label for="username">사용하실 닉네임을 입력해주세요</label>
+          <input
+            className="form-control"
+            type="name"
+            name="username"
+            id="username"
+            value={values.username}
+            onChange={handleChange("username")} 
+          />
+        </div>
+        {/* <div className="form-group">
+          <label for="idnum">주민등록번호를 입력해주세요( - 제외)</label>
+          <input
+            className="form-control"
+            type="text"
+            name="idnum"
+            id="idnum"
+            value={values.idnum}
+            onChange={handleChange("idnum")}
+          />
+        </div> */}
         <button type="submit" className="btn btn-primary">
           Register
         </button>

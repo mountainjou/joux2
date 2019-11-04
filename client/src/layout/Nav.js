@@ -31,8 +31,13 @@ const Nav = ({
         </a>
       </li>
       <li className="nav-item">
+        <a className="nav-link text-light" href="/Board/">
+          게시판
+        </a>
+      </li>
+      <li className="nav-item">
         <a className="nav-link text-light" href="/bulletin/">
-          보드
+          전자공시
         </a>
       </li>
       <li className="nav-item">

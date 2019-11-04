@@ -1,0 +1,11 @@
+td {
+   vertical-align: middle !important;   
+}
+
+.form-group {
+    margin-bottom: 0rem !important;
+}
+
+.table td, tr, th {
+    vertical-align: middle !important;
+}

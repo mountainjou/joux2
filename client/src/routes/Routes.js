@@ -5,6 +5,7 @@ import Login from "../layout/Login";
 import UploadHolders from "../layout/UploadHolders";
 import Vote from "../layout/Vote";
 import MyAccount from "../layout/MyAccount";
+import Writing from "../layout/Writing";
 import RegisterCorp from "../layout/RegisterCorp";
 import PublishToken from "../layout/PublishToken";
 // import ForgotPassword from "../layout/auth/ForgotPassword";
@@ -13,6 +14,9 @@ import PublishToken from "../layout/PublishToken";
 // import NotFound from "../layout/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import Bulletin from "../layout/Bulletin";
+import Board from "../layout/Board";
+import BulletinWaggu from "../layout/BulletinWaggu";
+import MakeVote from "../layout/MakeVote";
 
 const Routes = () => {
   return (
@@ -27,6 +31,10 @@ const Routes = () => {
         <PrivateRoute exact path="/uploadholders" component={UploadHolders} />
         <PrivateRoute exact path="/vote" component={Vote} />
         <PrivateRoute exact path="/myaccount" component={MyAccount} />
+        <PrivateRoute exact path="/writing" component={Writing} />
+        <PrivateRoute exact path="/Board" component={Board} />
+        <PrivateRoute exact path="/BulletinWaggu/:id" component={BulletinWaggu} />
+        <PrivateRoute exact path="/MakeVote" component={MakeVote} />        
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
         <PrivateRoute exact path="/publishtoken" component={PublishToken} />
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
