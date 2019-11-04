@@ -30,9 +30,9 @@ const MakeVote = ({ setAlert, register, isAuthenticated }) => {
   };
 
 
-  var num = optionNum;
+  // var num = optionNum;
 
-  console.log(num);
+  // console.log(num);
 
   // const confirmNum = () => {
   
