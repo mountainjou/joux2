@@ -100,7 +100,9 @@ const ReceiveToken = ({
         {searchedCorp ? (
           <div>
             {searchedCorp.map(corp => (
-              <li key={corp}>{corp.corporation.name}</li>
+              <button type="button" key={corp} className="btn btn-primary">
+                {corp.corporation.name} ( {corp.corporation.tokenSymbol} )
+              </button>
             ))}
           </div>
         ) : (

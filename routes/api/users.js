@@ -275,10 +275,8 @@ router.post(
     console.log(user);
 
     try {
-      if (!user) {
-        return res
-          .status(400)
-          .json({ msg: "찾는 데이터가 없습니다", alertType: "danger" });
+      if (user[0] == null) {
+        return res.json({ msg: "찾는 데이터가 없습니다", alertType: "danger" });
       } else {
         return res.json({
           corpList: user,
