@@ -6,9 +6,15 @@ import Axios from "axios";
 import Spinner from "../components/Spinner";
 import { ethers } from "ethers";
 
+import Alert from "../Alert";
+import { setAlert } from "../actions/alert";
+
 import { abi, bytecode } from "../contracts/Token.json"; // 컴파일된 Token 컨트랙트에서 abi값과 bytecode값을 가져온다.
 
-const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
+const PublishToken = ({
+  setAlert,
+  auth: { user, loading, currentAccount }
+}) => {
   const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 
   const [values, setValues] = React.useState({
@@ -97,11 +103,27 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
       .then(newContractInstance => {
         console.log(newContractInstance);
         console.log(newContractInstance.options.address); // instance with the new contract address
+        const url = "/api/users/registercontractaddress";
+        const data = {
+          email: user.email,
+          ca: newContractInstance.options.address,
+          tokenSymbol: tokenSymbol
+        };
+        const config = {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        };
+
+        Axios.post(url, data, config)
+          .then(result => {
+            console.log(result);
+            setAlert(result.data.msg, result.data.alertType);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       });
-
-    // console.log("abi: ", abi);
-
-    console.log("토큰발행");
   };
 
   return loading === null ? (
@@ -109,7 +131,8 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
   ) : (
     <div className="container">
       <div>토큰 발행</div>
-      <div>
+      <br />
+      {/* <div>
         등록된 지갑 주소 :
         {user.whitelistWallet ? (
           <div>
@@ -120,7 +143,7 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
         ) : (
           <div>등록된 지갑 없음</div>
         )}
-      </div>
+      </div> */}
 
       <form onSubmit={e => publishTokenFromContract(e)}>
         <div className="form-group">
@@ -180,16 +203,22 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
           발행하기
         </button>
       </form>
+      <br />
+      <Alert />
     </div>
   );
 };
 
 PublishToken.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  setAlert: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(PublishToken);
+export default connect(
+  mapStateToProps,
+  { setAlert }
+)(PublishToken);

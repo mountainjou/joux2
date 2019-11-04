@@ -53,6 +53,7 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
   ) : (
     <div className="container">
       <div>내 정보</div>
+      <br />
       <div>유저네임 : {user.username}</div>
       <div>이메일 : {user.email}</div>
       <div>
@@ -85,6 +86,8 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
             {user.whitelistWallet.map(address => (
               <li key={address}>{address}</li>
             ))}
+
+            <br />
             <button
               type="button"
               className="btn btn-primary"
