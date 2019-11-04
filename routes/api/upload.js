@@ -15,9 +15,28 @@ const Holders = require("../../models/Holders");
 
 require("dotenv").config();
 
-// @route    POST api/auth
-// @desc     Authenticate user & get token // 유저 인증 및 토큰 발행
-// @access   Public
+// @route    GET api/upload/
+// @desc     주주명부 조회
+// @access   Private
+router.get("/", auth, async (req, res) => {
+  console.log(req.user.id);
+
+  const holderlist = await Holders.findOne({ corporation: req.user.id }).select(
+    "totalStocks"
+  );
+
+  console.log(holderlist);
+
+  if (holderlist) {
+    res.json(holderlist.totalStocks);
+  } else {
+    res.json("명부를 등록하지 않았습니다");
+  }
+});
+
+// @route    POST api/upload/holderlist
+// @desc     주주명부 등록
+// @access   Private
 router.post("/holderlist", async (req, res) => {
   let resData;
   let corporation;
@@ -50,6 +69,7 @@ router.post("/holderlist", async (req, res) => {
 
     for (i = 0; i < resData.length; i++) {
       let idNum = resData[i].주민번호;
+      console.log(idNum);
 
       // salt를 생성하여 변수 salt에 담는다.
       let salt = bcrypt.genSaltSync(10);
@@ -89,12 +109,12 @@ router.post("/holderlist", async (req, res) => {
         const holders = newHolders.save();
 
         return res.json({
-          msg: "토큰이 발행되었습니다.",
+          msg: "주주명부가 등록되었습니다.",
           alertType: "success"
         });
       } else {
         return res.json({
-          msg: "토큰 발행이 완료된 주주명부입니다.",
+          msg: "주주명부가 이미 등록되었습니다.",
           alertType: "danger"
         });
         // res.send("이미 발행된 회사");

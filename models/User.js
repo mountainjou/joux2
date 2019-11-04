@@ -15,7 +15,24 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   corporation: {
-    type: String
+    name: {
+      type: String
+    },
+    id: {
+      type: String
+    },
+    isApproved: {
+      type: Boolean
+    },
+    tokenCA: {
+      type: String
+    },
+    isPublishedToken: {
+      type: Boolean
+    }
+  },
+  whitelistWallet: {
+    type: []
   },
   resetPasswordToken: {
     // 패스워드 재설정을 위한 임시토큰
@@ -26,7 +43,8 @@ const UserSchema = new mongoose.Schema({
     type: Date
   },
   role: {
-    type: String
+    type: String,
+    default: "nomal"
   },
   date: {
     type: Date,

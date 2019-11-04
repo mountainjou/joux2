@@ -42,34 +42,37 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     <div className="container">
       <form onSubmit={e => onSubmit(e)}>
         <div className="form-group">
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             className="form-control"
             type="email"
             name="email"
+            autoComplete="username"
             id="email"
             value={values.email}
             onChange={handleChange("email")}
           />
         </div>
         <div className="form-group">
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="form-control"
             type="password"
             name="password"
             id="password"
+            autoComplete="new-password"
             value={values.password}
             onChange={handleChange("password")}
           />
         </div>
         <div className="form-group">
-          <label for="password2">Confirm Password</label>
+          <label htmlFor="password2">Confirm Password</label>
           <input
             className="form-control"
             type="password"
             name="password2"
             id="password2"
+            autoComplete="new-password"
             value={values.password2}
             onChange={handleChange("password2")}
           />

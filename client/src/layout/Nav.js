@@ -6,13 +6,23 @@ import { logout } from "../actions/auth";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Nav = ({
+  auth: { isAuthenticated, loading, currentAccount },
+  logout
+}) => {
+  // const [web3Wallet, setWeb3wallet] = React.useState(null);
+
   // 인증된 사용자 접속시 나타나는 메뉴
   const authLinks = (
     <ul className="nav">
       <li className="nav-item">
         <a className="nav-link text-light" href="/uploadholders/">
           명부 업로드
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link text-light" href="/publishtoken/">
+          토큰 발행
         </a>
       </li>
       <li className="nav-item">
@@ -33,6 +43,11 @@ const Nav = ({ auth: { isAuthenticated, loading }, logout }) => {
       <li className="nav-item">
         <a className="nav-link text-light" href="/myaccount/">
           내 정보
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link text-light" href="/myaccount">
+          {currentAccount}
         </a>
       </li>
       <li className="nav-item">

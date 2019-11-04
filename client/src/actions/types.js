@@ -47,3 +47,4 @@ export const UPDATE_VOTE = 'UPDATE_VOTE'
 export const REMOVE_VOTE = 'REMOVE_VOTE'
 export const GET_VOTE = 'GET_VOTE'
 export const VOTING = 'VOTING'
+export const GET_WEB3_ACCOUNT_SUCCESS = "GET_WEB3_ACCOUNT_SUCCESS";

@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 import 'openzeppelin-solidity/contracts/token/ERC20/ERC20.sol';
 
-contract Token is ERC20 {
+contract Token2 is ERC20 {
   // The keyword "public" makes variables
   // accessible from other contracts
   // 1. 상태 변수 선언
@@ -28,9 +28,13 @@ contract Token is ERC20 {
     event Sent(address indexed from, address indexed to, uint amount);
 
 
- constructor(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply) public {
-    require(initialSupply < 1e60);
+ constructor() public {
     minter = msg.sender;
+  }
+
+  function publish(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply) public {
+    require(minter == msg.sender);
+require(initialSupply < 1e60);
     corporation = _corporation;
     name = _name;
     symbol = _symbol;

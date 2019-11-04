@@ -7,8 +7,6 @@ const { check, validationResult } = require("express-validator"); // https://exp
 
 const User = require("../../models/User");
 
-// ???????
-
 // @route    POST api/users
 // @desc     Register user // 회원가입
 // @access   Public  // 접근권한 모두 가능
@@ -153,6 +151,104 @@ router.put(
           res.json({ token });
         }
       );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+router.post(
+  "/registercorporation",
+  [
+    // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
+    check("corporation", "corporation name is required").not(),
+    check("email", "Please include a valid email").isEmail(),
+    check(
+      "password",
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 })
+  ],
+  async (req, res) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { corporation, corporationId, email, password } = req.body;
+    console.log(corporation, corporationId, email, password);
+
+    const user = await User.findOne({ email });
+
+    try {
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "패스워드가 맞지 않습니다" }] });
+      } else {
+        user.corporation.name = corporation;
+        user.corporation.id = corporationId;
+        user.corporation.isApproved = false;
+        user.role = "corporation";
+        const result = await user.save();
+        return res.json(result.corporation.name);
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+// 유저 지갑 주소 등록
+router.post(
+  "/registerwallet",
+  [
+    // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
+    check("whitelistWallet", "web3Account is required").not()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { whitelistWallet, email } = req.body;
+    console.log(whitelistWallet, email);
+
+    const user = await User.findOne({ email });
+
+    const isMatchWallet = user.whitelistWallet.find(address => {
+      return address === whitelistWallet;
+    });
+
+    if (isMatchWallet) {
+      console.log("이미 등록된 지갑 주소입니다");
+      return res.json({ msg: "이미 등록된 지갑 주소입니다" });
+    }
+
+    console.log(isMatchWallet);
+
+    try {
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+      }
+
+      user.whitelistWallet.push(whitelistWallet);
+      console.log(user);
+      const result = await user.save();
+      return res.status(201).json(result.whitelistWallet);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");

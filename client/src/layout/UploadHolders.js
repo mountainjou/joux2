@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
+import Spinner from "../components/Spinner";
 
 // dropzone 스타일 설정
 const baseStyle = {
@@ -36,12 +37,11 @@ const rejectStyle = {
 };
 
 // UploadHolders 함수형 컴포넌트 작성
-const UploadHolders = ({ setAlert, auth: { user } }) => {
+const UploadHolders = ({ setAlert, auth: { user, loading } }) => {
   // 오피스 엑셀 파일 수락을 위한 파일 옵션
   // text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   const {
     acceptedFiles,
-    rejectedFiles,
     getRootProps,
     getInputProps,
     isDragActive,
@@ -63,12 +63,6 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
   );
 
   const acceptedFilesItems = acceptedFiles.map(file => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  const rejectedFilesItems = rejectedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
@@ -101,29 +95,36 @@ const UploadHolders = ({ setAlert, auth: { user } }) => {
       });
   };
 
-  return (
+  return loading === null ? (
+    <Spinner />
+  ) : (
     // <Form onSubmit={e => onSubmit(e)}>
-    <section className="container">
-      <div {...getRootProps({ className: "dropzone", style })}>
+    <div className="container">
+      <div
+        {...getRootProps({
+          className: "dropzone",
+          style
+        })}
+      >
         <input {...getInputProps()} />
         <p>
           주주 명부 파일을 박스 안으로 끌어서 이동하거나 클릭하여 첨부하세요
         </p>
         {/* <em>(엑셀 파일을 업로드 하세요)</em> */}
       </div>
-      <aside>
+      <div>
         <h4>첨부된 파일</h4>
         <ul>{acceptedFilesItems}</ul>
-        {/* <h4>Rejected files</h4>
+        {/* <h4>거부된 파일</h4>
         <ul>{rejectedFilesItems}</ul> */}
         <button className="btn btn-primary" onClick={uploadList}>
           업로드
         </button>
-      </aside>
+      </div>
       <br />
       {/* AlertMsg 컴포넌트 발생 */}
       <Alert />
-    </section>
+    </div>
   );
 };
 
