@@ -56,7 +56,7 @@ const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
         {user.role === "corporation" ? (
           <div>
             <div>회사명 : {user.corporation.name}</div>
-            <div>법인 등록 번호 : {user.corporation.id}</div>
+            <div>법인 등록 번호 : {user.corporation.corpId}</div>
             {user.corporation.isApproved ? (
               <div>기업인증 : 인증된 기업</div>
             ) : (

@@ -192,7 +192,7 @@ router.post(
           .json({ errors: [{ msg: "패스워드가 맞지 않습니다" }] });
       } else {
         user.corporation.name = corporation;
-        user.corporation.id = corporationId;
+        user.corporation.corpId = corporationId;
         user.corporation.isApproved = false;
         user.role = "corporation";
         const result = await user.save();
