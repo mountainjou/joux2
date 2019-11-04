@@ -51,6 +51,7 @@ const MyAccount = ({ auth: { user, currentAccount, loading } }) => {
   ) : (
     <div className="container">
       <div>내 정보</div>
+      <div>유저네임 : {user.username}</div>
       <div>이메일 : {user.email}</div>
       <div>
         {user.role === "corporation" ? (
