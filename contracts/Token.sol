@@ -13,22 +13,22 @@ contract Token is ERC20 {
   uint public decimals; // 소수점 이하 자리수
   uint public initialSupply; // 초기 발행
 
-  struct Holders {
+  struct Holder {
     // string holdersName; // 주주이름
-    string id; // 주민번호 + 알파값으로 해쉬화해서 저장
+    string id; // 주민번호 해쉬화해서 저장
     uint stockAmount;  // 주식 보유량
   }
 
-  mapping(address => Holders) public certHolders; // 인증된 사용자의 주소를 담는다.
+  Holder[] public Holders; // holders에 Holder를 배열로 기록한다
 
-    // Events allow clients to react to specific
-    // contract changes you declare
-    // 2. 이벤트 정의
-    // 송금이 완료되었을 때 보낸 사람 주소, 받는 사람 주소, 금액을 통지하는 이벤트
-    event Sent(address indexed from, address indexed to, uint amount);
+  mapping(address => Holder) public certHolders; // 인증된 사용자의 주소를 담는다.
 
+  // 2. 이벤트 정의
+  // 송금이 완료되었을 때 보낸 사람 주소, 받는 사람 주소, 금액을 통지하는 이벤트
+  event Sent(address indexed from, address indexed to, uint amount);
 
- constructor(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply) public {
+  // 초기값 설정
+  constructor(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply, bytes32[] memory _holders) public {
     require(initialSupply < 1e60);
     minter = msg.sender;
     corporation = _corporation;
@@ -37,12 +37,21 @@ contract Token is ERC20 {
     decimals = _decimals;
     initialSupply = _initialSupply;
 
+    for (uint i = 0; i < _holders.length; i++){
+      Holders.push(Holder({
+        id: _holders[i].id,
+        stockAmount: _holders[i].stockAmount
+      }))
+    };
+
     _mint(minter, initialSupply);
   }
 
-    // 추가발행
-    function mint(uint _additionalSupply) public {
-        require(minter == msg.sender);
-      _mint(minter, _additionalSupply);
-    }
+  // 추가발행
+  function mint(uint _additionalSupply) public {
+    require(minter == msg.sender);
+    _mint(minter, _additionalSupply);
+  }
+
+  // 
 }
