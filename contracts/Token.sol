@@ -15,11 +15,11 @@ contract Token is ERC20 {
 
   struct Holder {
     // string holdersName; // 주주이름
-    string id; // 주민번호 해쉬화해서 저장
+    bytes32 id; // 주민번호 해쉬화해서 저장
     uint stockAmount;  // 주식 보유량
   }
 
-  Holder[] public Holders; // holders에 Holder를 배열로 기록한다
+  Holder[] public holders; // holders에 Holder를 배열로 기록한다
 
   mapping(address => Holder) public certHolders; // 인증된 사용자의 주소를 담는다.
 
@@ -28,7 +28,7 @@ contract Token is ERC20 {
   event Sent(address indexed from, address indexed to, uint amount);
 
   // 초기값 설정
-  constructor(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply, bytes32[] memory _holders) public {
+  constructor(string memory _corporation, string memory _name, string memory _symbol, uint _decimals, uint _initialSupply, bytes32[] memory _holdersId, uint[] memory _holdersAmount) public {
     require(initialSupply < 1e60);
     minter = msg.sender;
     corporation = _corporation;
@@ -36,15 +36,16 @@ contract Token is ERC20 {
     symbol = _symbol;
     decimals = _decimals;
     initialSupply = _initialSupply;
+     _mint(minter, initialSupply);
 
-    for (uint i = 0; i < _holders.length; i++){
-      Holders.push(Holder({
-        id: _holders[i].id,
-        stockAmount: _holders[i].stockAmount
-      }))
-    };
 
-    _mint(minter, initialSupply);
+    // 배열로 받은 주주 리스트를 반복문을 통해 Holder 구조체에 담고 Holders 리스트에 배열로 기록한다.
+    for (uint i = 0; i < _holdersId.length; i++) {
+        holders.push(Holder({
+            id: _holdersId[i],
+            stockAmount: _holdersAmount[i]
+        }));
+    }
   }
 
   // 추가발행
@@ -52,6 +53,4 @@ contract Token is ERC20 {
     require(minter == msg.sender);
     _mint(minter, _additionalSupply);
   }
-
-  // 
 }

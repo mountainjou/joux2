@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Web3 from "web3";
 import Axios from "axios";
 import Spinner from "../components/Spinner";
+import { ethers } from "ethers";
 
 import { abi, bytecode } from "../contracts/Token.json"; // 컴파일된 Token 컨트랙트에서 abi값과 bytecode값을 가져온다.
 
@@ -44,12 +45,26 @@ const PublishToken = ({ auth: { user, loading, currentAccount } }) => {
     };
 
     const arg = [
-      user.corporation.name,
-      tokenName,
-      tokenSymbol,
+      ethers.utils.formatBytes32String("인텔"),
+      ethers.utils.formatBytes32String("인텔"),
+      ethers.utils.formatBytes32String("인텔"),
       18,
-      totalStocks
+      totalStocks,
+      [
+        ethers.utils.formatBytes32String("삼성"),
+        ethers.utils.formatBytes32String("엘지"),
+        ethers.utils.formatBytes32String("현대"),
+        ethers.utils.formatBytes32String("금호")
+      ],
+      [300, 200, 500, 30]
     ];
+    // const arg = [
+    //   user.corporation.name,
+    //   tokenName,
+    //   tokenSymbol,
+    //   18,
+    //   totalStocks
+    // ];
 
     console.log("클라이언트", arg);
 
