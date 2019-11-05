@@ -27,6 +27,9 @@ const UserSchema = new mongoose.Schema({
     tokenCA: {
       type: String
     },
+    tokenSymbol: {
+      type: String
+    },
     isPublishedToken: {
       type: Boolean
     }

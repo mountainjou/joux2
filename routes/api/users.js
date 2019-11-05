@@ -158,6 +158,7 @@ router.put(
   }
 );
 
+// 기업회원 등록
 router.post(
   "/registercorporation",
   [
@@ -209,6 +210,87 @@ router.post(
   }
 );
 
+// 기업발행 토큰 스마트컨트랙트 계약 주소 등록
+router.post(
+  "/registercontractaddress",
+  [
+    check("ca", "ca is required").not(),
+    check("email", "Please include a valid email").isEmail()
+  ],
+  async (req, res) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { ca, email, tokenSymbol } = req.body;
+    console.log(ca, email, tokenSymbol);
+
+    const user = await User.findOne({ email });
+
+    try {
+      if (!user) {
+        return res
+          .status(400)
+          .json({ msg: "등록되지 않은 사용자입니다", alertType: "danger" });
+      } else {
+        user.corporation.tokenCA = ca;
+        user.corporation.tokenSymbol = tokenSymbol;
+        user.corporation.isPublishedToken = true;
+
+        const result = await user.save();
+        return res.json({
+          msg: "토큰 발행이 완료되었습니다",
+          alertType: "success"
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+// 기업발행 토큰 스마트컨트랙트 계약 주소 등록
+router.post(
+  "/searchcorp",
+  [check("searchData", "searchData is required").not()],
+  async (req, res) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { searchData } = req.body;
+    console.log(searchData);
+
+    const user = await User.find({
+      $or: [
+        { "corporation.name": searchData },
+        { "corporation.tokenSymbol": searchData }
+      ]
+    });
+    console.log(user);
+
+    try {
+      if (user[0] == null) {
+        return res.json({ msg: "찾는 데이터가 없습니다", alertType: "danger" });
+      } else {
+        return res.json({
+          corpList: user,
+          msg: "토큰 발행이 완료되었습니다",
+          alertType: "success"
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
 // 유저 지갑 주소 등록
 router.post(
   "/registerwallet",
@@ -233,22 +315,27 @@ router.post(
 
     if (isMatchWallet) {
       console.log("이미 등록된 지갑 주소입니다");
-      return res.json({ msg: "이미 등록된 지갑 주소입니다" });
+      return res.json({
+        msg: "이미 등록된 지갑 주소입니다",
+        alertType: "danger"
+      });
     }
 
     console.log(isMatchWallet);
 
     try {
       if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+        return res.status(400).json({
+          errors: [{ msg: "등록되지 않은 사용자입니다", alertType: "danger" }]
+        });
       }
 
       user.whitelistWallet.push(whitelistWallet);
       console.log(user);
       const result = await user.save();
-      return res.status(201).json(result.whitelistWallet);
+      return res
+        .status(201)
+        .json({ msg: "지갑이 등록되었습니다", alertType: "success" });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");

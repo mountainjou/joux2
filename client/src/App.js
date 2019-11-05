@@ -19,16 +19,53 @@ if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-// const web3 = new Web3(Web3.givenProvider);
+if (
+  typeof window.ethereum !== "undefined" ||
+  typeof window.web3 !== "undefined"
+) {
+  // Web3 browser user detected. You can now use the provider.
+  const provider = window["ethereum"] || window.web3.currentProvider;
+  const account = provider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
+  console.log(provider.selectedAddress);
+  store.dispatch(getWeb3Account(account)); // account 값이 존재하면 리듀서에 담아 전역 관리한다.
 
-let account;
-
-if (!Web3.givenProvider) {
-  console.log("없음");
-} else {
-  account = web3.givenProvider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
+  // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+  window.web3.currentProvider.publicConfigStore.on("update", result => {
+    const account = result.selectedAddress;
+    store.dispatch(getWeb3Account(account));
+  });
 }
+
+// if (
+//   typeof window.ethereum !== "undefined" ||
+//   typeof window.web3 !== "undefined"
+// ) {
+//   // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+//   window.web3.currentProvider.publicConfigStore.on("update", result => {
+//     const account = result.selectedAddress;
+//     store.dispatch(getWeb3Account(account));
+//   });
+// }
+// const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+// // const web3 = new Web3(Web3.givenProvider);
+
+// let account;
+
+// if (!Web3.givenProvider) {
+//   console.log("없음");
+// } else {
+//   account = web3.givenProvider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
+// }
+
+// // account 값이 존재하면 리듀서에 담아 전역 관리한다.
+// if (account) {
+//   store.dispatch(getWeb3Account(account));
+// }
+// // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+// web3.currentProvider.publicConfigStore.on("update", result => {
+//   const account = result.selectedAddress;
+//   store.dispatch(getWeb3Account(account));
+// });
 
 const App = () => {
   // 유저 불러오기 액션 실행
@@ -36,18 +73,6 @@ const App = () => {
     store.dispatch(loadUser());
   }, []);
 
-  // account 값이 존재하면 리듀서에 담아 전역 관리한다.
-  if (account) {
-    store.dispatch(getWeb3Account(account));
-  }
-
-  if (account) {
-    // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
-    web3.currentProvider.publicConfigStore.on("update", result => {
-      const account = result.selectedAddress;
-      store.dispatch(getWeb3Account(account));
-    });
-  }
   return (
     <Provider store={store}>
       <Router>

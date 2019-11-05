@@ -26,6 +26,11 @@ const Nav = ({
         </a>
       </li>
       <li className="nav-item">
+        <a className="nav-link text-light" href="/receivetoken/">
+          토큰 수령
+        </a>
+      </li>
+      <li className="nav-item">
         <a className="nav-link text-light" href="/vote/">
           투표
         </a>

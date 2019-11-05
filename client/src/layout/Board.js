@@ -25,7 +25,13 @@ const Board = () => {
           </tr>
         </tbody>
       </table>
-      <a type="button" className="btn btn-primary float-right" href="/writing">글쓰기</a>
+      <button
+        type="button"
+        className="btn btn-primary float-right"
+        href="/writing"
+      >
+        글쓰기
+      </button>
     </div>
   );
 };
