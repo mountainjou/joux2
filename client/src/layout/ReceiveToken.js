@@ -21,7 +21,8 @@ const ReceiveToken = ({
   const [values, setValues] = useState({
     holderId: "",
     searchCorpNameOrSymbol: "",
-    searchedCorp: null
+    searchedCorp: null,
+    selectedCorpCA: ""
   });
 
   // 폼에서 입력되는 값을 상태값에 지정
@@ -53,7 +54,11 @@ const ReceiveToken = ({
         console.log(err);
       });
   };
-  console.log(searchedCorp);
+
+  const selectedCorp = ca => {
+    console.log(ca);
+    setValues({ selectedCorpCA: ca });
+  };
 
   const receive = () => {
     console.log(holderId);
@@ -100,9 +105,16 @@ const ReceiveToken = ({
         {searchedCorp ? (
           <div>
             {searchedCorp.map(corp => (
-              <button type="button" key={corp} className="btn btn-primary">
-                {corp.corporation.name} ( {corp.corporation.tokenSymbol} )
-              </button>
+              <li key={corp._id} value={corp.corporation.tokenCA}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  value={corp.corporation.tokenCA}
+                  onClick={() => selectedCorp(corp.corporation.tokenCA)}
+                >
+                  {corp.corporation.name} ( {corp.corporation.tokenSymbol} )
+                </button>
+              </li>
             ))}
           </div>
         ) : (
