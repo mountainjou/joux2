@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+// import { Redirect } from "react-router-dom";
 import moment from "moment";
 import { connect } from "react-redux";
-import BulletinWaggu from "./BulletinWaggu";
+// import BulletinWaggu from "./BulletinWaggu";
 import { getGongsi } from "../actions/bulletin";
 import PropTypes from "prop-types";
 
 const Bulletin = ({ getGongsi, bulletin }) => {
-  const [gongsi, setGongsi] = useState(null);
+  // const [gongsi, setGongsi] = useState(null);
   useEffect(() => {
     getGongsi();
     console.log("useEffect 정상작동");
@@ -37,10 +37,10 @@ const Bulletin = ({ getGongsi, bulletin }) => {
   // {bulletin.gongsi.map(file => {
   //   <li key={file._id}>{file}</li>
   // })}
-  const goToWriting = () => {
-    console.log("리다이렉트하자");
-    return <Redirect to="/writing" />;
-  };
+  // const goToWriting = () => {
+  //   console.log("리다이렉트하자");
+  //   return <Redirect to="/writing" />;
+  // };
 
   return (
     <div>

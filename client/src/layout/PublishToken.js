@@ -71,7 +71,7 @@ const PublishToken = ({
       user.corporation.name,
       tokenName,
       tokenSymbol,
-      18,
+      0,
       totalStocks,
       holdersId,
       holdersAmount

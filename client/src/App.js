@@ -13,7 +13,7 @@ import { loadUser } from "./actions/auth";
 import { getWeb3Account } from "./actions/user";
 import setAuthToken from "./utils/setAuthToken";
 
-import Web3 from "web3";
+// import Web3 from "web3";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
