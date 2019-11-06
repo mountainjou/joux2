@@ -67,14 +67,21 @@ router.post("/holderlist", async (req, res) => {
     totalStocks = resData.shift().총발행주;
 
     for (i = 0; i < resData.length; i++) {
-      let idNum = resData[i].주민번호;
+      let idNum = resData[i].주민번호.toString();
       console.log(idNum);
 
-      // salt를 생성하여 변수 salt에 담는다.
-      let salt = bcrypt.genSaltSync(10);
-      // 주민번호와 salt를 이용하여 해쉬화 하고 주민번호에 담는다.
-      let hash = bcrypt.hashSync(idNum, salt);
-      // console.log(hash);
+      // // salt를 생성하여 변수 salt에 담는다.
+      // let salt = bcrypt.genSaltSync(10);
+      // console.log(salt);
+      // // 주민번호와 salt를 이용하여 해쉬화 하고 주민번호에 담는다.
+      // let hash = bcrypt.hashSync(idNum, salt);
+      // // console.log(hash);
+      const hash = crypto
+        .createHash("sha512")
+        .update(idNum)
+        .digest("hex");
+      console.log(hash);
+
       resData[i].주민번호 = hash;
     }
 

@@ -9,8 +9,10 @@ import Alert from "../Alert";
 import { setAlert } from "../actions/alert";
 import Spinner from "../components/Spinner";
 
-import { abi, bytecode } from "../contracts/Token.json";
+import { abi } from "../contracts/Token.json";
 import Axios from "axios";
+
+import crypto from "crypto";
 
 const ReceiveToken = ({
   setAlert,
@@ -21,7 +23,8 @@ const ReceiveToken = ({
   const [values, setValues] = useState({
     holderId: "",
     searchCorpNameOrSymbol: "",
-    searchedCorp: null
+    searchedCorp: null,
+    selectedCorpCA: null
   });
 
   // 폼에서 입력되는 값을 상태값에 지정
@@ -29,7 +32,12 @@ const ReceiveToken = ({
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { holderId, searchCorpNameOrSymbol, searchedCorp } = values;
+  const {
+    holderId,
+    searchCorpNameOrSymbol,
+    searchedCorp,
+    selectedCorpCA
+  } = values;
 
   const searchCorp = () => {
     const url = "/api/users/searchcorp";
@@ -53,18 +61,51 @@ const ReceiveToken = ({
         console.log(err);
       });
   };
-  console.log(searchedCorp);
 
-  const receive = () => {
-    console.log(holderId);
+  const selectedCorp = corporation => {
+    console.log(corporation);
+    setValues({ selectedCorpCA: corporation });
+  };
 
-    const id = ethers.utils.formatBytes32String(holderId.substring(10, 41));
+  const receive = async () => {
+    console.log(holderId, selectedCorpCA.tokenCA);
+    const strEnd = holderId.slice(6);
+    const strStart = holderId.slice(0, 6);
+    const strSum = strStart + "-" + strEnd;
+    console.log(strSum);
+
+    // const salt = bcrypt.genSaltSync(10);
+    // console.log(salt);
+    // const hash = bcrypt.hashSync(strSum.toString(), salt);
+    const hash = crypto
+      .createHash("sha512")
+      .update(strSum)
+      .digest("hex");
+    console.log(hash);
+
+    const id = ethers.utils.formatBytes32String(hash.substring(10, 41));
+    console.log(id);
     const option = {
       from: currentAccount,
       gasPrice: "20000000000"
     };
-    const tokenCA = "tokenCA";
-    const receiveContract = new web3.eth.Contract(abi, tokenCA, option);
+    const tokenCA = selectedCorpCA.tokenCA;
+    const receiveContract = new web3.eth.Contract(abi, tokenCA);
+
+    receiveContract.methods
+      .transferById(id)
+      .send(option)
+      .then(receipt => {
+        console.log(receipt);
+        console.log(receipt.events.Transfer.returnValues.value);
+        setAlert(
+          `${receipt.events.Transfer.returnValues.value} ${selectedCorpCA.tokenSymbol}토큰이 수령되었습니다.`,
+          "success"
+        );
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return loading === null ? (
@@ -100,10 +141,28 @@ const ReceiveToken = ({
         {searchedCorp ? (
           <div>
             {searchedCorp.map(corp => (
-              <button type="button" key={corp} className="btn btn-primary">
-                {corp.corporation.name} ( {corp.corporation.tokenSymbol} )
-              </button>
+              <li key={corp._id} value={corp.corporation}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  value={corp.corporation}
+                  onClick={() => selectedCorp(corp.corporation)}
+                >
+                  {corp.corporation.name} ( {corp.corporation.tokenSymbol} )
+                </button>
+              </li>
             ))}
+          </div>
+        ) : (
+          <div></div>
+        )}
+        {selectedCorpCA ? (
+          <div>
+            <li>
+              <button type="button" className="btn btn-primary">
+                {selectedCorpCA.name} ( {selectedCorpCA.tokenSymbol} )
+              </button>
+            </li>
           </div>
         ) : (
           <div></div>
@@ -115,7 +174,7 @@ const ReceiveToken = ({
         <div className="form-group">
           <label htmlFor="holderId">주주의 신원 확인 번호</label>
           <input
-            type="number"
+            type="text"
             className="form-control"
             name="holderId"
             id="holderId"

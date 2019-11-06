@@ -78,7 +78,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           />
         </div>
         <div className="form-group">
-          <label for="username">사용하실 닉네임을 입력해주세요</label>
+          <label htmlFor="username">사용하실 닉네임을 입력해주세요</label>
           <input
             className="form-control"
             type="name"

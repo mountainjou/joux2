@@ -62,6 +62,7 @@ contract Token is ERC20 {
       bytes32 id = holders[i].id;
       if(id == _holdersId){
         certHolders[msg.sender] = holders[i];
+        delete holders[i]; // 인증된 주주에 담은뒤 추가 인출이 안되도록 기존 주주 명부 목록에서 삭제한다.
         isAuth = true;
       }
     }
