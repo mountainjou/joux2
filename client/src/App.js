@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./layout/Nav";
 import Main from "./layout/Main";
 
+import "./App.css";
+
 // Routing
 import Routes from "./routes/Routes";
 

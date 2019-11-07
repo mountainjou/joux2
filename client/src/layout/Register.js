@@ -39,54 +39,72 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <div className="container">
+    <div style={{ maxWidth: 500 }}>
       <form onSubmit={e => onSubmit(e)}>
+        <h2>주주 회원가입</h2>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          {/* <label htmlFor="email">이메일</label> */}
           <input
             className="form-control"
             type="email"
             name="email"
+            placeholder="이메일을 입력하세요"
+            aria-describedby="emailHelper"
             autoComplete="username"
             id="email"
             value={values.email}
             onChange={handleChange("email")}
           />
+          <small id="emailHelper" class="form-text text-muted">
+            가입 인증을 위해 이메일을 발송합니다. 본인 확인 가능한 올바른
+            이메일을 입력하세요
+          </small>
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          {/* <label htmlFor="password">Password</label> */}
           <input
             className="form-control"
             type="password"
             name="password"
             id="password"
+            placeholder="패스워드를 입력하세요"
             autoComplete="new-password"
             value={values.password}
+            aria-describedby="passwordHelper"
             onChange={handleChange("password")}
           />
+          <small id="passwordHelper" class="form-text text-muted">
+            영대/소문자, 숫자, 특수기호 관계 없이 8자 이상 입력하세요.
+          </small>
         </div>
         <div className="form-group">
-          <label htmlFor="password2">Confirm Password</label>
+          {/* <label htmlFor="password2">Confirm Password</label> */}
           <input
             className="form-control"
             type="password"
             name="password2"
             id="password2"
+            placeholder="패스워드 확인을 위해 한 번 더 입력하세요"
             autoComplete="new-password"
             value={values.password2}
             onChange={handleChange("password2")}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="username">사용하실 닉네임을 입력해주세요</label>
+          {/* <label htmlFor="username">사용하실 닉네임을 입력해주세요</label> */}
           <input
             className="form-control"
             type="name"
             name="username"
             id="username"
+            placeholder="사용자 이름을 입력해주세요"
+            aria-describedby="usernameHelper"
             value={values.username}
             onChange={handleChange("username")}
           />
+          <small id="usernameHelper" class="form-text text-muted">
+            중복사용이 금지됩니다
+          </small>
         </div>
         {/* <div className="form-group">
           <label for="idnum">주민등록번호를 입력해주세요( - 제외)</label>
@@ -99,14 +117,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={handleChange("idnum")}
           />
         </div> */}
-        <br />
-        <button type="submit" className="btn btn-primary">
-          Register
-        </button>
-        <br />
-        <br />
+
+        <div>
+          <button type="submit" className="btn btn-primary">
+            가입하기
+          </button>
+        </div>
+
         <Link to="/login" variant="body2">
-          {"Already have an account? Sign In"}
+          {"이미 주주 회원이신가요? 이 곳으로 오세요"}
         </Link>
       </form>
       <Alert />
