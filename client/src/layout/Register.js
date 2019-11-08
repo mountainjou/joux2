@@ -12,6 +12,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password: '',
     password2: '',
     username: '',
+    corpId: '',
+    corpName: '',
     isNomalUser: 'true'
   });
 
@@ -173,14 +175,28 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <input
           className='form-control'
           type='name'
-          name='corpname'
-          id='corpname'
+          name='corpName'
+          id='corpName'
           placeholder='법인 이름을 입력해주세요'
           aria-describedby='corpnameHelper'
-          value={values.corpname}
-          onChange={handleChange('corpname')}
+          value={values.corpName}
+          onChange={handleChange('corpName')}
         />
-        <small id='corpname' className='form-text text-muted'></small>
+        <small id='corpName' className='form-text text-muted'></small>
+      </div>
+      <div className='form-group'>
+        {/* <label htmlFor="username">사용하실 닉네임을 입력해주세요</label> */}
+        <input
+          className='form-control'
+          type='name'
+          name='corpId'
+          id='corpId'
+          placeholder='법인 등록번호를 입력해주세요'
+          aria-describedby='corpIdHelper'
+          value={values.corpId}
+          onChange={handleChange('corpId')}
+        />
+        <small id='corpId' className='form-text text-muted'></small>
       </div>
     </Fragment>
   );
