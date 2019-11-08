@@ -57,11 +57,11 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
       <div>유저네임 : {user.username}</div>
       <div>이메일 : {user.email}</div>
       <div>
-        {user.role === "corporation" ? (
+        {(user.role === "corp") | (user.role === "certCorp") ? (
           <div>
             <div>회사명 : {user.corporation.name}</div>
             <div>법인 등록 번호 : {user.corporation.corpId}</div>
-            {user.corporation.isApproved ? (
+            {user.role === "certCorp" ? (
               <div>기업인증 : 인증된 기업</div>
             ) : (
               <div>기업인증 : 인증받지 않은 기업</div>

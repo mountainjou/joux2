@@ -13,12 +13,11 @@ const User = require("../../models/User");
 router.post(
   "/",
   [
-    check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 })
-    // ,check("username", "안된다 이놈아").isEmpty()
+    check("email", "이메일 형식이 아닙니다").isEmail(),
+    check("password", "비밀번호는 8자리 이상 입력해 주세요").isLength({
+      min: 8
+    })
+    // check("username", "사용자 이름을 입력해주세요").isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -26,22 +25,38 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, username } = req.body;
+    const { email, password, username, corpName, corpId } = req.body;
+
+    console.log(req.body);
 
     try {
       let user = await User.findOne({ email });
 
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "User already exists" }] });
+        return res.status(400).json({
+          msg: "이미 가입된 사용자 이메일 입니다",
+          alertType: "danger"
+        });
       }
 
-      user = new User({
-        email,
-        password,
-        username
-      });
+      if (!corpName && !corpId) {
+        user = new User({
+          email,
+          password,
+          username
+        });
+      } else {
+        user = new User({
+          email,
+          password,
+          username,
+          corporation: {
+            name: corpName,
+            corpId
+          },
+          role: "corp"
+        });
+      }
 
       // salt를 생성하여 변수 salt에 담는다.
       const salt = await bcrypt.genSalt(10);
