@@ -7,7 +7,7 @@ import { logout } from "../actions/auth";
 // import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = ({
-  auth: { isAuthenticated, loading, currentAccount },
+  auth: { user, isAuthenticated, loading, currentAccount },
   logout
 }) => {
   // const [web3Wallet, setWeb3wallet] = React.useState(null);
