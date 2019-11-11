@@ -1,20 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const { check, validationResult } = require("express-validator"); // https://express-validator.github.io/docs/ 사용법
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const { check, validationResult } = require('express-validator'); // https://express-validator.github.io/docs/ 사용법
 
-const User = require("../../models/User");
+const User = require('../../models/User');
 
 // @route    POST api/users
 // @desc     Register user // 회원가입
 // @access   Public  // 접근권한 모두 가능
 router.post(
-  "/",
+  '/',
   [
-    check("email", "이메일 형식이 아닙니다").isEmail(),
-    check("password", "비밀번호는 8자리 이상 입력해 주세요").isLength({
+    check('email', '이메일 형식이 아닙니다').isEmail(),
+    check('password', '비밀번호는 8자리 이상 입력해 주세요').isLength({
       min: 8
     })
     // check("username", "사용자 이름을 입력해주세요").isEmpty()
@@ -33,10 +33,9 @@ router.post(
       let user = await User.findOne({ email });
 
       if (user) {
-        return res.status(400).json({
-          msg: "이미 가입된 사용자 이메일 입니다",
-          alertType: "danger"
-        });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: '이미 가입된 사용자 이메일 입니다' }] });
       }
 
       if (!corpName && !corpId) {
@@ -54,7 +53,7 @@ router.post(
             name: corpName,
             corpId
           },
-          role: "corp"
+          role: 'corp'
         });
       }
 
@@ -77,7 +76,7 @@ router.post(
       // jwt 토큰을 생성하고 에러가 없으면 클라이언트에게 토큰을 전달한다.
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
@@ -86,22 +85,22 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
 router.put(
-  "/modify",
+  '/modify',
   [
     // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
-    check("name", "Name is required")
+    check('name', 'Name is required')
       .not()
       .isEmpty(),
-    check("email", "Please include a valid email").isEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check(
-      "password",
-      "Please enter a password with 6 or more characters"
+      'password',
+      'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 })
     // ,check("username", "안된다 이놈아").isEmpty()
   ],
@@ -112,7 +111,7 @@ router.put(
     }
 
     const { name, email, password, username } = req.body;
-    console.log("왜?");
+    console.log('왜?');
     console.log(name, email, password, username);
     try {
       let user = await User.findOne({ email });
@@ -120,13 +119,13 @@ router.put(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "없는 유저인데 어캐했누?" }] });
+          .json({ errors: [{ msg: '없는 유저인데 어캐했누?' }] });
       }
 
       const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pg",
-        d: "mm"
+        s: '200',
+        r: 'pg',
+        d: 'mm'
       });
 
       user = new User({
@@ -159,7 +158,7 @@ router.put(
       // jwt 토큰을 생성하고 에러가 없으면 클라이언트에게 토큰을 전달한다.
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        config.get('jwtSecret'),
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
@@ -168,21 +167,21 @@ router.put(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
 // 기업회원 등록
 router.post(
-  "/registercorporation",
+  '/registercorporation',
   [
     // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
-    check("corporation", "corporation name is required").not(),
-    check("email", "Please include a valid email").isEmail(),
+    check('corporation', 'corporation name is required').not(),
+    check('email', 'Please include a valid email').isEmail(),
     check(
-      "password",
-      "Please enter a password with 6 or more characters"
+      'password',
+      'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -201,7 +200,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "등록되지 않은 사용자입니다" }] });
+          .json({ errors: [{ msg: '등록되지 않은 사용자입니다' }] });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -209,28 +208,28 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "패스워드가 맞지 않습니다" }] });
+          .json({ errors: [{ msg: '패스워드가 맞지 않습니다' }] });
       } else {
         user.corporation.name = corporation;
         user.corporation.corpId = corporationId;
         user.corporation.isApproved = false;
-        user.role = "corporation";
+        user.role = 'corporation';
         const result = await user.save();
         return res.json(result.corporation.name);
       }
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
 // 기업발행 토큰 스마트컨트랙트 계약 주소 등록
 router.post(
-  "/registercontractaddress",
+  '/registercontractaddress',
   [
-    check("ca", "ca is required").not(),
-    check("email", "Please include a valid email").isEmail()
+    check('ca', 'ca is required').not(),
+    check('email', 'Please include a valid email').isEmail()
   ],
   async (req, res) => {
     console.log(req.body);
@@ -248,7 +247,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ msg: "등록되지 않은 사용자입니다", alertType: "danger" });
+          .json({ msg: '등록되지 않은 사용자입니다', alertType: 'danger' });
       } else {
         user.corporation.tokenCA = ca;
         user.corporation.tokenSymbol = tokenSymbol;
@@ -256,21 +255,21 @@ router.post(
 
         const result = await user.save();
         return res.json({
-          msg: "토큰 발행이 완료되었습니다",
-          alertType: "success"
+          msg: '토큰 발행이 완료되었습니다',
+          alertType: 'success'
         });
       }
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
 // 기업발행 토큰 스마트컨트랙트 계약 주소 등록
 router.post(
-  "/searchcorp",
-  [check("searchData", "searchData is required").not()],
+  '/searchcorp',
+  [check('searchData', 'searchData is required').not()],
   async (req, res) => {
     console.log(req.body);
     const errors = validationResult(req);
@@ -283,35 +282,35 @@ router.post(
 
     const user = await User.find({
       $or: [
-        { "corporation.name": searchData },
-        { "corporation.tokenSymbol": searchData }
+        { 'corporation.name': searchData },
+        { 'corporation.tokenSymbol': searchData }
       ]
     });
     console.log(user);
 
     try {
       if (user[0] == null) {
-        return res.json({ msg: "찾는 데이터가 없습니다", alertType: "danger" });
+        return res.json({ msg: '찾는 데이터가 없습니다', alertType: 'danger' });
       } else {
         return res.json({
           corpList: user,
-          msg: "토큰 발행이 완료되었습니다",
-          alertType: "success"
+          msg: '토큰 발행이 완료되었습니다',
+          alertType: 'success'
         });
       }
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
 // 유저 지갑 주소 등록
 router.post(
-  "/registerwallet",
+  '/registerwallet',
   [
     // name값이 없거나 비어있거나, email값이 email형식이 아니거나, password가 6자리 이하면 에러 메시지를 발생시킨다.
-    check("whitelistWallet", "web3Account is required").not()
+    check('whitelistWallet', 'web3Account is required').not()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -329,10 +328,10 @@ router.post(
     });
 
     if (isMatchWallet) {
-      console.log("이미 등록된 지갑 주소입니다");
+      console.log('이미 등록된 지갑 주소입니다');
       return res.json({
-        msg: "이미 등록된 지갑 주소입니다",
-        alertType: "danger"
+        msg: '이미 등록된 지갑 주소입니다',
+        alertType: 'danger'
       });
     }
 
@@ -341,7 +340,7 @@ router.post(
     try {
       if (!user) {
         return res.status(400).json({
-          errors: [{ msg: "등록되지 않은 사용자입니다", alertType: "danger" }]
+          errors: [{ msg: '등록되지 않은 사용자입니다', alertType: 'danger' }]
         });
       }
 
@@ -350,20 +349,20 @@ router.post(
       const result = await user.save();
       return res
         .status(201)
-        .json({ msg: "지갑이 등록되었습니다", alertType: "success" });
+        .json({ msg: '지갑이 등록되었습니다', alertType: 'success' });
     } catch (err) {
       console.error(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
   }
 );
 
-router.get("/my_page", async (req, res) => {
+router.get('/my_page', async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   } else {
-    return res.send("test");
+    return res.send('test');
   }
 });
 
