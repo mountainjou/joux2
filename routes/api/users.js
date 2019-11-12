@@ -323,7 +323,7 @@ router.post(
 
     const user = await User.findOne({ email });
 
-    const isMatchWallet = user.whitelistWallet.find(address => {
+    const isMatchWallet = user.whitelistWallets.find(address => {
       return address === whitelistWallet;
     });
 
@@ -344,7 +344,7 @@ router.post(
         });
       }
 
-      user.whitelistWallet.push(whitelistWallet);
+      user.whitelistWallets.push(whitelistWallet);
       console.log(user);
       const result = await user.save();
       return res
