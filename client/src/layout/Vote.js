@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import Spinner from "../components/Spinner";
 
 const Vote = ({ auth: { user, currentAccount, loading } }) => {
+     
+    const [values, setValues] = React.useState({
+      redirectRegisterCorporation: false
+    });
+
+    console.log(user);
+
   return (
     <div>
       <h1>투표 기능</h1>
@@ -20,7 +27,7 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
           </thead>
           <tbody>
             <tr>
-              <td> - </td>
+              <td>{user.username}</td>
               <td>일반 투표권자</td>
               <td>{currentAccount}</td>
               <td>524주</td>
