@@ -123,7 +123,7 @@ const Nav = ({
   return (
     <nav className='navbar navbar-expand-sm bg-dark navbar-dark'>
       <a className='navbar-brand' href='/'>
-        JouJou
+        주주
       </a>
       {!loading && (
         <Fragment>

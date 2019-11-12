@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -56,7 +56,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "nomal" // { 일반회원: nomal, 주주: holder, 일반기업: corp, 인증기업: certCorp }
+    default: 'nomal' // { 일반회원: nomal, 주주: holder, 일반기업: corp, 인증기업: certCorp }
   },
   date: {
     type: Date,
@@ -64,4 +64,4 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);
