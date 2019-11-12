@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -16,26 +16,35 @@ const UserSchema = new mongoose.Schema({
   },
   corporation: {
     name: {
+      // 법인 이름
       type: String
     },
     corpId: {
+      // 법인 등록 번호
       type: String
     },
-    isApproved: {
-      type: Boolean
+    ci: {
+      // 기업 CI image URL
+      type: String
     },
     tokenCA: {
+      // 발행 토큰 컨트랙트 주소
       type: String
     },
     tokenSymbol: {
+      // 발행 토큰 심볼
       type: String
     },
     isPublishedToken: {
+      // 토큰 발행 유무
       type: Boolean
     }
   },
-  whitelistWallet: {
-    type: []
+  whitelistWallets: {
+    type: [] // 화이트리스트에 등록된 지갑 주소로 접속해야 중요 기능 인가. ex) 토큰 수령 및 투표
+  },
+  listOfTokens: {
+    type: [] // 내가 보유한 법인 토큰 리스트
   },
   resetPasswordToken: {
     // 패스워드 재설정을 위한 임시토큰
@@ -47,7 +56,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "nomal"
+    default: 'nomal' // { 일반회원: nomal, 주주: holder, 일반기업: corp, 인증기업: certCorp }
   },
   date: {
     type: Date,
@@ -55,4 +64,4 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);

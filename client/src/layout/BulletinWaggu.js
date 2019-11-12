@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { connect } from "react-redux";
 import { getGongsiDetail } from "../actions/bulletin";
@@ -10,10 +10,9 @@ const BulletinWaggu = ({
   bulletin: { gongsiDetail, loading }
 }) => {
   const id = match.params.id;
-  console.log(id);
+
   useEffect(() => {
     getGongsiDetail(id);
-    console.log("useEffect 정상작동");
   }, [getGongsiDetail]);
 
   //  const test = JSON.stringify(gongsiDetail);

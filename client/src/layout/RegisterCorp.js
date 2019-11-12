@@ -101,6 +101,7 @@ const RegisterCorp = ({ setAlert, auth: { user, loading } }) => {
             onChange={handleChange("password")}
           />
         </div>
+        <br />
         <button type="submit" className="btn btn-primary">
           Register
         </button>

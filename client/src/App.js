@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "./layout/Nav";
 import Main from "./layout/Main";
 
+import "./App.css";
+
 // Routing
 import Routes from "./routes/Routes";
 
@@ -13,7 +15,7 @@ import { loadUser } from "./actions/auth";
 import { getWeb3Account } from "./actions/user";
 import setAuthToken from "./utils/setAuthToken";
 
-import Web3 from "web3";
+// import Web3 from "web3";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);

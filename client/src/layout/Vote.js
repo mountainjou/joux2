@@ -1,8 +1,7 @@
 import React from "react";
-import "./voteStyle.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Spinner from "../components/Spinner";
+// import Spinner from "../components/Spinner";
 
 const Vote = ({ auth: { user, currentAccount, loading } }) => {
   return (

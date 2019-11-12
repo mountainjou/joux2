@@ -71,11 +71,15 @@ const PublishToken = ({
       user.corporation.name,
       tokenName,
       tokenSymbol,
-      18,
+      0,
       totalStocks,
       holdersId,
       holdersAmount
     ];
+
+    console.log(typeof tokenName, typeof tokenSymbol);
+
+    console.log(tokenName.toString("hex"));
 
     console.log("클라이언트", arg);
 
