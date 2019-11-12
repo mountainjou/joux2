@@ -7,7 +7,7 @@ import Vote from "../layout/Vote";
 import MyAccount from "../layout/MyAccount";
 import Writing from "../layout/Writing";
 import RegisterCorp from "../layout/RegisterCorp";
-import PublishToken from "../layout/PublishToken";
+// import PublishToken from "../layout/PublishToken";
 // import ForgotPassword from "../layout/auth/ForgotPassword";
 // import ResetPassword from "../layout/auth/ResetPassword";
 
@@ -18,7 +18,7 @@ import Board from "../layout/Board";
 import BulletinWaggu from "../layout/BulletinWaggu";
 import MakeVote from "../layout/MakeVote";
 
-import ReceiveToken from "../layout/ReceiveToken";
+// import ReceiveToken from "../layout/ReceiveToken";
 
 const Routes = () => {
   return (
@@ -42,8 +42,8 @@ const Routes = () => {
         />
         <PrivateRoute exact path="/MakeVote" component={MakeVote} />
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
-        <PrivateRoute exact path="/publishtoken" component={PublishToken} />
-        <PrivateRoute exact path="/receivetoken" component={ReceiveToken} />
+        {/* <PrivateRoute exact path="/publishtoken" component={PublishToken} />
+        <PrivateRoute exact path="/receivetoken" component={ReceiveToken} /> */}
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 
