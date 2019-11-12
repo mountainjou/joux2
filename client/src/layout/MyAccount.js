@@ -58,8 +58,7 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
         {/* 사용자 이름 항목 */}
         <div className='form-group row'>
           <label
-            for='userName'
-            style={{ fontWeight: 'bold' }}
+            htmlFor='userName'
             className='col-sm-3 col-form-label border-right'
           >
             사용자 이름
@@ -70,15 +69,14 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
               disabled
               className='form-control-plaintext'
               id='userName'
-              value={user.username}
+              placeholder={user.username}
             />
           </div>
         </div>
         {/* 이메일 항목 */}
         <div className='form-group row'>
           <label
-            for='userEmail'
-            style={{ fontWeight: 'bold' }}
+            htmlFor='userEmail'
             className='col-sm-3 border-right col-form-label '
           >
             이메일
@@ -89,7 +87,7 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
               disabled
               className='form-control-plaintext'
               id='userEmail'
-              value={user.email}
+              placeholder={user.email}
             />
           </div>
         </div>
@@ -100,8 +98,7 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
           <div>
             <div className='form-group row'>
               <label
-                for='corpName'
-                style={{ fontWeight: 'bold' }}
+                htmlFor='corpName'
                 className='col-sm-3 border-right col-form-label '
               >
                 회사명
@@ -112,14 +109,13 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
                   disabled
                   className='form-control-plaintext'
                   id='corpName'
-                  value={user.corporation.name}
+                  placeholder={user.corporation.name}
                 />
               </div>
             </div>
             <div className='form-group row'>
               <label
-                for='corpId'
-                style={{ fontWeight: 'bold' }}
+                htmlFor='corpId'
                 className='col-sm-3 border-right col-form-label '
               >
                 법인 번호
@@ -130,15 +126,14 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
                   disabled
                   className='form-control-plaintext'
                   id='corpId'
-                  value={user.corporation.corpId}
+                  placeholder={user.corporation.corpId}
                 />
               </div>
             </div>
             {user.role === 'certCorp' ? (
               <div className='form-group row'>
                 <label
-                  for='certCorp'
-                  style={{ fontWeight: 'bold' }}
+                  htmlFor='certCorp'
                   className='col-sm-3 border-right col-form-label '
                 >
                   법인 인증
@@ -149,15 +144,14 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
                     disabled
                     className='form-control-plaintext'
                     id='certCorp'
-                    value='인증된 법인 기업'
+                    placeholder='인증된 법인 기업'
                   />
                 </div>
               </div>
             ) : (
               <div className='form-group row'>
                 <label
-                  for='certCorp'
-                  style={{ fontWeight: 'bold' }}
+                  htmlFor='certCorp'
                   className='col-sm-3 border-right col-form-label '
                 >
                   법인 인증
@@ -168,18 +162,20 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
                     disabled
                     className='form-control-plaintext'
                     id='certCorp'
-                    value='인증받지 않은 법인'
+                    placeholder='인증받지 않은 법인'
                   />
                 </div>
               </div>
             )}
           </div>
         ) : null}
-        <div style={{ fontWeight: 'bold' }}>등록된 지갑 주소</div>
+        <div>등록된 지갑 주소</div>
         {user.whitelistWallets ? (
           <div>
             {user.whitelistWallets.map(address => (
-              <li key={address}>{address}</li>
+              <li style={{ color: 'gray' }} key={address}>
+                {address}
+              </li>
             ))}
 
             <br />
