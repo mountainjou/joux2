@@ -17,6 +17,7 @@ import Bulletin from "../layout/Bulletin";
 import Board from "../layout/Board";
 import BulletinWaggu from "../layout/BulletinWaggu";
 import MakeVote from "../layout/MakeVote";
+import Mkvote from "../layout/Mkvote";
 
 // import ReceiveToken from "../layout/ReceiveToken";
 
@@ -48,6 +49,7 @@ const Routes = () => {
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 
         {/* <Route component={NotFound} /> */}
+        <PrivateRoute exact path="/mkvote" component={Mkvote} />
       </Switch>
     </section>
   );

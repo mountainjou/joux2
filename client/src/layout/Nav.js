@@ -77,6 +77,11 @@ const Nav = ({
           </a>
         </li>
         <li className='nav-item'>
+          <a className='nav-link text-light' href='/mkvote/'>
+            투표 작성
+          </a>
+        </li>
+        <li className='nav-item'>
           <a className='nav-link text-light' href='/Board/'>
             게시판
           </a>
