@@ -3,10 +3,14 @@ const mongoose = require('mongoose');
 const VoteSchema = new mongoose.Schema({
   // 안건들 - 객체 배열로 저장
   contents: [
-    { 
-    cNum: String, // 안건 번호
-    content: String // 안건 내용
-    },
+    {
+      cNum: {
+        type: String,
+      },
+      content: {
+        type: String
+      }
+    }
   ],
   // 법인명
   corp: {

@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var Bulletin = require('../../models/Bulletin');
 
 router.post('/', function (req, res) {
@@ -9,7 +8,6 @@ router.post('/', function (req, res) {
     bulletin.rname = req.body.values.rname;
     bulletin.uname = req.body.values.uname;
     bulletin.report = req.body.values.report;
-    // bulletin.date = 
 
     console.log(bulletin);
 
@@ -21,9 +19,6 @@ router.post('/', function (req, res) {
     });
   });
 
-// @route    GET api/posts
-// @desc     Get all post
-// @access   Public
 router.get("/", async (req, res) => {
   try {
     const gongsi = await Bulletin.find().sort({ date: -1 });
@@ -48,4 +43,5 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
 module.exports = router;

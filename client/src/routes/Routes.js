@@ -40,7 +40,7 @@ const Routes = () => {
           path="/BulletinWaggu/:id"
           component={BulletinWaggu}
         />
-        <PrivateRoute exact path="/MakeVote" component={MakeVote} />
+        <PrivateRoute exact path="/makevote" component={MakeVote} />
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
         <PrivateRoute exact path="/publishtoken" component={PublishToken} />
         <PrivateRoute exact path="/receivetoken" component={ReceiveToken} />
