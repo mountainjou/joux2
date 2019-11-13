@@ -48,9 +48,10 @@ input:focus {
     outline: none;
 }
 
-.add {
+.small {
     padding: 3px 5px 3px 5px;
     margin-bottom: 5px;
+    margin-left: 5px;
     font-size: smaller;
 }
 
