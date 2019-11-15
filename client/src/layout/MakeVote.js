@@ -8,9 +8,12 @@ import Alert from "../Alert";
 
 // fname: 주주총회 이름, cname: 주주총회 진행 대상회사, options:안건 배열로 나열
 const MakeVote = ({ setAlert, makeVote, isAuthenticated }) => {
+  // let contents = [ {cNum, content} ]
   const [meeting, setmeeting] = React.useState({
     corp: "",
-    contents: "",
+    cNum: "",
+    content: "",
+    contents: [],
     token: "",
     char: "",
     place: "",
@@ -70,7 +73,14 @@ const MakeVote = ({ setAlert, makeVote, isAuthenticated }) => {
             type="cNum"
             name="cNum"
             id="cNum"
-            onChange={handleChange("contents")}
+            onChange={handleChange("contents.cNum")}
+          />
+          <input
+            className="form-control"
+            type="content"
+            name="content"
+            id="content"
+            onChange={handleChange("contents.content")}
           />
         </div>
         {/* <div className="form-group">
