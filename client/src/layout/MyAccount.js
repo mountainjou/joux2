@@ -42,6 +42,8 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
       .catch(err => {
         console.log(err);
       });
+    // 5sec 뒤에 브라우저 새로고침
+    setTimeout(() => window.location.reload(), 5000);
   };
 
   if (redirectRegisterCorporation) {
