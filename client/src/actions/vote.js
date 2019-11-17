@@ -32,3 +32,14 @@ export const makeVote = ({
         payload: res.data
       });
     };
+
+export const getVote = () => async dispatch => {
+  // const body = JSON.stringify({ corp, contents, token, char, place, date });
+  console.log('작동!')
+  const res = axios.get('/api/getvote');
+  dispatch({
+    type: GET_VOTE,
+    payload: res.data
+  });
+};
+

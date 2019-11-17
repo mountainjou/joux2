@@ -19,6 +19,7 @@ import BulletinWaggu from "../layout/BulletinWaggu";
 import MakeVote from "../layout/MakeVote";
 
 import ReceiveToken from "../layout/ReceiveToken";
+// import { makeVote } from "../actions/vote";
 
 const Routes = () => {
   return (

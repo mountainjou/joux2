@@ -20,7 +20,14 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 vote: payload
-             };
+            };
+        
+        case GET_VOTE:
+            return {
+                ...state,
+                voteDetail: payload,
+                loading: false
+            };
         // case ADD_GONGSI:
         //     return {
         //         ...state,
@@ -40,12 +47,6 @@ export default (state = initialState, action) => {
         //         error: payload,
         //         loading: false
         //     };
-        // case GET_GONGSI_DETAIL:
-        //         return {
-        //             ...state,
-        //             gongsiDetail: payload,
-        //             loading: false
-        //         };
         default:
             return state;
     }

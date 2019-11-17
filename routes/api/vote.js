@@ -40,4 +40,14 @@ router.post(
     }
 );
 
+router.get("/", async (req, res) => {
+    try {
+      const voteDetail = await vote.find();
+      res.json(voteDetail);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+
 module.exports = router;
