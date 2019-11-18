@@ -15,7 +15,7 @@ import { loadUser } from "./actions/auth";
 import { getWeb3Account } from "./actions/user";
 import setAuthToken from "./utils/setAuthToken";
 
-// import Web3 from "web3";
+import Web3 from "web3";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -25,11 +25,14 @@ if (
   typeof window.ethereum !== "undefined" ||
   typeof window.web3 !== "undefined"
 ) {
+  window.ethereum.enable()
   // Web3 browser user detected. You can now use the provider.
   const provider = window["ethereum"] || window.web3.currentProvider;
+
   const account = provider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
   console.log(provider.selectedAddress);
   store.dispatch(getWeb3Account(account)); // account 값이 존재하면 리듀서에 담아 전역 관리한다.
+
 
   // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
   window.web3.currentProvider.publicConfigStore.on("update", result => {
@@ -38,16 +41,18 @@ if (
   });
 }
 
-// if (
-//   typeof window.ethereum !== "undefined" ||
-//   typeof window.web3 !== "undefined"
-// ) {
-//   // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
-//   window.web3.currentProvider.publicConfigStore.on("update", result => {
-//     const account = result.selectedAddress;
-//     store.dispatch(getWeb3Account(account));
-//   });
-// }
+
+if (
+  typeof window.ethereum !== "undefined" ||
+  typeof window.web3 !== "undefined"
+) {
+  // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+  window.web3.currentProvider.publicConfigStore.on("update", result => {
+    const account = result.selectedAddress;
+    store.dispatch(getWeb3Account(account));
+  });
+}
+
 // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 // // const web3 = new Web3(Web3.givenProvider);
 
@@ -57,7 +62,13 @@ if (
 //   console.log("없음");
 // } else {
 //   account = web3.givenProvider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
+//   console.log(account)
+//   store.dispatch(getWeb3Account(account)); // account 값이 존재하면 리듀서에 담아 전역 관리한다.
 // }
+// window.web3.currentProvider.publicConfigStore.on("update", result => {
+//   const account = result.selectedAddress;
+//   store.dispatch(getWeb3Account(account));
+// });
 
 // // account 값이 존재하면 리듀서에 담아 전역 관리한다.
 // if (account) {
