@@ -92,6 +92,11 @@ const Nav = ({
           </a>
         </li>
         <li className='nav-item'>
+          <a className='nav-link text-light' href='/makevote/'>
+            투표 만들기
+          </a>
+        </li>
+        <li className='nav-item'>
           <a className='nav-link text-light' href='/myaccount/'>
             내 정보
           </a>

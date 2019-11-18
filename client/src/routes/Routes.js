@@ -19,7 +19,8 @@ import BulletinWaggu from "../layout/BulletinWaggu";
 import MakeVote from "../layout/MakeVote";
 import Mkvote from "../layout/Mkvote";
 
-// import ReceiveToken from "../layout/ReceiveToken";
+import ReceiveToken from "../layout/ReceiveToken";
+// import { makeVote } from "../actions/vote";
 
 const Routes = () => {
   return (
@@ -41,7 +42,7 @@ const Routes = () => {
           path="/BulletinWaggu/:id"
           component={BulletinWaggu}
         />
-        <PrivateRoute exact path="/MakeVote" component={MakeVote} />
+        <PrivateRoute exact path="/makevote" component={MakeVote} />
         <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
         {/* <PrivateRoute exact path="/publishtoken" component={PublishToken} />
         <PrivateRoute exact path="/receivetoken" component={ReceiveToken} /> */}
