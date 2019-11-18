@@ -2,17 +2,11 @@ const mongoose = require('mongoose');
 
 const VoteSchema = new mongoose.Schema({
   // 안건들 - 객체 배열로 저장
-  contents: { type: Array }, 
-  // [
-  //   {
-  //     cNum: {
-  //       type: String,
-  //     },
-  //     content: {
-  //       type: String
-  //     }
-  //   }
-  // ],
+  contents: {
+      // cNum: { type: String },
+      // content: { type: String }
+      type: Array
+  },
   // 법인명
   corp: {
     type: String,
