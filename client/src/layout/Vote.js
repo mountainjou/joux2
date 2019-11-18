@@ -1,10 +1,20 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { getVote } from "../actions/vote";
 // import Spinner from "../components/Spinner";
 
 const Vote = ({ auth: { user, currentAccount, loading } }) => {
-     
+  
+    useEffect(() => {
+      getVote();
+      console.log("useEffect 정상작동");
+    }, [getVote]);
+
+    const test = JSON.stringify(getVote);
+
+    console.log(test);
+
     const [values, setValues] = React.useState({
       redirectRegisterCorporation: false
     });

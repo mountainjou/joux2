@@ -12,14 +12,14 @@ import PublishToken from '../layout/PublishToken';
 // import ResetPassword from "../layout/auth/ResetPassword";
 
 // import NotFound from "../layout/NotFound";
-import PrivateRoute from './PrivateRoute';
-import Bulletin from '../layout/Bulletin';
-import Board from '../layout/Board';
-import BulletinWaggu from '../layout/BulletinWaggu';
-import MakeVote from '../layout/MakeVote';
-// import Mkvote from '../layout/Mkvote';
+import PrivateRoute from "./PrivateRoute";
+import Bulletin from "../layout/Bulletin";
+import Board from "../layout/Board";
+import BulletinWaggu from "../layout/BulletinWaggu";
+import MakeVote from "../layout/MakeVote";
 
-import ReceiveToken from '../layout/ReceiveToken';
+import ReceiveToken from "../layout/ReceiveToken";
+// import { makeVote } from "../actions/vote";
 
 const Routes = () => {
   return (
@@ -41,15 +41,14 @@ const Routes = () => {
           path='/BulletinWaggu/:id'
           component={BulletinWaggu}
         />
-        <PrivateRoute exact path='/MakeVote' component={MakeVote} />
-        <PrivateRoute exact path='/registercorp' component={RegisterCorp} />
-        <PrivateRoute exact path='/publishtoken' component={PublishToken} />
-        <PrivateRoute exact path='/receivetoken' component={ReceiveToken} />
+        <PrivateRoute exact path="/makevote" component={MakeVote} />
+        <PrivateRoute exact path="/registercorp" component={RegisterCorp} />
+        {/* <PrivateRoute exact path="/publishtoken" component={PublishToken} />
+        <PrivateRoute exact path="/receivetoken" component={ReceiveToken} /> */}
         {/* <Route exact path="/forgotpassword" component={ForgotPassword} />
         <Route exact path="/reset/:token" component={ResetPassword} /> */}
 
         {/* <Route component={NotFound} /> */}
-        {/* <PrivateRoute exact path='/mkvote' component={Mkvote} /> */}
       </Switch>
     </section>
   );
