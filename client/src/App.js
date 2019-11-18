@@ -17,27 +17,46 @@ import setAuthToken from './utils/setAuthToken';
 
 // import Web3 from "web3";
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
-
 if (
   typeof window.ethereum !== 'undefined' ||
   typeof window.web3 !== 'undefined'
 ) {
+  window.ethereum.enable();
   // Web3 browser user detected. You can now use the provider.
   const provider = window['ethereum'] || window.web3.currentProvider;
-  // window.ethereum.enable(); // 메타마스크를 연결한다.
-  provider.enable(); // 메타마스크를 연결한다.
+
   const account = provider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
-  console.log('isMetaMask? ', provider.isMetaMask); // 메타 마스크 접속되어있는지 확인
+  console.log(provider.selectedAddress);
   store.dispatch(getWeb3Account(account)); // account 값이 존재하면 리듀서에 담아 전역 관리한다.
 
   // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
-  provider.on('accountsChanged', account => {
+  window.web3.currentProvider.publicConfigStore.on('update', result => {
+    const account = result.selectedAddress;
     store.dispatch(getWeb3Account(account));
   });
 }
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+// if (
+//   typeof window.ethereum !== 'undefined' ||
+//   typeof window.web3 !== 'undefined'
+// ) {
+//   // Web3 browser user detected. You can now use the provider.
+//   const provider = window['ethereum'] || window.web3.currentProvider;
+//   // window.ethereum.enable(); // 메타마스크를 연결한다.
+//   provider.enable(); // 메타마스크를 연결한다.
+//   const account = provider.selectedAddress; // 현재 제공되는 web3 provider의 선택된 주소를 상수 account 담는다.
+//   console.log('isMetaMask? ', provider.isMetaMask); // 메타 마스크 접속되어있는지 확인
+//   store.dispatch(getWeb3Account(account)); // account 값이 존재하면 리듀서에 담아 전역 관리한다.
+
+//   // 만약 web3 provider의 지갑 주소가 업데이트 되면 전역 상태값을 갱신한다.
+//   provider.on('accountsChanged', account => {
+//     store.dispatch(getWeb3Account(account));
+//   });
+// }
 
 // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 // // const web3 = new Web3(Web3.givenProvider);

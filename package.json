@@ -30,11 +30,10 @@
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
     "solc": "^0.5.12",
-    "xlsx": "^0.15.1",
-    "yarn": "^1.19.1"
+    "xlsx": "^0.15.1"
   },
   "devDependencies": {
-    "concurrently": "^4.1.2",
+    "concurrently": "^5.0.0",
     "json-loader": "^0.5.7",
     "nodemon": "^1.19.1"
   }
