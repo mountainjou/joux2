@@ -23,10 +23,8 @@ export const makeVote = ({
       "Content-Type": "application/json"
     }
   };
-
   const body = JSON.stringify({ corp, contents, token, char, place, date });
-
-  console.log(body+"안녕");
+  console.log(body);
   const res = await axios.post("/api/vote/makevote", body, config);
 
   dispatch({
@@ -36,20 +34,7 @@ export const makeVote = ({
 };
 
 export const getVote = async () => {
-  // const body = JSON.stringify({ corp, contents, token, char, place, date });
-  // try {
+  console.log('get vote')
   const res = await axios.get('/api/vote/getvote');
-  console.log('작동!');
-  // dispatch({
-  //   type: GET_VOTE,
-  //   payload: res.data
-  // });
-  console.log(res.data);
-  // }
-  // catch (err) {
-  //   dispatch({
-  //       type: POST_ERROR,
-  //       payload: { msg: err.response.statusText, status: err.response.status }
-  //   });
-  // }
+  return res;
 };
