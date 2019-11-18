@@ -65,8 +65,7 @@ const PublishToken = ({
 
     const option = {
       from: currentAccount,
-      gas: 1500000,
-      gasPrice: '30000000000000'
+      gasPrice: '20000000000'
     };
 
     const arg = [
@@ -81,11 +80,11 @@ const PublishToken = ({
 
     // default gas price in wei, 20 gwei in this case
     const tokenContract = new web3.eth.Contract(abi, option);
-    // tokenContract.options.data = bytecode;
+    tokenContract.options.data = bytecode;
     console.log(tokenContract);
 
     tokenContract
-      .deploy({ data: bytecode, arguments: arg })
+      .deploy({ arguments: arg })
       .send(
         {
           from: currentAccount
