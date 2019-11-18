@@ -77,7 +77,7 @@ const Nav = ({
           </a>
         </li>
         <li className='nav-item'>
-          <a className='nav-link text-light' href='/mkvote/'>
+          <a className='nav-link text-light' href='/makevote/'>
             투표 작성
           </a>
         </li>
@@ -153,7 +153,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Nav);
+export default connect(mapStateToProps, { logout })(Nav);

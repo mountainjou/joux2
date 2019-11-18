@@ -16,6 +16,9 @@ import { getWeb3Account } from './actions/user';
 import setAuthToken from './utils/setAuthToken';
 
 // import Web3 from "web3";
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 if (
   typeof window.ethereum !== 'undefined' ||
@@ -34,10 +37,6 @@ if (
     const account = result.selectedAddress;
     store.dispatch(getWeb3Account(account));
   });
-}
-
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
 }
 
 // if (

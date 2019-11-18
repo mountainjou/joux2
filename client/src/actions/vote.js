@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setAlert } from "./alert";
+import axios from 'axios';
+import { setAlert } from './alert';
 import {
   MAKE_VOTE,
   UPDATE_VOTE,
@@ -7,8 +7,8 @@ import {
   GET_VOTE,
   VOTING,
   POST_ERROR
-} from "./types";
-import { async } from "rxjs/internal/scheduler/async";
+} from './types';
+import { async } from 'rxjs/internal/scheduler/async';
 
 export const makeVote = ({
   corp,
@@ -20,19 +20,21 @@ export const makeVote = ({
 }) => async dispatch => {
   const config = {
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     }
   };
 
   const body = JSON.stringify({ corp, contents, token, char, place, date });
 
-  console.log(body+"안녕");
-  const res = await axios.post("/api/vote/makevote", body, config);
+  console.log(body + '안녕');
+  const res = await axios.post('/api/vote/makevote', body, config);
 
   dispatch({
     type: MAKE_VOTE,
     payload: res.data
   });
+
+  dispatch(setAlert('전자투표가 등록되었습니다', 'success'));
 };
 
 export const getVote = async () => {
@@ -44,7 +46,7 @@ export const getVote = async () => {
   //   type: GET_VOTE,
   //   payload: res.data
   // });
-  console.log(res.data);
+  // console.log(res.data);
   // }
   // catch (err) {
   //   dispatch({
@@ -52,4 +54,5 @@ export const getVote = async () => {
   //       payload: { msg: err.response.statusText, status: err.response.status }
   //   });
   // }
+  return res.data;
 };
