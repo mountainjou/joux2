@@ -236,7 +236,7 @@ export const deleteComment = (postId, commentId) => async dispatch => {
   try {
     await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
 
-    console.log("여기까지는 오나");
+    console.log("여기까지는 오나미");
 
     dispatch({
       type: REMOVE_COMMENT,
