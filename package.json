@@ -29,7 +29,7 @@
     "multiparty": "^4.2.1",
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
-    "solc": "^0.5.12",
+    "solc": "^0.5.14",
     "xlsx": "^0.15.1"
   },
   "devDependencies": {
