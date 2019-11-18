@@ -42,8 +42,9 @@ router.post(
 
 router.get("/getvote", async (req, res) => {
     try {
-      const voteDetail = await vote.find();
-      res.json(voteDetail);
+      const voteDetail = await Vote.find()
+      const voteMain = voteDetail[voteDetail.length-1];
+      res.json(voteMain);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
