@@ -5,7 +5,8 @@ import {
     UPDATE_VOTE,
     REMOVE_VOTE,
     GET_VOTE,
-    VOTING
+    VOTING,
+    POST_ERROR
 } from "./types";
 
 export const makeVote = ({
@@ -25,7 +26,7 @@ export const makeVote = ({
     const body = JSON.stringify({ corp, contents, token, char, place, date });
   
     console.log(body);
-      const res = await axios.post("/api/makevote", body, config);
+      const res = await axios.post("/api/vote/makevote", body, config);
   
       dispatch({
         type: MAKE_VOTE,
@@ -33,13 +34,21 @@ export const makeVote = ({
       });
     };
 
-export const getVote = () => async dispatch => {
+export const getVote = () => dispatch => {
   // const body = JSON.stringify({ corp, contents, token, char, place, date });
+  try {
+  const res = axios.get('/api/vote/getvote');
   console.log('작동!')
-  const res = axios.get('/api/getvote');
   dispatch({
     type: GET_VOTE,
     payload: res.data
   });
+  console.log(res.data)
+  }
+  catch (err) {
+    dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
 };
-

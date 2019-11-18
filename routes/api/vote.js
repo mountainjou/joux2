@@ -6,7 +6,7 @@ let Vote = require('../../models/Vote');
 
 // 주주총회 생성
 router.post(
-    '/',
+    '/makevote',
     async (req, res) => {
         
         let { corp, contents, token, char, place, date } = req.body;
@@ -40,7 +40,7 @@ router.post(
     }
 );
 
-router.get("/", async (req, res) => {
+router.get("/getvote", async (req, res) => {
     try {
       const voteDetail = await vote.find();
       res.json(voteDetail);

@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
         case GET_VOTE:
             return {
                 ...state,
-                voteDetail: payload,
+                vote: payload,
                 loading: false
             };
         // case ADD_GONGSI:
