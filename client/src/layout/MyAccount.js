@@ -42,6 +42,8 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
       .catch(err => {
         console.log(err);
       });
+    // 5sec 뒤에 브라우저 새로고침
+    setTimeout(() => window.location.reload(), 5000);
   };
 
   if (redirectRegisterCorporation) {
@@ -51,40 +53,131 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
   return loading === null ? (
     <Spinner />
   ) : (
-    <div className='container'>
-      <div>내 정보</div>
+    <div style={{ maxWidth: 500, margin: '0 auto' }}>
+      <h2>내 정보</h2>
       <br />
-      <div>유저네임 : {user.username}</div>
-      <div>이메일 : {user.email}</div>
-      <div>
+      <form>
+        {/* 사용자 이름 항목 */}
+        <div className='form-group row'>
+          <label
+            htmlFor='userName'
+            className='col-sm-3 col-form-label border-right'
+          >
+            사용자 이름
+          </label>
+          <div className='col-sm-9'>
+            <input
+              type='text'
+              disabled
+              className='form-control-plaintext'
+              id='userName'
+              placeholder={user.username}
+            />
+          </div>
+        </div>
+        {/* 이메일 항목 */}
+        <div className='form-group row'>
+          <label
+            htmlFor='userEmail'
+            className='col-sm-3 border-right col-form-label '
+          >
+            이메일
+          </label>
+          <div className='col-sm-9'>
+            <input
+              type='text'
+              disabled
+              className='form-control-plaintext'
+              id='userEmail'
+              placeholder={user.email}
+            />
+          </div>
+        </div>
+
+        {/* <div>유저네임 : {user.username}</div>
+      <div>이메일 : {user.email}</div> */}
         {(user.role === 'corp') | (user.role === 'certCorp') ? (
           <div>
-            <div>회사명 : {user.corporation.name}</div>
-            <div>법인 등록 번호 : {user.corporation.corpId}</div>
+            <div className='form-group row'>
+              <label
+                htmlFor='corpName'
+                className='col-sm-3 border-right col-form-label '
+              >
+                회사명
+              </label>
+              <div className='col-sm-9'>
+                <input
+                  type='text'
+                  disabled
+                  className='form-control-plaintext'
+                  id='corpName'
+                  placeholder={user.corporation.name}
+                />
+              </div>
+            </div>
+            <div className='form-group row'>
+              <label
+                htmlFor='corpId'
+                className='col-sm-3 border-right col-form-label '
+              >
+                법인 번호
+              </label>
+              <div className='col-sm-9'>
+                <input
+                  type='text'
+                  disabled
+                  className='form-control-plaintext'
+                  id='corpId'
+                  placeholder={user.corporation.corpId}
+                />
+              </div>
+            </div>
             {user.role === 'certCorp' ? (
-              <div>기업인증 : 인증된 기업</div>
+              <div className='form-group row'>
+                <label
+                  htmlFor='certCorp'
+                  className='col-sm-3 border-right col-form-label '
+                >
+                  법인 인증
+                </label>
+                <div className='col-sm-9'>
+                  <input
+                    type='text'
+                    disabled
+                    className='form-control-plaintext'
+                    id='certCorp'
+                    placeholder='인증된 법인 기업'
+                  />
+                </div>
+              </div>
             ) : (
-              <div>기업인증 : 인증받지 않은 기업</div>
+              <div className='form-group row'>
+                <label
+                  htmlFor='certCorp'
+                  className='col-sm-3 border-right col-form-label '
+                >
+                  법인 인증
+                </label>
+                <div className='col-sm-9'>
+                  <input
+                    type='text'
+                    disabled
+                    className='form-control-plaintext'
+                    id='certCorp'
+                    placeholder='인증받지 않은 법인'
+                  />
+                </div>
+              </div>
             )}
           </div>
-        ) : null
-        // <div>
-        //   <button
-        //     type='button'
-        //     className='btn btn-primary'
-        //     onClick={registerCorporation}
-        //   >
-        //     기업 회원 등록
-        //   </button>
-        // </div>
-        }
-      </div>
-      <div>
-        등록된 지갑 주소 :
-        {user.whitelistWallet ? (
+        ) : null}
+        <div>등록된 지갑 주소</div>
+        {user.whitelistWallets ? (
           <div>
-            {user.whitelistWallet.map(address => (
-              <li key={address}>{address}</li>
+            {user.whitelistWallets.map(address => (
+              <li style={{ color: 'gray' }} key={address}>
+                {address}
+              </li>
             ))}
 
             <br />
@@ -105,13 +198,7 @@ const MyAccount = ({ setAlert, auth: { user, currentAccount, loading } }) => {
             현재 접속된 지갑 주소 등록
           </button>
         )}
-      </div>
-      {/* <div style={{ textAlign: "center" }}>
-        <button type="button" className="btn btn-primary">
-          눌러줘
-        </button>
-      </div> */}
-      <br />
+      </form>
       <Alert />
     </div>
   );
