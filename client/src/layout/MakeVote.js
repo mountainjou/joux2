@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
 import { makeVote } from "../actions/vote";
-// import PropTypes from "prop-types";
 import Alert from "../Alert";
 // import { getValues } from "jest-validate/build/condition";
 
@@ -27,7 +26,7 @@ const MakeVote = ({ setAlert, makeVote, isAuthenticated }) => {
   const handleChange2 = name => event => {
     setmeeting({ ...meeting, [name]: event.target.value });
   };
-  
+
   const { corp, contents, token, char, place, date } = meeting;
 
   const onSubmit = async e => {
@@ -36,146 +35,106 @@ const MakeVote = ({ setAlert, makeVote, isAuthenticated }) => {
     makeVote({ corp, contents, token, char, place, date });
   };
 
-  // var num = optionNum;
+  // console.log(meeting)
 
-  // console.log(num);
+  const [rows, setRows] = useState([]);
+  const addRow = () => {
+      if(rows.length > 9) return;
+      let data = {
+          id: rows.length + 1,
+          context: ""
+      };
+      setRows([...rows, data]);
+  };
+  const deleteRow = id => () => {
+      let tempRows = rows.filter(row => {
+          return row.id !== id;
+      });
+      setRows(tempRows);
+  }
 
-  // const confirmNum = () => {
-
-  //   for (i=0; i<num; i++) {
-
-  //   };
-  // }
-  console.log(meeting)
   return (
     <div className="container">
       <div>
-        <h1>주주총회 등록</h1>
-        <br />
-        <br />
+        <h1>전자투표 등록</h1><br />
       </div>
       <form onSubmit={e => onSubmit(e)}>
-        <div className="form-group">
-          <label for="corp">회사 이름</label>
-          <input
-            className="form-control"
-            type="corp"
-            name="corp"
-            id="corp"
-            meeting={meeting.corp}
-            onChange={handleChange("corp")}
-          />
-        </div>
-        <div className="form-group">
-          <label for="cNum">안건 번호</label>
-          <input
-            className="form-control"
-            type="cNum"
-            name="cNum"
-            id="cNum"
-            onChange={handleChange("contents.cNum")}
-          />
-          <input
-            className="form-control"
-            type="content"
-            name="content"
-            id="content"
-            onChange={handleChange("contents.content")}
-          />
-        </div>
-        {/* <div className="form-group">
-          <label for="content">안건</label>
-          <input
-            className="form-control"
-            type="content"
-            name="content"
-            id="content"
-            onChange={handleChange("contents[content]")}
-          />
-        </div> */}
-        {/* <div className="form-group">
-          <label for="cNum">안건 번호</label>
-          <input
-            className="form-control"
-            type="cNum"
-            name="cNum"
-            id="cNum"
-            onChange={handleChange("cNum")}
-          />
-        </div><div className="form-group">
-          <label for="content">안건</label>
-          <input
-            className="form-control"
-            type="content"
-            name="content"
-            id="content"
-            onChange={handleChange("content")}
-          />
-        </div>
-        <div className="form-group">
-          <label for="cNum">안건 번호</label>
-          <input
-            className="form-control"
-            type="cNum"
-            name="cNum"
-            id="cNum"
-            onChange={handleChange("cNum")}
-          />
-        </div><div className="form-group">
-          <label for="content">안건</label>
-          <input
-            className="form-control"
-            type="content"
-            name="content"
-            id="content"
-            onChange={handleChange("content")}
-          />
-        </div> */}
-        {/* input으로 갯수 설정 버튼 onClick으로 생성함수 호출 */}
-        {/* <h4>안건 갯수 설정</h4>
-        <br />
-        <div>
-          
-          <input type="number" min="1" name="optionNum" id="optionNum" />
-          <button className="btn btn-dark" style={{ marginLeft: 20 }}>
-            설정
-          </button>
-        </div> */}
-        <div className="form-group">
-          <label for="char">주총 성격</label>
-          <input
-            className="form-control"
-            type="char"
-            name="char"
-            id="char"
-            meeting={meeting.char}
-            onChange={handleChange("char")}
-          />
-        </div>
-        <div className="form-group">
-          <label for="place">장소</label>
-          <input
-            className="form-control"
-            type="place"
-            name="place"
-            id="place"
-            meeting={meeting.place}
-            onChange={handleChange("place")}
-          />
-        </div>
-        <div className="form-group">
-          <label for="date">일자/시간</label>
-          <input
-            className="form-control"
-            // type="date"
-            name="date"
-            id="date"
-            meeting={meeting.date}
-            onChange={handleChange("date")}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          주주총회 등록
+        <p>주주총회 정보</p>
+        <table className="table table-dark">
+          <tbody>
+            <tr>
+              <th className="fix"><label htmlFor="corp">회사명</label></th>
+              <td className="input"><input className="form-control bg-dark text-white"
+                type="corp"
+                name="corp"
+                id="corp"
+                meeting={meeting.corp}
+                onChange={handleChange("corp")} /></td>
+              <th className="fix"><label htmlFor="char">주주총회성격</label></th>
+              <td className="input"><input className="form-control bg-dark text-white"
+                type="char"
+                name="char"
+                id="char"
+                meeting={meeting.char}
+                onChange={handleChange("char")} /></td>
+            </tr>
+            <tr>
+              <th className="fix"><label htmlFor="date">주주총회일시</label></th>
+              <td className="input"><input className="form-control bg-dark text-white"
+                // type="date"
+                name="date"
+                id="date"
+                meeting={meeting.date}
+                onChange={handleChange("date")} /></td>
+              <th className="fix"><label htmlFor="place">주주총회장소</label></th>
+              <td className="input"><input className="form-control bg-dark text-white"
+                type="place"
+                name="place"
+                id="place"
+                meeting={meeting.place}
+                onChange={handleChange("place")} /></td>
+            </tr>
+          </tbody>
+        </table><br />
+
+        <p>전자투표 의안
+            <button type="button" className="btn btn-primary float-right"
+            onClick={addRow}>의안 추가</button>
+        </p>
+        <table className="table table-dark table-striped">
+          <colgroup>
+            <col width="100px" />
+            <col />
+            <col width="50px" />
+          </colgroup>
+          <thead className="thead-dark">
+            <tr>
+              <th>순번</th>
+              <th colSpan='2'>의안 내용</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((d, i) => (
+              <tr key={i}>
+                <td align="center">{i + 1}</td>
+                <td><input
+                  className="form-control bg-dark text-white"
+                  type="content"
+                  name="content"
+                  id="content"
+                  onChange={(e) => { handleChange("contents.content"); }}
+                   /></td>
+                <td><div onClick={deleteRow(i+1)}>
+                  <i className="fas fa-backspace"></i>
+                </div></td>
+              </tr>
+            ))}
+          </tbody>
+        </table><br />
+
+
+        <button type="submit" className="btn btn-primary float-right">
+          등록
         </button>
         <br />
         <br />
