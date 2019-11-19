@@ -58,27 +58,27 @@ const Nav = ({
       <ul className='nav'>
         <li className='nav-item'>
           <a className='nav-link text-light' href='/uploadholders/'>
-            명부 업로드
+            주주명부 등록
           </a>
         </li>
         <li className='nav-item'>
           <a className='nav-link text-light' href='/publishtoken/'>
-            토큰 발행
+            증권 발행
           </a>
         </li>
         <li className='nav-item'>
           <a className='nav-link text-light' href='/receivetoken/'>
-            토큰 수령
+            증권 수령
+          </a>
+        </li>
+        <li className='nav-item'>
+          <a className='nav-link text-light' href='/makevote/'>
+            주주총회 생성
           </a>
         </li>
         <li className='nav-item'>
           <a className='nav-link text-light' href='/vote/'>
-            투표
-          </a>
-        </li>
-        <li className='nav-item'>
-          <a className='nav-link text-light' href='/mkvote/'>
-            투표 작성
+            주주총회
           </a>
         </li>
         <li className='nav-item'>
@@ -89,11 +89,6 @@ const Nav = ({
         <li className='nav-item'>
           <a className='nav-link text-light' href='/bulletin/'>
             전자공시
-          </a>
-        </li>
-        <li className='nav-item'>
-          <a className='nav-link text-light' href='/makevote/'>
-            투표 만들기
           </a>
         </li>
         <li className='nav-item'>
