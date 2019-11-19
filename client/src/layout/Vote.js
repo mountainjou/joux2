@@ -13,25 +13,36 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
 
   useEffect(() => {
     getVote().then(data => {
-      // console.log(data);
-      setValues({ data: data.contents });
+      console.log(data);
+
+      const option = {
+        from: currentAccount,
+        gasPrice: '20000000000'
+      };
+
+      const tokenContract = new web3.eth.Contract(abi, data.tokenCA);
+
+      tokenContract.methods
+        .balanceOf(currentAccount)
+        .call(option)
+        .then(result => {
+          console.log(result);
+          setValues({
+            tokenAmount: result,
+            data: data.contents,
+            tokenCA: data.tokenCA
+          });
+        });
     });
-  }, [getVote]);
+  }, []);
 
   const [values, setValues] = React.useState({
-    redirectRegisterCorporation: false,
-    data: null
+    data: null,
+    tokenCA: null,
+    tokenAmount: 0
   });
 
-  const summitVote = () => {
-    const option = {
-      from: currentAccount,
-      gasPrice: '20000000000'
-    };
-    const tokenContract = new web3.eth.Contract(abi, option);
-    tokenContract.options.data = bytecode;
-    console.log(tokenContract);
-  };
+  const summitVote = () => {};
 
   return values.data === null ? (
     'loading ...'
@@ -53,7 +64,7 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
               <td>{user.username}</td>
               <td>일반 투표권자</td>
               {/* <td>{currentAccount}</td> */}
-              <td>524주</td>
+              <td>{`${values.tokenAmount}주`}</td>
             </tr>
           </tbody>
         </table>

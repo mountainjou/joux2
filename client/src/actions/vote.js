@@ -11,6 +11,7 @@ import {
 import { async } from 'rxjs/internal/scheduler/async';
 
 export const makeVote = ({
+  tokenCA,
   corp,
   contents,
   token,
@@ -24,7 +25,15 @@ export const makeVote = ({
     }
   };
 
-  const body = JSON.stringify({ corp, contents, token, char, place, date });
+  const body = JSON.stringify({
+    tokenCA,
+    corp,
+    contents,
+    token,
+    char,
+    place,
+    date
+  });
 
   console.log(body + '안녕');
   const res = await axios.post('/api/vote/makevote', body, config);

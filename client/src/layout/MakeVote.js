@@ -4,6 +4,10 @@ import { setAlert } from '../actions/alert';
 import { makeVote } from '../actions/vote';
 import Alert from '../Alert';
 import Spinner from '../components/Spinner';
+import { loadUser } from '../actions/auth';
+import { async } from 'rxjs/internal/scheduler/async';
+import Axios from 'axios';
+import Web3 from 'web3';
 // import { getValues } from "jest-validate/build/condition";
 
 // fname: 주주총회 이름, cname: 주주총회 진행 대상회사, options:안건 배열로 나열
@@ -13,8 +17,19 @@ const MakeVote = ({
   isAuthenticated,
   auth: { user, loading, currentAccount }
 }) => {
+  const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8546');
+
+  useEffect(() => {
+    Axios.get('/api/auth').then(result => {
+      const tokenCA = result.data.corporation.tokenCA;
+      console.log(tokenCA);
+      setmeeting({ tokenCA });
+    });
+  }, []);
+
   // let contents = [ {cNum, content} ]
   const [meeting, setmeeting] = React.useState({
+    tokenCA: '',
     corp: '',
     cNum: '',
     contents: [],
@@ -29,18 +44,22 @@ const MakeVote = ({
     setmeeting({ ...meeting, [name]: event.target.value });
   };
 
-  const { corp, token, char, place, date } = meeting;
+  const { tokenCA, corp, token, char, place, date } = meeting;
 
   console.log(corp);
 
+  // 투표 입력 실행
   const onSubmit = async e => {
     e.preventDefault();
     const corpName = document.getElementById('corp').value;
+
     let contents = rows.map(n => {
       return n.context;
     });
     // makevote 액션을 실행한다.
+    // db에 투표 내용 입력하기
     makeVote({
+      tokenCA: tokenCA,
       corp: corpName,
       contents,
       token,
@@ -48,11 +67,14 @@ const MakeVote = ({
       place,
       date
     });
+
+    // 토큰 컨트랙트 발생시키기
   };
 
   console.log(meeting);
 
   const [rows, setRows] = React.useState([]);
+
   const changeText = id => e => {
     const tempRows = rows.map(row => {
       if (row.id === id + 1) {
