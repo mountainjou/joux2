@@ -36,7 +36,7 @@ contract Vote {
         for (uint j = 0; j < _proposals.length; j++) {
             if(name == _proposals[j]){
                 voteCount += balance;
-                if(_votedResult[j] == 'true'){
+                if(_votedResult[j] == true){
                     countOfAgree += balance;
                 }
             }

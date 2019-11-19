@@ -13,7 +13,11 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
 
   useEffect(() => {
     getVote().then(data => {
-      console.log(data);
+      setValues({
+        data: data.contents,
+        tokenCA: data.tokenCA
+      });
+      console.log(data.tokenCA);
 
       const option = {
         from: currentAccount,
@@ -27,20 +31,17 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
         .call(option)
         .then(result => {
           console.log(result);
-          setValues({
-            tokenAmount: result,
-            data: data.contents,
-            tokenCA: data.tokenCA
-          });
+          setTokenAmount(result);
         });
     });
   }, []);
 
+  const [tokenAmount, setTokenAmount] = React.useState(0);
   const [values, setValues] = React.useState({
     data: null,
-    tokenCA: null,
-    tokenAmount: 0
+    tokenCA: null
   });
+  console.log(tokenAmount);
 
   const summitVote = () => {};
 
@@ -64,7 +65,7 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
               <td>{user.username}</td>
               <td>일반 투표권자</td>
               {/* <td>{currentAccount}</td> */}
-              <td>{`${values.tokenAmount}주`}</td>
+              <td>{`${tokenAmount}주`}</td>
             </tr>
           </tbody>
         </table>
