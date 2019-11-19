@@ -1,30 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getVote } from "../actions/vote";
+import { async } from "rxjs/internal/scheduler/async";
+import { get } from "http";
+// import { async } from "rxjs/internal/scheduler/async";
 // import Spinner from "../components/Spinner";
 
 const Vote = ({ auth: { user, currentAccount, loading } }) => {
-  
-    useEffect(() => {
-      getVote();
-      console.log("useEffect 정상작동");
-    }, [getVote]);
+  useEffect(() => {
+    getVote().then(data => {
+      setValues({data:data.data.contents})
+    })
+  }, [getVote]);
 
-    const test = JSON.stringify(getVote);
-
-    console.log(test);
-
-    const [values, setValues] = React.useState({
-      redirectRegisterCorporation: false
-    });
-
-    console.log(user);
+  const [values, setValues] = React.useState({
+    redirectRegisterCorporation: false,
+    data: null
+  });
+  console.log(user);
+  console.log(values.data)
+  let arr =[1,2,3,4,5]
 
   return (
-    <div>
+    values.data === null ? ( "loading ..." ) : (
+    <>
       <h1>투표 기능</h1>
-
       <div>
         <table className="table">
           <thead>
@@ -56,7 +57,21 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          {values.data.map((data, index) => (
+            <tr key={index}>
+              <td align="center">{index + 1}</td>
+              <td>{data}</td>
+              <td>
+                <select className="browser-default custom-select">
+                  <option defaultValue>찬성/반대</option>
+                  <option value="agree">찬성</option>
+                  <option value="disagree">반대</option>
+                </select>
+              </td>
+            </tr>
+          ))}
+
+          {/* <tr>
             <td>1</td>
             <td>사장 교체의 건</td>
             <td>
@@ -67,7 +82,6 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
               </select>
             </td>
           </tr>
-
           <tr>
             <td>1 - 2</td>
             <td>대표이사 선임의 건</td>
@@ -100,7 +114,7 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
                 <option value="disagree">반대</option>
               </select>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
 
@@ -115,8 +129,9 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
           </button>
         </p>
       </div>
-    </div>
-  );
+    </>
+    )
+  )
 };
 
 Vote.propTypes = {

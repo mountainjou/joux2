@@ -103,7 +103,7 @@ const MakeVote = ({ setAlert, makeVote, isAuthenticated }) => {
         </table><br />
 
         <h4><p className="bg-dark text-white">전자투표 의안
-            <button type="button" className="btn btn-tranparent text-white float-right"
+            <button type="button" className="btn btn-primary float-right"
             onClick={addRow}>의안 추가</button>
         </p></h4>
         <table className="table table-striped">
