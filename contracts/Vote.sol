@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.13;
 
 
 contract TokenInterface {
@@ -18,29 +18,28 @@ contract Vote {
     Proposal[] public Proposals; // Proposals에 Proposal을 배열로 기록한다
 
     
-    constructor(address _tokenCA) public {
+    constructor(bytes32[] memory _proposals, address _tokenCA) public {
            tokenCA = _tokenCA;
+           for(uint i = 0; i < _proposals.length; i ++) {
+                Proposals.push(Proposal({
+            name: _proposals[i],
+            voteCount: 0,
+            countOfAgree: 0
+        }));
+           }
     }
     
-    function voting(bytes32[] memory _proposals, bool[] memory _votedResult) public {
+    function voting( bool[] memory _votedResult) public {
         
      TokenInterface TokenContract = TokenInterface(tokenCA);
      
      uint balance = TokenContract.balanceOf(msg.sender);
     
-     for (uint i = 0; i < Proposals.length; i++){
-        bytes32 name = Proposals[i].name;
-        uint voteCount = Proposals[i].voteCount;
-        uint countOfAgree = Proposals[i].countOfAgree;
-        
-        for (uint j = 0; j < _proposals.length; j++) {
-            if(name == _proposals[j]){
-                voteCount += balance;
-                if(_votedResult[j] == true){
-                    countOfAgree += balance;
-                }
-            }
+     for (uint i = 0; i < _votedResult.length; i++){
+       Proposals[i].voteCount += balance;
+       if(_votedResult[i] == true){
+           Proposals[i].countOfAgree += balance;
+             }
         }
      }
-  }
 }

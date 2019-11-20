@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema({
       // 발행 토큰 컨트랙트 주소
       type: String
     },
+    voteCA: {
+      type: String
+    },
     tokenSymbol: {
       // 발행 토큰 심볼
       type: String

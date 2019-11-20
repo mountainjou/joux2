@@ -43,7 +43,7 @@ export const makeVote = ({
     payload: res.data
   });
 
-  dispatch(setAlert('전자투표가 등록되었습니다', 'success'));
+  // dispatch(setAlert('전자투표가 등록되었습니다', 'success'));
 };
 
 export const getVote = async () => {

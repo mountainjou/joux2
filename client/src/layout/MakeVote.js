@@ -4,10 +4,12 @@ import { setAlert } from '../actions/alert';
 import { makeVote } from '../actions/vote';
 import Alert from '../Alert';
 import Spinner from '../components/Spinner';
-import { loadUser } from '../actions/auth';
-import { async } from 'rxjs/internal/scheduler/async';
 import Axios from 'axios';
 import Web3 from 'web3';
+
+import { voteAbi, bytecode } from '../contracts/Vote.json'; // 컴파일된 Vote 컨트랙트에서 abi값과 bytecode값을 가져온다.
+import { ethers } from 'ethers';
+
 // import { getValues } from "jest-validate/build/condition";
 
 // fname: 주주총회 이름, cname: 주주총회 진행 대상회사, options:안건 배열로 나열
@@ -67,6 +69,68 @@ const MakeVote = ({
       place,
       date
     });
+
+    console.log(contents);
+
+    let proposals = [];
+
+    for (let i = 0; i < contents.length; i++) {
+      proposals.push(ethers.utils.formatBytes32String(contents[i]));
+      console.log(proposals);
+    }
+
+    const option = {
+      from: currentAccount,
+      gasPrice: '20000000000'
+    };
+
+    const arg = [proposals, tokenCA];
+
+    // default gas price in wei, 20 gwei in this case
+    const VoteContract = new web3.eth.Contract(voteAbi, option);
+    VoteContract.options.data = bytecode;
+    console.log(VoteContract);
+
+    VoteContract.deploy({ arguments: arg })
+      .send(
+        {
+          from: currentAccount
+        },
+        (err, transactionHash) => {
+          // console.log(transactionHash);
+        }
+      )
+      .on('error', err => {})
+      .on('transactionHash', transactionHash => {})
+      .on('receipt', receipt => {
+        // console.log(receipt.contractAddress); // contains the new contract address
+      })
+      .on('confirmation', (confirmationNumber, receipt) => {})
+      .then(newContractInstance => {
+        // console.log(newContractInstance.options.address); // instance with the new contract address
+        const voteAddress = newContractInstance.options.address;
+        console.log(voteAddress);
+
+        const url = '/api/users/registervotecontractaddress';
+        const data = {
+          email: user.email,
+          voteCA: newContractInstance.options.address
+        };
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        Axios.post(url, data, config)
+          .then(result => {
+            console.log(result);
+            setAlert(result.data.msg, result.data.alertType);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
 
     // 토큰 컨트랙트 발생시키기
   };

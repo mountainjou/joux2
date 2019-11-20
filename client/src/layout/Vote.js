@@ -5,12 +5,15 @@ import { getVote } from '../actions/vote';
 import { Result } from 'express-validator';
 import Web3 from 'web3';
 import { abi, bytecode } from '../contracts/Token.json'; // 컴파일된 Token 컨트랙트에서 abi값과 bytecode값을 가져온다.
+import { voteAbi } from '../contracts/Vote.json'; // 컴파일된 Token 컨트랙트에서 abi값과 bytecode값을 가져온다.
+import Axios from 'axios';
+import { setAlert } from '../actions/alert';
+import { ethers } from 'ethers';
 
 // import Spinner from "../components/Spinner";
+const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8546');
 
 const Vote = ({ auth: { user, currentAccount, loading } }) => {
-  const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8546');
-
   useEffect(() => {
     getVote().then(data => {
       setValues({
@@ -19,31 +22,69 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
       });
       console.log(data.tokenCA);
 
-      const option = {
-        from: currentAccount,
-        gasPrice: '20000000000'
-      };
+      Axios.get('/api/users').then(result => {
+        console.log(result);
+        const voteCA = result.data.corporation.voteCA;
 
-      const tokenContract = new web3.eth.Contract(abi, data.tokenCA);
+        console.log(voteCA);
+        setVoteCA(voteCA);
+      });
 
-      tokenContract.methods
-        .balanceOf(currentAccount)
-        .call(option)
-        .then(result => {
-          console.log(result);
-          setTokenAmount(result);
-        });
+      if (currentAccount) {
+        const option = {
+          from: currentAccount,
+          gasPrice: '20000000000'
+        };
+
+        const tokenContract = new web3.eth.Contract(abi, data.tokenCA);
+
+        tokenContract.methods
+          .balanceOf(currentAccount)
+          .call(option)
+          .then(result => {
+            console.log(result);
+            setTokenAmount(result);
+          });
+      }
     });
-  }, []);
+  }, [currentAccount]);
 
+  const [voteCA, setVoteCA] = React.useState('');
   const [tokenAmount, setTokenAmount] = React.useState(0);
   const [values, setValues] = React.useState({
     data: null,
     tokenCA: null
   });
   console.log(tokenAmount);
+  console.log(voteCA);
 
-  const summitVote = () => {};
+  const summitVote = () => {
+    const option = {
+      from: currentAccount,
+      gasPrice: '20000000000'
+    };
+    // let proposals = [];
+
+    // for (let i = 0; i < values.data.length; i++) {
+    //   proposals.push(ethers.utils.formatBytes32String(values.data[i]));
+    //   console.log(proposals);
+    // }
+
+    const votedResult = [true, false];
+
+    const voteContract = new web3.eth.Contract(voteAbi, voteCA);
+    voteContract.methods
+      .voting(votedResult)
+      .send(option)
+      .then(receipt => {
+        console.log(receipt);
+
+        setAlert(`투표가 완료되었습니다`, 'success');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return values.data === null ? (
     'loading ...'
@@ -86,7 +127,10 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
               <td align='center'>{index + 1}</td>
               <td>{data}</td>
               <td>
-                <select className='browser-default custom-select'>
+                <select
+                  id={`result${index}`}
+                  className='browser-default custom-select'
+                >
                   <option defaultValue>찬성/반대</option>
                   <option value='agree'>찬성</option>
                   <option value='disagree'>반대</option>
@@ -94,60 +138,15 @@ const Vote = ({ auth: { user, currentAccount, loading } }) => {
               </td>
             </tr>
           ))}
-
-          {/* <tr>
-            <td>1</td>
-            <td>사장 교체의 건</td>
-            <td>
-              <select className="browser-default custom-select">
-                <option defaultValue>찬성/반대</option>
-                <option value="agree">찬성</option>
-                <option value="disagree">반대</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>1 - 2</td>
-            <td>대표이사 선임의 건</td>
-            <td>
-              <select className="browser-default custom-select">
-                <option defaultValue>찬성/반대</option>
-                <option value="agree">찬성</option>
-                <option value="disagree">반대</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>1 - 3</td>
-            <td>임원급 직원 승진의 건</td>
-            <td>
-              <select className="browser-default custom-select">
-                <option defaultValue>찬성/반대</option>
-                <option value="agree">찬성</option>
-                <option value="disagree">반대</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>합작투자 유치에 관한 건</td>
-            <td>
-              <select className="browser-default custom-select">
-                <option defaultValue>찬성/반대</option>
-                <option value="agree">찬성</option>
-                <option value="disagree">반대</option>
-              </select>
-            </td>
-          </tr> */}
         </tbody>
       </table>
 
       <div className='button'>
         <p className='text-right'>
-          <button type='button' className='btn btn-primary'>
+          {/* <button type='button' className='btn btn-primary'>
             초기화
           </button>{' '}
-          &nbsp; &nbsp;
+          &nbsp; &nbsp; */}
           <button
             type='button'
             onClick={summitVote}
