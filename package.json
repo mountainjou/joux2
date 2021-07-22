@@ -30,7 +30,7 @@
     "nodemailer": "^6.3.0",
     "request": "^2.88.0",
     "solc": "^0.5.12",
-    "xlsx": "^0.15.1",
+    "xlsx": "^0.17.0",
     "yarn": "^1.19.1"
   },
   "devDependencies": {
